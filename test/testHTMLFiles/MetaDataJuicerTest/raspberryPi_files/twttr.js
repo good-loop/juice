@@ -1,0 +1,1 @@
+define('twttr', ['http://platform.twitter.com/widgets.js'], function() { return twttr; });

@@ -1,0 +1,5 @@
+#content .article-attributes .byline{overflow:visible;}
+.twitter-follow-button{margin-bottom:-4px;}
+.blog-byline .twitter-follow-button{margin-bottom:0;}
+.twitter-follow-intent{display:none;}
+.twitter-follow-intent img{margin:-3px 0 2px 3px;position:relative;top:3px;}

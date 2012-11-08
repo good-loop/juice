@@ -26,6 +26,13 @@ public class JuiceMe {
 		doc = Jsoup.parse(html, url);
 	}
 	
+	// Protected constructor for Unit-testing where web-pages are read from
+	// a file, not from the Internet
+	JuiceMe(String html) {
+		this.html = html;
+		doc = Jsoup.parse(html);
+	}
+	
 	String url;
 	String html;
 		
@@ -39,7 +46,7 @@ public class JuiceMe {
 	
 	public String getTitle() {
 		Anno a = type2annotation.getOne(AJuicer.TITLE);		
-		return a==null? null : (String) a.value;
+		return a==null? null : (String) a.value;		
 	}
 	
 	public String getAuthor() {

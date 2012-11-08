@@ -1,0 +1,844 @@
+body,
+html
+{
+	font-size: 100%;
+}
+
+body,
+html,
+.col h3,
+div.linktext h3,
+.trail-block-page #related h3,
+.tips h4,
+.series-navigation h4,
+ol.alphabet a,
+#strap,
+#promo h5,
+#promo h4,
+#related h5,
+#related #article-trailblock h2,
+#related #keyword-continued .minor-heading h2,
+#related-info h3,
+#related-info h4,
+#related-info h5,
+#related-info h5.date,
+#relatedlinks h3,
+#gallery-series-navigation h3,
+#gallery-series-navigation h4,
+#fact-box h2,
+#content li.trail-strap h2, 
+#section-contents li h3,
+#onsite #related-keywords h3,
+#header #section-heading,
+#header #guardian-logo,
+ul#keyword-continued .linktext h3
+{
+	font-family: arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol.alphabet,
+#content li.trail-strap h3,
+#content .auto-trailblock h3,
+#content ul.trailblock li h3
+{
+	font-family: georgia, serif;
+	font-weight: normal;
+}
+
+#content > p.drop:first-letter,
+strong.drop:first-letter,
+span.drop,
+#article-header h2
+{
+	font-weight: normal;
+}
+
+#promo h5,
+#related h5,
+#related #article-trailblock h2,
+#related-info h3,
+#related-info h4,
+#related-info h5,
+#relatedlinks h3,
+#gallery-series-navigation h3,
+#gallery-series-navigation h4,
+#fact-box h2,
+#content li.trail-strap h2, 
+.trail-block-page #related h3,
+#onsite #related-keywords h3
+{
+	font-weight: bold;
+}
+
+#wrapper
+{
+	font-size: 12px;
+	line-height: 1.25;/* 15px at default font size 15/12 */
+}
+
+h1,
+#article-header h2
+{
+	font-size: 2.2em;/* 26px */
+	line-height: 1.2;
+}
+
+#page-header h1
+{
+	line-height: 1.1;
+}
+
+#article-header #biography h2
+{
+	font-size: 1.25em;
+	font-weight: bold;
+}
+
+body.other #content div.trailtext p,
+body.other .auto-trail-block .trail-text,
+body.front #content .commercial li.first,
+.sponsored-features ul.trail .trailtext
+{
+	line-height: 1.25;/* 15px at default font size 15/12 */
+}
+
+h2,
+h3,
+h4,
+h5,
+h6,
+#related-info h2,
+#content div.directory h2,
+#content ul li.major-heading h2,
+#promo h3,
+h2.major-heading
+{
+	font-size: 1.166em; /* 14px */
+}
+
+#content h2.directory-place,
+#content ul li h2,
+#content ul li h3,
+#content li.trail-strap h3
+{
+	font-size: 1.333em; /* 16px */
+	font-weight: normal;
+}
+
+div#box div#page-header p.snap
+{
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	line-height: 1.25;
+}
+
+.major-heading,
+#keyword-trailblock li h3
+{
+	line-height: 1.224;/* 19px at default font size */
+}
+
+#header
+{
+	font-size: 1em;/* 12px */
+}
+
+#header #guardian-logo div,
+#header #guardian-logo a
+{
+   line-height: 1;
+}
+
+/* Zones nav CSS removed from here */
+
+body .col h3,
+h4,
+#section-contents li,
+ul.trail ul,
+#section-contents a,
+#section-contents span,
+#section-contents li h3,
+#section-contents ul.credit,
+span.count,
+#promo .capsule,
+#related .capsule,
+#relatedlinks h3,
+#gallery-series-navigation h3,
+ul#keyword-continued .linktext h3,
+#related #keyword-continued .minor-heading h2,
+#section-contents ul li ul li p,
+.trail-block-page #wrapper #related h3,
+#section-contents ul li ul li p a.more,
+#related-info .section p a.more,
+#section-contents ul li ul li p
+{
+	font-size: 1em; /* 12px */
+}
+
+body.keyword-page #section-contents div.recent-blogs ul.credit a
+{
+	font-size: 1.11em;  /* 12px */
+}
+
+#section-contents ul li ul li p.description,
+body.keyword-page #section-contents div.recent-blogs ul.credit li,
+div.image p.caption,
+span.caption
+{
+	line-height: 1.25;/* 15px at default font size 15/12 */
+}
+
+#content .narrow p,
+#footer-links,
+#content .trail-strap,
+#related p.shower,
+a.more,
+#copyright-links
+{
+	font-size: 0.92em; /* 11px */
+	line-height: 1.181; /* 13px */
+}
+
+div.image p.caption,
+span.caption
+{
+	font-size: 0.858em; /* 12px */
+}
+
+#stand-first
+{
+	font-size: 1.335em; /* 16px*/
+	line-height: 1.25; /* 20px at default font size */
+}
+
+#topslot
+{
+	line-height: 0;
+}
+
+#topslot,
+#topslot a
+{
+	text-align: center;
+}
+
+a
+{
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline
+}
+
+li.li-split,
+body #content h3,
+body .col h3,
+ul.tips h4,
+ul.tips h3,
+#content .narrow p,
+#byline,
+#content div.directory h2,
+#promo h3,
+#wrapper ul li.major-heading h2,
+body.other #box #content h2.first,
+#promo #reader-offers h4,
+#content #sponsored-jobs ul.trailblock h3,
+div#other-blogs div.linktext
+{
+	font-weight: bold;
+}
+
+#content #sponsored-jobs ul.trailblock li.major-heading h3
+{
+	font-size: 1.165em;
+}
+
+h1,
+#promo div.auctions ul li h5,
+ul.pagination li,
+#content .reader-tips ul.credit li.date
+{
+	font-weight: normal;
+}
+
+#content > p.drop:first-letter,
+span.drop
+{
+	font-size: 5.2em;
+	line-height: 0.7;
+}
+
+
+#content > p.drop:first-letter
+{
+	line-height: 0.8;
+}
+
+#content > p.q:first-letter,
+span.q
+{
+	font-size: 4.3em;
+	line-height: 0.97;
+}
+
+strong.q
+{
+	font-size: 5em;
+}
+
+#section-contents h2,
+#content h2,
+.auto-trail-block li h2,
+.triplet .capsule h2,
+#keyword-nonplace-combiner h3,
+.commercial #promo .capsule h2,
+#onsite h2,
+#onsite h3,
+.network div#main-offers div.ed-zone h2,
+.network div.also-offers h3,
+#related #book-index h2,
+body.keyword-page div#box div#content .book-index h2,
+#related #biography h2,
+#article-header #biography h2,
+body.audio div#more-in-audio-series h2,
+body.contributor #box #supporting-info h2,
+#related h2
+{
+	font-weight: bold;
+}
+
+#content li.vertical,
+#content li.horizontal
+{
+	line-height: 1.25;
+}
+
+#section-selector
+{
+	font-size: 1em;
+	text-align: right;
+}
+
+#sitesearch,
+#footer,
+ul.pagination li.first
+{
+	text-align: left;
+}
+
+ul.jobs h4,
+span.employer,
+ul.auctions,
+span.location
+{
+	text-transform: capitalize
+}
+
+div.jobsbox p.find-a-job a
+{
+	font-weight: bold;
+}
+
+ul.find-that-job li h4
+{
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+}
+
+div#content div#sponsored-jobs li.image div.job-button,
+div#promo div#sponsored-jobs ul.tri li.normal,
+#videoPaneNoscriptReplacement,
+ul.pagination
+{
+	text-align: center;
+}
+
+#promo div#sponsored-jobs div.job-text div.linktext
+{
+	text-align: left;
+}
+
+/* video display noscript replacement div */
+#videoPaneNoscriptReplacement
+{
+	font-size: 1.33em;
+}
+
+ul.pagination li
+{
+	font-weight: bold;
+}
+
+ul.pagination li.first a,
+ul.pagination li.last a,
+ul.pagination li.last a,
+ul.pagination li a
+{
+	font-weight: normal
+}
+
+table#stock-quote-table th
+{
+	font-weight: bold;
+}
+
+table#stock-quote-table td,
+table#stock-quote-table th 
+{
+	text-align: right;
+}
+
+div#weather div.temp p
+{
+	text-align: center;
+}
+
+table#stock-quote-table td.name,
+table#stock-quote-table th.name 
+{
+    text-align: left;
+}
+
+p.reuters-source small
+{
+	font-size: 0.9em;
+}
+
+body.reuters div#related h3,
+body.reuters div#related li.major-heading h3,
+body.reuters div#related div#stock-search-narrow h3,
+body.money div#stock-search-narrow h3
+{
+	font-size: 1.165em;
+	line-height: 1.15;
+}
+
+ul#audio-pick li.firstdiv.linktext h3
+{
+	font-size: 1.44em;
+}
+
+body div#wrapper div#box div.badge h1,
+body div#wrapper div.badge h1
+{
+	font-size: 2.2em;
+}
+
+div#weather h3,
+#wrapper #section-contents h2,
+#wrapper div#promo h3,
+.content-type,
+#promo div#aristotle .capsuleform h2.blank,
+div#reader-offers div.slot-machine-two ul li.first
+{
+	font-weight: bold;
+}
+
+/* this is a dumb fix to solve the problem of unclosed b tags turning up in the jobs feed affecting the rest of the page */
+div#weather div.temp p,
+#section-contents b,
+div#promo b,
+div#footer b,
+.content-type span
+{
+	font-weight: normal;
+}
+
+#mpu1
+{
+	font-size: 0;
+}
+
+div#promo div.slot-machine-two ul li.first
+{
+	font-family: georgia, serif;
+	font-size: 1.116em;
+}
+
+div#promo div#reader-offers div.slot-machine-two ul li.first
+{
+	font-family: arial, sans serif;
+	font-size: 1em;
+}
+
+body.front div.reader-offers ul.reader-offers-front li p.price,
+div#promo div.reader-offers ul li p.price
+{
+	font-weight: bold;
+}
+
+div#promo div.reader-offers h5
+{
+	font-size: 12px;
+	font-weight: normal;
+}
+
+div#promo div.latest-cif-posts h3#cp-scott-promo a
+{
+	font-family: georgia, serif;
+	font-size: 1.34em;
+	text-decoration: none;
+}
+
+div#promo div.latest-cif-posts h4,
+body.front div#promo div.advertiser-links h4,
+div.numbered-list span.count
+{
+	font-weight: bold;
+}
+
+div#promo div.latest-cif-posts h3
+{
+	font-family: arial, sans-serif;
+	font-size: 1em;
+}
+
+div.rating-container
+{
+	font-size: 9px;
+	/* this is to force the star ratings into a certain fixed size. Remove this and we see borders on the star container in certain cases */
+}
+
+div#velocityerrors li
+{
+	font-family: monaco, monospace;
+	font-size: 14px;
+}
+
+p.ip_logged 
+{
+	text-align: center;
+}
+
+
+/******* component-badge.css ********/
+
+#promo div.component-badge h3
+{
+	font-family: arial, sans-serif;
+	font-size: 1em;
+}
+
+
+/******* content-type-trailblock.css ********/
+
+body.article div#article-vertical h2,
+body.cartoon #content .article-trailblock ul.trail li h2.strap
+{
+	font-size: 1em;
+}
+
+body.article div#article-vertical h2,
+li.package-headline h4,
+body.cartoon .article-trailblock li.first h4,
+body.cartoon #content .article-trailblock ul.trail li h2.strap
+{
+	font-family: arial, sans-serif;
+	font-weight: bold;
+}
+
+
+/******* front.css ********/
+
+body.front #content .first ul#main-trailblock li.wide .trailtext 
+{
+	font-family: georgia, serif;
+}
+
+.trail-block-page #related h3
+{
+	font-family: arial, sans-serif;
+	font-weight: bold;
+}
+
+body.front #content .first ul#main-trailblock li.wide .trailtext .splash,
+body.front #content .first ul#main-trailblock li.wide .linktext h3
+{
+	font-size: 1.5em;/* 18px */
+}
+
+body.front #content h1
+{
+	font-size: 1.166em; /* 14px */
+}
+
+body.front #content .first ul#main-trailblock li.portrait .trailtext .splash,
+body.front #content .first ul#main-trailblock li.portrait .linktext h3
+{
+	font-size: 1.333em; /* 16px */
+	font-weight: normal;
+}
+
+body.front div#box div#page-header p.snap
+{
+	color: #cc0000;
+}
+
+body.front div#box div#page-header h1
+{
+	font-size: 1.168em;
+}
+
+.front #content ul.trailblock li h2,
+body.front #wrapper .commercial ul li.first,
+body.front #wrapper #promo ul li
+{
+	font-size: 1em; /* 12px */
+}
+
+.front #content ul li.major-heading h2
+{
+	font-size: 1.166em;
+}
+
+body.front #content .first ul#main-trailblock li.wide .linktext h3,
+body.front #content h1,
+span.video-duration
+{
+	font-weight: bold;
+}
+
+body.front #content div.news div.caption h2
+{
+	font-size: 1.333em;
+}
+
+div#most h2,
+.network div#most h2
+{
+	font-size: 1.166em;
+}
+
+body.network #content div.tabs-container h3.js-hider,
+div.tabs-container h3.js-hider
+{
+	font-size: 1em;
+	font-family: arial, sans-serif;
+}
+
+body.front li.strapped div.strap
+{
+	font-weight: bold;
+}
+
+
+/******* keyword-page.css ********/
+
+div#wrapper div#box div#section-contents div.other-services li.major-heading h3
+{
+	font-family: georgia, serif;
+	font-size: 1.166em;
+	font-weight: bold;
+}
+
+.keyword-page #related .capsule h3
+{
+	font-family: georgia, serif;
+}
+
+.keyword-page #related .capsule h3
+{
+	font-size: 1.166em; /* 14px */
+}
+
+.keyword-page #related .capsule h3,
+body.keyword-page #content li.image-sibling
+{
+	font-weight: normal;
+}
+
+body.keyword-page #related .capsule h3,
+body.keyword-page #section-contents .capsule h3,
+body.keyword-page #related li.major-heading h2
+{
+
+	font-weight: bold;
+}
+
+.keyword-page div#box div#content #section-contents ul.tips ul.credit li
+{
+	color: #333; 
+	font-size: 1em;
+}
+
+.keyword-page #section-contents ul.tips ul.credit li.first
+{
+	font-size: 0.9em;
+}
+
+div#related div.capsule h4 
+{
+	font-size: 1em; 
+	font-family: arial, sans-serif; 
+	font-weight: bold;
+}
+
+p.more-on,
+table.ftse100 th span,
+table.marketindex td.timetillclose
+{
+	color: #999;
+}
+
+table.ftse100 tbody td, 
+table.ftse100 thead th.price, 
+table.ftse100 thead th.change 
+{
+	text-align: right;
+}
+
+table.ftse100 tbody th 
+{
+	font-weight: normal;
+}
+
+table.marketindex th.indexname,
+table.ftse100 thead th.company, 
+table.ftse100 tbody th
+{
+	text-align: left;
+}
+
+table.marketindex td.netchange 
+{
+	color: #fff;
+	text-align: center;
+}
+
+div#wrapper div#promo div.related-content-type h4,
+div.related-content-type li div span
+{
+	font-weight: bold;
+}
+
+div.related-content-type li div span
+{
+	text-align: right;
+}
+
+body.reuters p#reuters-blurb
+{
+	font-size: 0.84em;
+}
+
+body.tag-content ul#main-trailblock li.standfirst p
+{
+	font-family: arial, sans-serif;
+	font-size: 1.1em;
+}
+
+body.tag-content ul#main-trailblock li#editors-heading h2 
+{
+	font-size: 1.166em;
+	font-weight: bold;
+}
+
+body.tag-content ul#main-trailblock li.video-title p
+{
+	font-family: georgia, serif;
+	font-size: 1.66em;
+}
+
+body.tag-content div#paginated-tag-content ul li a.link-text,
+body.boss-tag span.byline,
+body.beautiful-boss span.byline,
+body.keyword-page #paginated-tag-content h3,
+body.keyword-page div.latest-in-folder h4
+{
+	font-weight: bold;
+}
+
+ul.related-matches li.last
+{
+	font-size: 0.92em;
+}
+
+body.keyword-page div.latest-in-folder h4
+{
+	font-family: arial, sans-serif;
+}
+
+body.keyword-page #buzz-quotes blockquote
+{
+	font-family: georgia, serif;
+	font-size: 1.25em;
+}
+
+body.keyword-page #latest-media ul h3
+{
+	font-family: arial, sans-serif;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+
+/******* related-content.css ********/
+
+.related-content h3#relatedInformation,
+#more-in-series h3,
+#box .related-content h3.first
+{
+	font-family: georgia, serif;
+	font-size: 1.166em;
+}
+
+#box .related-content div.relatedlinks h3,
+.related-content div.relatedlinks h3
+{
+	font-family: arial, sans-serif;
+	font-size: 1em;
+}
+
+.related-content h3#relatedInformation,
+#more-in-series h3,
+#box .related-content h3.first,
+#box .related-content div.relatedlinks h3,
+.related-content div.relatedlinks h3,
+div.related-item p.linktext,
+div.related-item p.strap,
+div.related-item span.date,
+div#related div.relatedlinks h3,
+div#section-contents .related-content div.relatedlinks h3,
+body.cartoon div.navigation div.relatedlinks h3
+{
+	font-weight: bold;
+}
+
+div.related-item p.strap
+{
+	font-family: arial, sans-serif;
+}
+
+div.related-item h4,
+div.related-item h5,
+div#related div.relatedlinks h3,
+div#section-contents .related-content div.relatedlinks h3,
+body.cartoon div.navigation div.relatedlinks h3
+{
+    font-family: arial, sans-serif;
+    font-size: 1em;
+}
+
+div.related-content .multi p.linktext,
+div#related div.related-item h5,
+div#related div.relatedlinks .more-of h3
+{
+    font-weight: normal;
+}
+
+
+/******* tri-trailblock.css ********/
+
+#content div.commercial-trail li .link-text
+{
+	font-family: georgia, serif;
+	font-size: 1.333em;
+}

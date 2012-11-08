@@ -1,0 +1,1343 @@
+/* m-1661~static/1918/comment-common.css */
+.discussion .comment-author h3 {
+	font-weight: normal;
+	font-family: arial, sans-serif;
+	font-size: 12px;
+}
+
+.discussion .comment-author h3 {
+	font-weight: bold;
+}
+
+.discussion .comment-legend {
+	float: right;
+	padding-bottom: 20px;
+}
+
+.discussion .comment-legend img {
+	margin-right: 5px;
+	vertical-align: middle;
+	margin-bottom: 5px;
+}
+
+.discussion .comment {
+	clear: both;
+	margin-bottom: 15px;
+	float: left;
+	width: 100%;
+}
+
+.discussion .comment-body {
+	clear: both;
+}
+
+.discussion .comment {
+	border-top: 1px solid #999;
+	padding-top: 5px;
+}
+
+.discussion .comment .author-profile-picture img {
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.discussion p {
+	margin-bottom: 10px;
+}
+
+.discussion .comment-author {
+	float: left;
+	position: relative;
+}
+
+.twelve-col .comment-author {
+	width: 780px;
+}
+
+.eight-col .comment-author {
+	width: 460px;
+}
+
+.six-col .comment-author {
+	width: 300px;
+}
+
+.discussion .comment-tools {
+	width: 140px;
+	float: right;
+}
+
+#content .discussion .comment-tools li {
+	margin-bottom: 0px;
+}
+
+.discussion .date,
+.discussion .moderated {
+	color: #999;
+}
+
+.discussion .comment-body blockquote,
+.discussion .comment-message blockquote {
+	color: #666;
+	margin: 0 40px;
+}
+
+.discussion .comment-tools {
+    overflow: visible;
+}
+
+.discussion .comment-tools li {
+	padding: 3px 0;
+	border-bottom: 1px dotted #999;
+}
+
+.discussion .comment-tools li.clip,
+.discussion .comment-tools li.link {
+	float: left;
+	border-bottom: 0;
+}
+
+.discussion .comment-tools li.link {
+    line-height: 1.45;
+}
+
+.discussion .comment-tools li.clip {
+	padding-top: 3px;
+	margin-right: 1px;
+}
+
+.discussion .comment-tools li.clip input {
+	background: none;
+	border: 0;
+	color: #005689;
+	cursor: pointer;
+	font-family: arial, sans-serif;
+	font-size: 12px;
+	margin-left: -3px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.discussion .comment-tools li.clip input
+	{
+		margin-left: 0;	
+	}
+}
+
+.discussion .comment-tools li.clip:hover {
+	text-decoration: underline;
+	color: #005859;
+}
+
+.discussion .author-tier img {
+	float: right;
+	margin-top: 5px;
+	margin-left: 5px;
+	text-align: right;
+}
+
+.discussion li.abuse-report {
+	cursor: pointer;
+}
+
+.discussion li.permalink {
+	background-color: #ededed;
+	border: 1px solid #ccc;
+	clear: left;
+	display: none;
+	left: -222px;
+	position: relative;
+	width: 350px;
+	padding: 5px;
+}
+
+.discussion li.permalink .close {
+	color: #005689;
+ 	float: right;
+	font-size: 11px;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.discussion .twitter-share-button {
+	margin-left: 10px;
+}
+
+.discussion .facebook-share-link {
+	overflow: hidden;
+	font-size: .88em;
+	font-family: arial, sans-serif;
+}
+
+.discussion .facebook-share-count {
+	display: none;
+}
+
+.discussion li.permalink input {
+	width: 300px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.discussion-page {
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+.discussion-page .discussion-title {
+    padding-bottom: 34px;
+}
+
+.discussion-page .discussion-poster a {
+    display: block;
+    font-weight: bold;
+}
+
+.discussion-page .author-profile-picture span {
+    font-weight: bold;
+}
+
+.discussion .badges {
+    float: left;
+    margin-top: 5px;
+}
+
+.discussion .profile {
+    float: left;
+    width: 360px;
+    margin-bottom: 10px;
+}
+
+.discussion .profile .date {
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+.discussion ul.comment.is-permalinked {
+	background: #efefef;
+	border-top: 1px dotted #999;
+	padding: 3px;
+}
+
+.discussion .response-to {
+	clear: left;
+	color: #999;
+	margin-bottom: 7px;
+}
+
+.discussion .comment-author .response-to a {
+	font-weight: normal;
+}
+
+.all-comments-responses .comment-author {
+    width: 100%;
+}
+.discussion form#sort-comments {}
+.discussion form#sort-comments .hidden {
+    position: absolute;
+    left: -9999px;
+}
+.discussion form#sort-comments fieldset {
+    display: inline;
+}
+
+.discussion-staff-highlight {
+	color: #98bcdb;
+	font-family: Georgia, serif;
+	font-size: 14px;
+}
+
+.discussion .highlight {
+	display: none;
+}
+
+.discussion .highlight input[type="submit"] {
+	background: none;
+	border: none;
+	color: #005689;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.discussion .highlight input[type="submit"].disabled {
+	color: #999;
+	cursor: help;
+}
+
+.discussion .post-a-comment {
+	clear: both;
+	float: left;
+}
+
+.discussion .no-comments {
+	clear: both;
+}
+
+/* Guardian pick */
+.discussion .guardian-pick {
+	background: #efefef;
+	box-shadow: 0px 1px 3px #aaa;
+	font-family: Georgia;
+	font-size: 12px;
+	padding: 10px 5px 15px 5px;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: -5px;
+
+	-webkit-box-shadow: 0px 1px 3px #aaa;
+	   -moz-box-shadow: 0px 1px 3px #aaa;
+}
+
+.discussion .guardian-pick b {
+	display: block;
+	font-weight: normal;
+}
+
+.discussion .rollover span {
+	background-color: #333;
+	bottom: 61px;
+	color: #fff;
+	display: none;
+	font-family: arial;
+	left: -4px;
+	padding: 10px;
+	position: absolute;
+	text-align: left;
+	width: 15em;
+}
+
+.discussion .rollover span b {
+	background: url(http://static.guim.co.uk/static/0d50feb74b63752454bc1e802a487010b5636fff/common/styles/images/triangle-rollover.png) no-repeat bottom left;
+	height: 5px;
+	position: absolute;
+	bottom: -5px;
+	width: 74px;
+}
+
+.discussion .rollover:hover span {
+	display: block;
+}
+
+/* m-1661~static/1918/comment-list.css */
+.discussion h2 {
+	font-weight: bold;
+}
+
+.discussion h2 span {
+	font-weight: normal;
+	font-family: arial, sans-serif;
+	font-size: 12px;
+}
+
+#show-all-comments {
+	margin-bottom: 20px;
+	font-weight: bold;
+	clear: both;
+	border-top-width: 1px;
+	border-top-style: solid;
+	padding-top: 10px;
+}
+.discussion #show-all-comments {
+	margin-bottom: 5px;
+	border: 0;
+}
+
+.discussion .comment-author img.author-profile-picture {
+    float: left;
+    margin-right: 4px;
+}
+
+.discussion .comment-author a {
+    font-weight: bold;
+}
+
+.discussion .comment-author .comment-body a {
+    font-weight: normal;
+}
+
+.discussion .comment-author .comment-body strong a {
+    font-weight: bold;
+}
+
+.discussion-pagination li  {
+    border-top: medium none !important;
+    color: #666666;
+    display: inline;
+    float: none !important;
+    font-weight: bold;
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 0.4em 0 0 !important;
+	width: auto !important;
+}
+
+.discussion-pagination  {
+    border-bottom: 1px dotted #999999;
+    clear: left;
+    margin-bottom: 0 !important;
+    overflow: hidden;
+    padding: 3px 0;
+	width: 460px !important;
+}
+
+div.content-comment-list + .discussion-pagination {
+	width: 480px !important;
+}
+
+/* following is for popup window. It should be removed when popup comments are removed from R2 */
+
+body.popup-comments {
+	padding-bottom: 25px;
+}
+/* m-1661~static/1918/comment-threaded.css */
+.discussion .h {
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	position: absolute !important;
+	overflow: hidden;
+	width: 1px; 
+}
+.discussion .notice {
+	background: #efefef;
+	font-size: 12px;
+	margin-top: 10px;
+	padding: 10px;
+}
+.discussion .responses {
+	padding-left: 80px;
+}
+
+.discussion .responses .response {
+	float: left;
+	border-top: 1px dotted #999;
+	margin-top: 15px;
+	padding-top: 5px;
+}
+
+.discussion .responses .response .comment-actions li {
+	border-top: 1px dotted #999;
+	clear: both;
+	float: left;
+	padding: 3px 0;
+	width: 100%;
+}
+
+.discussion .responses .response .comment-actions li.permalink {
+	padding: 5px;
+	padding-bottom: 9px;
+	width: 350px;
+}
+
+.discussion .responses .response .comment-actions li:first-child {
+	padding-top: 0;
+	border-top: 0 none;
+}
+
+.discussion .user-bio {
+	clear: both;
+	float: left;
+	width: 100%;
+}
+
+.discussion .user-bio .avatar {
+	float: left;
+	margin-right: 5px;
+}
+
+.discussion .user-bio .meta {
+	float: left;
+}
+.discussion .user-bio .meta .date {
+	font-weight: 400;
+	color: #999;
+}
+.discussion .user-bio .meta .username {
+	font-weight: bold;
+}
+
+.discussion .user-bio .user-badges {
+	float: right;
+}
+
+.discussion .responses .response .comment-actions .clip {
+	border-top: 0 none;
+	clear: none;
+	float: left;
+	width: auto;
+}
+
+.discussion .responses .response .comment-actions .link {
+	border-top: 0 none;
+	clear: none;
+	float: left;
+	width: auto;
+}
+
+.discussion .responses .response .comment-actions li.report-abuse {
+	border-bottom: 1px dotted #999;
+}
+
+.discussion .comment-action .reply {
+	clear: both;
+}
+
+.discussion .response-holder {
+	background: #ededed;
+	display: none;
+	float: right;
+	width: 545px;
+}
+
+.discussion .response-add {
+	clear: both;
+	color: #999;
+	float: left;
+	min-height: 124px;
+	padding: 5px 10px 10px 5px;
+}
+.discussion .community-standards {
+	margin-top: 3px;
+}
+.discussion .response-add p {
+	color: #999;
+	margin-bottom: 10px;
+	padding-bottom: 0;
+}
+.discussion .response-content {
+	float: left;
+	width: 335px;
+}
+.discussion .response-content .response-text {
+	border: 1px solid #ccc;
+	color: #333;
+	float: left;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	height: 80px;
+	width: 100%;
+}
+
+.discussion .response-add .avatar {
+	float: left;
+	margin-right: 5px;
+}
+
+.discussion .response-content-controls li {
+	float: left;
+}
+
+.discussion .response-content-actions {
+	float: left;
+	margin-top: 3px;
+	width: 100%;
+}
+
+.discussion .response-submit {
+	float: right;
+}
+
+.discussion .character-count {
+	clear: both;
+	color: #999;
+	float: left;
+	margin: 5px 0 0 0;
+}
+
+.discussion .response-add .user-bio {
+	clear: none;
+	width: auto;
+}
+
+.discussion .response-add .username {
+	display: none;
+}
+
+.discussion .response-add .comment-message {
+	color: #333;
+	min-height: 85px;
+	padding-bottom: 22px;
+}
+.discussion .response-add .comment-message p { color: #333; }
+
+/* new form */
+.discussion .formatting-buttons {
+	margin-bottom: 10px;
+}
+.discussion .comment-form .response-holder {
+	display: block;
+}
+.discussion .formatting-buttons button {
+	background-color: #fff !important;
+	margin-left: 5px !important;
+}
+.discussion .formatting-buttons {
+	margin-bottom: 0 !important;
+}
+.discussion .post-comment {
+	margin-left: 5px;
+}
+div#post-area {
+	width: auto;
+}
+#post-area form textarea#comment-body {
+	border: 1px solid #ccc;
+	height: 140px;
+	width: 595px;
+}
+#post-area .community-standards {
+	margin-left: 5px;
+}
+.discussion .view-responses {
+	clear: both;
+	color: #005689;
+	cursor: pointer;
+	float: left;
+	padding: 3px 0 3px 10px;
+	position: relative;
+	white-space: nowrap;
+}
+.discussion .view-responses:hover { text-decoration: underline; }
+.discussion .arrow {
+	float: left;
+	height: 0;
+	left: 0;
+	position: absolute;
+	width: 0;
+}
+.discussion .collapsed .arrow {
+	border-top: 3px solid transparent; 
+	border-bottom: 3px solid transparent;
+	border-left: 3px solid #005689;
+	border-right: 0;
+	margin-right: 6px;
+	margin-top: 5px;
+}
+.discussion .expanded .arrow {
+	border-left: 3px solid transparent; 
+	border-right: 3px solid transparent;
+	border-top: 3px solid #005689;
+	border-bottom: 0;
+	margin-right: 3px;
+	margin-top: 7px;
+}
+/* m-1661~static/1918/discussion-common.css */
+.discussion {
+
+}
+
+.discussion button,
+.discussion .button {
+	background: #005689;
+	border: 0 none;
+	color: #fff;
+	font: 13px/1.4 Arial, sans-serif;
+	margin: 0;
+	padding: 3px 15px;
+}
+
+.discussion .pseudo-link {
+	background: transparent;
+	border: 0 none;
+	color: #005689;
+	cursor: pointer;
+	font-family: arial, sans-serif;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+}
+
+.discussion .control-button,
+.discussion .control-button-text {
+	background: url(http://resource.guim.co.uk/global/static/file/microapp/discussion/text-tools-actions.png) #fff;
+	border: 1px solid #ccc !important; /* Overriding R2 - Fix this */
+	cursor: pointer;
+	float: left;
+	height: 23px;
+	margin-left: 5px;
+	padding: 0;
+	text-indent: -5000px;
+	width: 23px;
+}
+
+.discussion .control-button.disabled,
+.discussion .control-button-text.disabled {
+	background-color: #ededed !important;
+	cursor: default;
+	opacity: 0.5;
+	filter: alpha(opacity = 50);
+}
+
+.discussion .control-button-text {
+	background-color: #fff !important;
+	background-image: none;
+	color: #333;
+	height: 25px;
+	padding: 0 5px;
+	text-indent: 0;
+	width: auto;
+}
+.discussion .control-button:first-child { margin-left: 0; }
+.discussion .control-button.bold { background-position: 0 0; }
+.discussion .control-button.italic { background-position: -24px 0; }
+.discussion .control-button.link { background-position: -48px 0; }
+.discussion .control-button.quote { background-position: -72px 0; }
+
+.discussion .toolbar {
+	background: #ededed;
+	clear: both;
+	font-size: 13px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+.discussion .toolbar.autosignedin {
+	display: none;
+}
+
+.discussion .comments-popout {
+	float: left;
+}
+
+.discussion-pagination {
+	border-bottom: 0 none;
+	width: 100% !important;
+}
+div.content-comment-list + .discussion-pagination {
+	border-bottom: 1px dotted #999;
+	margin-bottom: 10px !important;
+	width: 100% !important;
+}
+
+/* m-1661~static/1918/post-comment.css */
+#post-area .user {
+	margin-bottom: 20px;
+}
+
+#post-area {
+	background-color: #eee;
+	padding: 10px;
+	overflow: hidden;
+	border-width: 1px 0;
+	border-style: solid;
+	width: 460px;
+	clear: both;
+}
+
+#post-area .action {
+	margin-bottom: 10px;
+}
+
+#post-area form textarea {
+	margin-bottom: 10px;
+}
+
+#post-area .user img {
+	margin-right: 5px;
+	float: left;
+}
+
+#post-area .user .author-tier img {
+	margin-right: 0;
+}
+
+#post-area .user .premoderated {
+	color: red;
+	margin-top: 10px;
+	font-weight: bold;
+}
+
+#post-area form textarea {
+	width: 455px;
+	height: 245px;
+	font-family: arial, sans-serif;
+	padding: 2px;
+	font-size: 12px;
+}
+
+#post-area form p {
+	float: left;
+}
+
+#post-area .formatting {
+	float: left;
+	margin-bottom: 2px;
+}
+
+#post-area form .post-comment,
+#post-area .formatting p {
+	float: right;
+}
+
+#post-area span.author-tier {
+	display: block;
+	float: right;
+	text-align: right;
+}
+
+#post-area button {
+	cursor: pointer;
+}
+
+#comment-body {
+    height: 250px;
+}
+
+
+/* additional stuff below added for comment preview styling */
+div#post-area {
+   border: 0;
+}
+
+form.discussion-commenting-form .post-comment input {
+    margin-left: 2px;
+}
+
+form.discussion-commenting-form .post-comment input#discussion-preview-comment {
+    background-color: #666;
+}
+
+form.discussion-commenting-form {
+    border: none !important;
+}
+
+#discussion-preview-comment {
+    display: none;
+}
+/* m-1661~static/1918/report-abuse.css */
+.stand-alone h2
+{
+	font-size: 14px !important;
+	font-family: georgia, serif;
+	font-weight: bold;
+	border-top-width: 10px;
+	border-top-style: solid;
+	margin-bottom: 14px;
+	padding-top: 2px;
+}
+
+.ui-dialog-title
+{
+	display: block;
+	float: left;
+	font-size: 14px;
+	font-weight: bold;
+	margin: 5px;
+}
+
+.ui-dialog
+{
+	border: 10px solid #ccc;
+	font-size: 12px;
+	line-height: 15px;
+	width: 400px;
+	background-color: #fff;
+}
+
+#discussion-abuse-box
+{
+	clear: both;
+}
+
+#discussion-abuse-box textarea
+{
+	width: 370px;
+	height: 100px;
+}
+
+#ui-dialog-title-discussion-abuse-box,
+#ui-dialog-title-discussion-abuse-box-thanks
+{
+	float: left;
+	font-size: 14px;
+	font-weight: bold;
+	margin: 6px 10px 10px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close
+{
+	float: right;
+	margin: 6px 10px 10px;
+	font-weight: normal;
+}
+
+.ui-dialog .ui-dialog-titlebar
+{
+	margin-bottom: 10px;
+	background-color: #e5e4e5;
+	overflow: hidden;
+}
+
+.field
+{
+	margin-bottom: 20px;
+}
+
+.field .gutter
+{
+	display: block;
+	padding-bottom: 3px;
+}
+
+.stand-alone #discussion-abuse-box,
+#discussion-abuse-box-thanks.stand-alone
+{
+	padding: 0;
+	margin-bottom: 20px;
+}
+
+.report-form-loading
+{
+	margin: 10px;
+}
+
+.errorlist li
+{
+    color: red;
+    font-weight: bold;
+}
+
+.ui-widget-overlay
+{
+	top: 0;
+	position: absolute;
+	background-color: #000;
+	opacity: 0.3;
+	filter: alpha(opacity = 30); /* IE opacity */
+}
+
+#discussion-abuse-form .captcha
+{
+    border: 1px solid #DFDFDF;
+    padding: 7px;
+    overflow: auto;
+    width: 334px;
+    position: relative;
+    margin: 10px 0 0 0;
+}
+
+#discussion-abuse-form #recaptcha_widget .captcha-error
+{
+    padding: 7px;
+    color: red;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 95px;
+}
+
+#discussion-abuse-form #recaptcha_widget .tooltip
+{
+    top: 104px;
+}
+
+#discussion-abuse-form .why-see-this
+{
+    width: 350px;
+    overflow: auto;
+    padding: 7px;
+    position: relative;
+    height: 14px;
+}
+
+
+#discussion-abuse-form .why-see-this a
+{
+    position: absolute;
+    right: 0px;
+}
+
+#discussion-abuse-form #recaptcha_image
+{
+    border: 1px solid #DFDFDF;
+    width:300px;
+    height:57px;
+    float: left;
+    display: inline;
+}
+
+#discussion-abuse-form #recaptcha_response_field
+{
+    border: 1px solid #DFDFDF;
+    width:240px;
+    margin: 7px 0px 0px 0px;
+    float: left;
+}
+
+#discussion-abuse-form .captcha-controls
+{
+    border: none;
+    display: inline;
+    float: left;
+    padding-left: 7px;
+}
+
+#discussion-abuse-form .captcha-controls a
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+#discussion-abuse-form #recaptcha-logo
+{
+    display: inline;
+    margin: 6px 0px 0px 7px;
+    float: left;
+}
+
+#discussion-abuse-form #recaptcha-logo img
+{
+    position: relative;
+}
+
+#discussion-abuse-form .captcha-controls a
+{
+    padding: 0px;
+}
+
+#discussion-abuse-form .captcha-controls img
+{
+    border: none;
+}
+
+#discussion-abuse-form .captcha-noscript iframe
+{
+    border: 1px solid #999;
+    height: 260px;
+    width: 500px;
+    padding: 7px;
+}
+
+#discussion-abuse-form .captcha-noscript label
+{
+    display: block;
+}
+
+#discussion-abuse-form .captcha-noscript textarea
+{
+    height: 120px;
+}
+
+#discussion-abuse-form div.dashboard-captcha
+{
+    clear: both;
+    float: left;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding: 5px 15px;
+    width: 428px;
+}
+
+/* m-482~public/css/jobs-box-4.css */
+ul#usa-jobs h4
+{
+	border: none !important;
+}
+
+#promo div.jobs-box
+{
+	padding-left: 0; 
+	padding-right: 0;
+	width: 300px !important;
+}
+
+.jobs-box .hd a
+{
+	display: inline !important;
+}
+
+.jobs-box .hd,
+.jobs-box #search-jobs-form,
+.jobs-box .featured-job
+{
+	padding-left: 10px; 
+	padding-right: 10px;
+	margin-bottom: 0 !important;
+}
+
+#promo .jobs-box div
+{
+	margin-bottom: 0;
+}
+
+.jobs-box .browse-all-jobs
+{
+	clear: both;
+	float: left;
+	margin: 10px;
+	padding-bottom: 0;
+	width: 280px;
+}
+
+
+/* Layout 1: Carousel of jobs */
+.jobs-carousel
+{
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+	overflow: hidden;
+}	
+
+.jobs-carousel li
+{
+	display: none;
+}
+
+.jobs-carousel li:first-child
+{
+	display: block;
+}
+
+.jobs-carousel li.two-col {
+	background-color: #fdfdfd;
+	border-right: 1px solid #999;
+	width: 114px !important;
+	padding: 5px;
+}
+
+.jobs-carousel li.two-col .job-title {
+	font-weight: bold;
+}
+
+#search-jobs-form
+{
+	clear: both;
+	padding-top: 8px;
+	padding-bottom: 10px;
+}
+
+#search-jobs-form #freetext-searchalljobs 
+{
+	width: 200px;
+	float: left;
+	margin-right: 5px;
+}
+
+div#promo div.jobs-box .featured-job
+{
+	border-top: 1px solid #999;
+	padding-top: 8px;
+}
+
+.jobs-box .featured-job .featured-image
+{
+	float: left;
+	padding-right: 10px;
+}
+
+.jobs-box .featured-job div
+{
+	float: left;
+	width: 120px;
+}
+
+#promo .jobs-box .featured-job div h4 
+{
+	border-top: 0 !important;
+	font-weight: bold;
+	padding-top: 0;
+}
+
+.jobs-box .featured-job div h4
+{
+	font-family: arial, sans-serif !important;
+}
+
+/* Layout 2 : List of categories */
+.jobs-box .column
+{
+	margin-left: 20px;
+	width: 130px;
+	float: left;
+}
+
+.jobs-box ul.first
+{
+	margin-left: 10px;
+}
+.jobs-box .jobs-categories-overview
+{
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-bottom: 4px;
+}
+
+/* Layout 3 : Tools and notifications */
+
+.job-notifications
+{
+	border-bottom: 1px solid #999;
+	overflow: hidden;
+}
+
+.job-notifications li
+{
+	background-color: #fdfdfd;
+	border-right: 1px solid #999;
+	border-top: 1px solid #999;
+	float: left;
+	height: 110px;
+	margin-right: 0;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 129px;
+}
+
+.job-notifications li.edge
+{
+	border-right: 0;
+	width: 130px;
+}
+
+.job-notifications li h3
+{
+	background-repeat: no-repeat;
+	background-position: right 0;
+	font-size: 14px !important;
+	line-height: 17px;
+	font-weight: normal !important;
+	padding: 3px 53px 20px 0;
+	margin-top: 10px !important;
+}
+
+/* override some cruft */
+
+body#education #promo div.jobs-box,
+body#tv-and-radio #promo div.jobs-box
+{
+	margin-right: 20px !important;
+}
+
+body#education #promo div.jobs-box div.carousel-navigation,
+body#tv-and-radio #promo div.jobs-box div.carousel-navigation
+{
+	position: relative;
+	top: -20px;
+}
+
+body#feature-trailblock .promo-horizontal div.jobs-box
+{
+	border-top: none;
+	margin-right: 20px !important;
+	padding-top: 0;
+}
+/* m-87~styles/twitter-app.css */
+.twitter-container
+ {
+     clear: left;
+ }
+
+ .twitter-container .hd 
+ {
+     padding-bottom: 5px;
+ }
+
+ .twitter-container h2
+ {
+     border-top: none !important;
+     margin-bottom: 0 !Important;
+     padding-top: 0 !important;
+ }
+ 
+ .twitter-container .auto-refresh
+ {
+ 	padding-top: 5px;
+ 	padding-left: 23px;
+ 	margin-bottom: 0px !important;
+ 	background-position: left center;
+ 	background-image: url('http://image.guardian.co.uk/sys-images/Global/content/icons/2010/05/20/icon_autorefresh_off.gif');
+ }
+ 
+ .twitter-container .new-tweets
+ {
+ 	display: none;
+ 	padding-bottom: 2px !important;
+ 	margin-bottom: 0px !important;
+ 	
+ }
+
+ .twitter-container li img,
+ .twitter-container li div 
+ {
+     margin: 2px 10px 0 0;
+     float: left;
+ }
+
+ .twitter-container li 
+ {
+ 	overflow: hidden;
+     padding-bottom: 12px !important;
+ }
+
+ .twitter-container p.first 
+ {
+     border-top: none !important;
+     padding-bottom: 5px !important;
+ }
+
+ .twitter-container li p 
+ {
+     margin-left: 50px;
+ }
+
+ .twitter-container span 
+ {
+     color: #7F7F7F;
+     display: block;
+     font-style: italic;
+     margin-left: 50px;
+ }
+
+ .twitter-container span a 
+ {
+     color: #7F7F7F;
+ }
+ 
+ .twitter-container-narrow li p,
+ .twitter-container-narrow span
+ {
+ 	margin-left: 0;
+ }
+ 
+ .twitter-container-narrow .hd
+ {
+ 	background: url(http://www.guardian.co.uk/twitter/images/twitter-logo.png) right 3px no-repeat;
+ 	zoom: 1;
+ }
+ 
+ .twitter-container-narrow .hd h2
+ {
+ 	width: 60%;
+ }
+
+.twitter-container.tint .hd
+{
+	padding-bottom: 15px;
+	margin-bottom: 0;
+}
+
+.twitter-container.tint .bd
+{
+	background-color: #ededed;
+	padding: 0 5px 15px;
+}
+
+.twitter-container.tint p.l2
+{
+	border-top: 1px dotted #999;
+}
+
+.twitter-container.tint .ft
+{
+	background-color: #ededed;
+	padding: 2px 5px 15px;
+	margin-top: 0;
+}
+
+.twitter-container li.l1 {
+    padding-bottom: 12px !important;
+}	
+
