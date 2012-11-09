@@ -69,7 +69,7 @@ public abstract class AJuicer {
 	 * What type of post is this?	<br>
 	 * Valid values are: post, comment, page, video, image, event, misc 
 	 */
-	public static final Key<String> MSG_TYPE = new Key("msgtype");	
+	public static final Key<KMsgType> MSG_TYPE = new Key("msgtype");	
 	
 	/**
 	 * Does it have a star rating or other score?<br>

@@ -1,12 +1,8 @@
 package com.winterwell.juice;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -21,23 +17,23 @@ public class MetaDataJuicerTest {
 	
 	@Test
 	public void testSimpleExample() throws Exception {
-		String htmlFilePath = "test/testHTMLFiles/MetaDataJuicerTest/simpleExample.html";
+		String htmlFileName = "simpleExample.html";
 		
 		
 		Set<Anno> expectedElements = new HashSet<Anno>() {{
 			add(new Anno<String>(0, 0, AJuicer.TITLE, "The Rock"));
-			add(new Anno<String>(0, 0, AJuicer.MSG_TYPE, "video"));
+			add(new Anno<KMsgType>(0, 0, AJuicer.MSG_TYPE, KMsgType.VIDEO));
 			add(new Anno<String>(0, 0, AJuicer.URL, "http://www.imdb.com/title/tt0117500/"));
 			add(new Anno<String>(0, 0, AJuicer.IMAGE_URL, "http://ia.media-imdb.com/images/rock.jpg"));
 		}};
 		
-		testJuicer(htmlFilePath, expectedElements);
+		testJuicer(htmlFileName, expectedElements);
 		
 	}
 	
 	@Test
 	public void testGuardianPage() throws Exception {
-		String htmlFilePath = "test/testHTMLFiles/MetaDataJuicerTest/raspberryPi.html";
+		String htmlFileName = "raspberryPi.html";
 		
 		Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse("2012-02-29T08:46:19Z");
 		final Time articleTime = new Time(date);
@@ -45,7 +41,7 @@ public class MetaDataJuicerTest {
 		Set<Anno> expectedElements = new HashSet<Anno>() {{
 			add(new Anno<String>(0, 0, AJuicer.DESC, "Design intended to inspire schoolchildren and adults to program sees overwhelming demand as first versions go on sale. By Charles Arthur"));
 			add(new Anno<String>(0, 0, AJuicer.TITLE, "Demand for Raspberry Pi, the British £22 computer, crashes website"));
-			add(new Anno<String>(0, 0, AJuicer.MSG_TYPE, "misc"));
+			add(new Anno<KMsgType>(0, 0, AJuicer.MSG_TYPE, KMsgType.MISC));
 			add(new Anno<Time>(0, 0, AJuicer.PUB_TIME, articleTime));
 			
 			add(new Anno<String>(0, 0, AJuicer.TAGS, "Raspberry Pi"));
@@ -62,12 +58,15 @@ public class MetaDataJuicerTest {
 			
 		}};
 		
-		testJuicer(htmlFilePath, expectedElements);
+		testJuicer(htmlFileName, expectedElements);
 		
 	}
+	
+	private String testDirectoryPrefix = "test/testHTMLFiles/MetaDataJuicerTest/";
 
-	private void testJuicer(String filePath, Set<Anno> expectedAnnotations) throws Exception {
-		String html = readFile(filePath);
+	private void testJuicer(String fileName, Set<Anno> expectedAnnotations) throws Exception {
+		String filePath = testDirectoryPrefix + fileName;
+		String html = TestUtils.readFile(filePath);
 		
 		JuiceMe document = new JuiceMe(html);
 		
@@ -101,20 +100,5 @@ public class MetaDataJuicerTest {
 		assertEquals(expected, extractedSet);
 	}
 	
-	// Reading HTML from file
-	private String readFile( String file ) throws IOException {
-	    BufferedReader reader = new BufferedReader( new FileReader (file));
-	    
-	    String line = null;
-	    StringBuilder stringBuilder = new StringBuilder();
-	    String ls = System.getProperty("line.separator");
-
-	    while( ( line = reader.readLine() ) != null ) {
-	        stringBuilder.append( line );
-	        stringBuilder.append( ls );
-	    }
-
-	    return stringBuilder.toString();
-	}
-
+	
 }

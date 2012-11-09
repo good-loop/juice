@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" lang="en">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" lang="en">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" lang="en">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!-->
+<html lang="en"><!--<![endif]--><!--
+	generated in 0.345 seconds
+	66183 bytes batcached for 300 seconds
+--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>User-defined literals — Part I | Andrzej's C++ blog</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="stylesheet" type="text/css" media="all" href="sampleWordPressPage2_files/style.css">
+<link rel="pingback" href="http://akrzemi1.wordpress.com/xmlrpc.php">
+<link rel="alternate" type="application/rss+xml" title="Andrzej's C++ blog » Feed" href="http://akrzemi1.wordpress.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Andrzej's C++ blog » Comments Feed" href="http://akrzemi1.wordpress.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Andrzej's C++ blog » User-defined literals — Part&nbsp;I Comments Feed" href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/feed/">
+<script type="text/javascript" async="" src="sampleWordPressPage2_files/quant.js"></script><script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" id="all-css-0" href="sampleWordPressPage2_files/a.css" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type="text/javascript" src="sampleWordPressPage2_files/a_002.js"></script>
+<link rel="stylesheet" id="all-css-0" href="sampleWordPressPage2_files/style_002.css" type="text/css" media="all">
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://akrzemi1.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://akrzemi1.wordpress.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Quality&nbsp;Matters" href="http://akrzemi1.wordpress.com/2012/07/12/quality-matters/">
+<link rel="next" title="Why make your classes&nbsp;final?" href="http://akrzemi1.wordpress.com/2012/09/30/why-make-your-classes-final/">
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/">
+<link rel="shortlink" href="http://wp.me/p1tkks-10g">
+<link rel="alternate" type="application/json+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fakrzemi1.wordpress.com%2F2012%2F08%2F12%2Fuser-defined-literals-part-i%2F&amp;for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fakrzemi1.wordpress.com%2F2012%2F08%2F12%2Fuser-defined-literals-part-i%2F&amp;for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="User-defined literals — Part&nbsp;I">
+<meta property="og:url" content="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/">
+<meta property="og:description" content="This post is about the new language feature: the ability to specify user-defined literals. You may already be familiar with it, for example form N2750. In this post we will talk about literals in g...">
+<meta property="og:site_name" content="Andrzej's C++ blog">
+<meta name="twitter:card" content="summary">
+<meta property="fb:app_id" content="249643311490">
+<link rel="shortcut icon" type="image/x-icon" href="http://s2.wp.com/i/favicon.ico?m=1311976022g" sizes="16x16 24x24 32x32 48x48">
+<link rel="icon" type="image/x-icon" href="http://s2.wp.com/i/favicon.ico?m=1311976022g" sizes="16x16 24x24 32x32 48x48">
+<link rel="apple-touch-icon-precomposed" href="http://s0.wp.com/i/webclip.png?m=1311618091g">
+<link rel="openid.server" href="http://akrzemi1.wordpress.com/?openidserver=1">
+<link rel="openid.delegate" href="http://akrzemi1.wordpress.com/">
+<link rel="search" type="application/opensearchdescription+xml" href="http://akrzemi1.wordpress.com/osd.xml" title="Andrzej's C++ blog">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com">
+		<style>
+		/* <![CDATA[ */
+		/* Block: reblog */
+		
+		.reblog-from img                   { margin: 0 10px 0 0; vertical-align: middle; padding: 0; border: 0; }
+		.reblogger-note img.avatar         { float: left; padding: 0; border: 0; }
+		.reblogger-note-content            { margin: 0 0 20px; }
+		.reblog-post .wpcom-enhanced-excerpt-content { border-left: 3px solid #eee; padding-left: 15px; }
+		.reblog-post ul.thumb-list         { display: block; list-style: none; margin: 2px 0; padding: 0; clear: both; }
+		.reblog-post ul.thumb-list li      { display: inline; margin: 0; padding: 0 1px; border: 0; }
+		.reblog-post ul.thumb-list li a    { margin: 0; padding: 0; border: 0; }
+		.reblog-post ul.thumb-list li img  { margin: 0; padding: 0; border: 0; }
+		
+		.reblog-post .wpcom-enhanced-excerpt { clear: both; }
+		
+		.reblog-post .wpcom-enhanced-excerpt address,
+		.reblog-post .wpcom-enhanced-excerpt li,
+		.reblog-post .wpcom-enhanced-excerpt h1,
+		.reblog-post .wpcom-enhanced-excerpt h2,
+		.reblog-post .wpcom-enhanced-excerpt h3,
+		.reblog-post .wpcom-enhanced-excerpt h4,
+		.reblog-post .wpcom-enhanced-excerpt h5,
+		.reblog-post .wpcom-enhanced-excerpt h6,
+		.reblog-post .wpcom-enhanced-excerpt p { font-size: 100% !important; }
+		
+		.reblog-post .wpcom-enhanced-excerpt blockquote,
+		.reblog-post .wpcom-enhanced-excerpt pre,
+		.reblog-post .wpcom-enhanced-excerpt code,
+		.reblog-post .wpcom-enhanced-excerpt q { font-size: 98% !important; }
+		
+
+		/* ]]> */		
+		</style>
+		<meta name="application-name" content="Andrzej's C++ blog"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="Guidelines and thoughts about C++"><meta name="msapplication-task" content="name=Subscribe;action-uri=http://akrzemi1.wordpress.com/feed/;icon-uri=http://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico"><meta name="title" content="User-defined literals — Part&nbsp;I | Andrzej's C++ blog on WordPress.com">
+<meta name="description" content="This post is about the new language feature: the ability to specify user-defined literals. You may already be familiar with it, for example form N2750. In this post we will talk about literals in general, the purpose and usefulness of … Continue reading →">
+
+<script type="text/javascript" src="sampleWordPressPage2_files/google_service.js">
+</script>
+<script type="text/javascript">
+GS_googleAddAdSenseService("ca-pub-3443918307802676");
+GS_googleEnableAllServices();
+</script>
+<script type="text/javascript">
+GA_googleAddSlot("ca-pub-3443918307802676", "wpcom_below_post_adsafe");
+</script>
+<script type="text/javascript">
+GA_googleFetchAds();
+</script>
+<script type="text/javascript"> 
+	window.google_analytics_uacct = "UA-52447-2"; 
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script><script src="sampleWordPressPage2_files/ga.js" async="" type="text/javascript"></script>
+<script src="sampleWordPressPage2_files/rate.js" charset="utf-8"></script><link href="sampleWordPressPage2_files/shThemeDefault.css" type="text/css" rel="stylesheet"><link rel="stylesheet" type="text/css" id="gravatar-card-css" href="sampleWordPressPage2_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="sampleWordPressPage2_files/services.css"><style id="pd_popup_holder_style_4527172_post_3860" type="text/css">#pd_popup_holder_4527172_post_3860 { position:absolute; display:none; width:350px; height:auto; top:0px; left:0px; z-index:10000; border:solid 1px #CCC; background-color:white; padding:0px 15px;font-family:Arial,Sans;box-shadow: -10px 10px 20px rgba(0, 0, 0, .5);-webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, .25);-moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, .25); }</style></head>
+
+<body class="single single-post postid-3860 single-format-standard single-author highlander-enabled highlander-light">
+<div id="wrapper" class="hfeed">
+	<div id="header">
+		<div id="masthead">
+			<div id="branding" role="banner">
+								<div id="site-title">
+					<span>
+						<a href="http://akrzemi1.wordpress.com/" title="Andrzej's C++ blog" rel="home">Andrzej's C++ blog</a>
+					</span>
+				</div>
+				<div id="site-description">Guidelines and thoughts about C++</div>
+
+										<a class="home-link" href="http://akrzemi1.wordpress.com/" title="Andrzej's C++ blog" rel="home">
+							<img src="sampleWordPressPage2_files/cherryblossoms.jpg" alt="" height="198" width="940">
+						</a>
+								</div><!-- #branding -->
+
+			<div id="access" role="navigation">
+			  				<div class="skip-link screen-reader-text"><a href="#content" title="Skip to content">Skip to content</a></div>
+								<div class="menu"><ul><li><a href="http://akrzemi1.wordpress.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://akrzemi1.wordpress.com/about/">About</a></li></ul></div>
+			</div><!-- #access -->
+		</div><!-- #masthead -->
+	</div><!-- #header -->
+
+	<div id="main">
+
+		<div id="container">
+			<div id="content" role="main">
+
+			
+
+				<div id="nav-above" class="navigation">
+					<div class="nav-previous"><a href="http://akrzemi1.wordpress.com/2012/07/12/quality-matters/" rel="prev"><span class="meta-nav">←</span> Quality&nbsp;Matters</a></div>
+					<div class="nav-next"><a href="http://akrzemi1.wordpress.com/2012/09/30/why-make-your-classes-final/" rel="next">Why make your classes&nbsp;final? <span class="meta-nav">→</span></a></div>
+				</div><!-- #nav-above -->
+
+				<div id="post-3860" class="post-3860 post type-post status-publish format-standard hentry category-programming tag-c11 tag-correctness">
+					<h1 class="entry-title">User-defined literals — Part&nbsp;I</h1>
+
+					<div class="entry-meta">
+						<span class="meta-prep meta-prep-author">Posted on</span> <a href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/" title="6:56 pm" rel="bookmark"><span class="entry-date">August 12, 2012</span></a> 						<span class="by-author"><span class="sep">by</span> <span class="author vcard"><a class="url fn n" href="http://akrzemi1.wordpress.com/author/akrzemi1/" title="View all posts by Andrzej Krzemieński" rel="author">Andrzej Krzemieński</a></span> </span>					</div><!-- .entry-meta -->
+
+					<div class="entry-content">
+						<p>This post is about the new language feature: the ability to 
+specify user-defined literals. You may already be familiar with it, for 
+example form <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2750.pdf">N2750</a>.
+ In this post we will talk about literals in general, the purpose and 
+usefulness of user-defined literals, their limitations, and alternatives
+ in C++ to achieve similar goals. <span id="more-3860"></span></p>
+<p>As of today, the only compiler I know of to support user-defined 
+literals is GCC 4.7. If you are a Linux user you probably know how to 
+get it. If you are a Windows user, I recommend using the latest (9.2) <a href="http://nuwen.net/mingw.html">MinGW Distro</a>
+ prepared by Stephan T. Lavavej. It is a compact version of MinGW 
+containing GCC 4.7.1 and Boost 1.50.0. Just what you need to play with 
+the modern C++.</p>
+<h3>Built-in literals</h3>
+<p>Literals are used to set objects of build-in types, with values that we know at compile-time:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_456747"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_456747_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_456747" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="color1 bold">int</code> <code class="plain">i = 0;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">i = 17;</code></td></tr></tbody></table></div></div></div><p></p>
+<p>There are other ways of setting values at compile time:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_405635"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_405635_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_405635" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="color1 bold">int</code> <code class="plain">i{}; </code><code class="comments">// zero-initialization</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">i = {};&nbsp; </code><code class="comments">// reset to zero-initialized</code></td></tr></tbody></table></div></div></div><p></p>
+<p>In their simplest form (without prefixes or suffixes) literals determine the value and the ‘basic’ type:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_554859"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_554859_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_554859" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="comments">// not legal C++, but the meaning is obvious</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">decltype(11) == </code><code class="color1 bold">int</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="plain">decltype(</code><code class="string">'y'</code><code class="plain">) == </code><code class="color1 bold">char</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">decltype(</code><code class="string">"dog"</code><code class="plain">) == </code><code class="keyword bold">const</code> <code class="color1 bold">char</code><code class="plain">[3 + 1];</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>5</code></td><td class="content"><code class="plain">decltype(</code><code class="keyword bold">true</code><code class="plain">) == </code><code class="color1 bold">bool</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>6</code></td><td class="content"><code class="plain">decltype(nullptr) == nullptr_t;</code></td></tr></tbody></table></div></div></div><p></p>
+<p>For some literals C++ uses keywords (<code>true</code>, <code>false</code>, <code>nullptr</code>), because the range of values of these types is so small. The similar case is for <code>enum</code>s:
+ usually the number of enumerated values is so small that it is easy for
+ the compiler to store every single literal. These literals are of 
+little interest to us in this post. For the other literals (integral, 
+floating-point, string, character) the range of possible values is too 
+large for the compiler to store all of them in some map, therefore it 
+recognizes them by matching patterns (a sequence of digits for 
+integrals, a sequence of characters enclosed in double quotes for 
+strings, etc.).</p>
+<p>With prefixes and suffixes it is possible to alter the type of the literal:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_935973"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_935973_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_935973" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>01</code></td><td class="content"><code class="comments">// not legal C++, but the meaning is obvious</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>02</code></td><td class="content"><code class="plain">decltype(11) == </code><code class="color1 bold">int</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>03</code></td><td class="content"><code class="plain">decltype(11UL) == unsigned </code><code class="color1 bold">long</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>04</code></td><td class="content"><code class="plain">decltype(11LL) == </code><code class="color1 bold">signed</code> <code class="color1 bold">long</code> <code class="color1 bold">long</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>05</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>06</code></td><td class="content"><code class="plain">decltype( </code><code class="string">'y'</code><code class="plain">) == </code><code class="color1 bold">char</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>07</code></td><td class="content"><code class="plain">decltype(u</code><code class="string">'y'</code><code class="plain">) == char16_t;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>08</code></td><td class="content"><code class="plain">decltype(U</code><code class="string">'y'</code><code class="plain">) == char32_t;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>09</code></td><td class="content"><code class="plain">decltype(L</code><code class="string">'y'</code><code class="plain">) == </code><code class="color1 bold">wchar_t</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>10</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>11</code></td><td class="content"><code class="plain">decltype( </code><code class="string">"dog"</code><code class="plain">) == </code><code class="keyword bold">const</code> <code class="color1 bold">char</code><code class="plain">[3 + 1];</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>12</code></td><td class="content"><code class="plain">decltype(u</code><code class="string">"dog"</code><code class="plain">) == </code><code class="keyword bold">const</code> <code class="plain">char16_t[3 + 1];</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>13</code></td><td class="content"><code class="plain">decltype(U</code><code class="string">"dog"</code><code class="plain">) == </code><code class="keyword bold">const</code> <code class="plain">char32_t[3 + 1];</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>14</code></td><td class="content"><code class="plain">decltype(L</code><code class="string">"dog"</code><code class="plain">) == </code><code class="keyword bold">const</code> <code class="color1 bold">wchar_t</code><code class="plain">[3 + 1];</code></td></tr></tbody></table></div></div></div><p></p>
+<p>This is useful when we want to pick the correct function overload, or correctly deduce type of a variable:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_731080"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_731080_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_731080" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="keyword bold">void</code> <code class="plain">fun(</code><code class="color1 bold">int</code> <code class="plain">i);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="keyword bold">void</code> <code class="plain">fun(unsigned i);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">fun(12);&nbsp; </code><code class="comments">// pick first overload</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>5</code></td><td class="content"><code class="plain">fun(12U); </code><code class="comments">// pick second overload</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>6</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>7</code></td><td class="content"><code class="plain">auto c1 =&nbsp; </code><code class="string">'c'</code><code class="plain">; </code><code class="comments">// deduce type char</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>8</code></td><td class="content"><code class="plain">auto c2 = u</code><code class="string">'c'</code><code class="plain">; </code><code class="comments">// deduce type char16_t</code></td></tr></tbody></table></div></div></div><p></p>
+<p>Prefixes and suffixes determine also how the letters (or digits) in the literal are interpreted:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_607580"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_607580_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_607580" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">auto i1 = 80;&nbsp;&nbsp;&nbsp; </code><code class="comments">// decimal value 80</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">auto i2 = 0x80;&nbsp; </code><code class="comments">// decimal value 128</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="plain">decltype(i1) == decltype(i2);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="functions bold">assert</code> <code class="plain">(i1 != i2);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>5</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>6</code></td><td class="content"><code class="plain">auto s1 = </code><code class="string">"(\\\\)"</code><code class="plain">;&nbsp; </code><code class="comments">// renders: (\\)</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>7</code></td><td class="content"><code class="plain">auto s2 = R</code><code class="string">"(\\\\)"</code><code class="plain">; </code><code class="comments">// renders: \\\\</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>8</code></td><td class="content"><code class="plain">decltype(s1) == decltype(s2);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>9</code></td><td class="content"><code class="functions bold">assert</code> <code class="plain">(s1 != s2);</code></td></tr></tbody></table></div></div></div><p></p>
+<p>When setting compile-time values to user-defined types, we use the 
+fact that these types are composed of built-in types, and we simply 
+compose literals:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_62546"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_62546_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_62546" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">std::complex&lt;</code><code class="color1 bold">double</code><code class="plain">&gt; j{0.0, 1.0}; </code><code class="comments">// two literals used</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">BigInt
+ 
+I{1};&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ </code><code class="comments">// int literal converted to BigInt</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="plain">boost::tribool b{</code><code class="keyword bold">true</code><code class="plain">};&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="comments">// bool literal converted to tribool</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">std::string s{</code><code class="string">"dog"</code><code class="plain">};&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="comments">// const char [4] converted to std::string</code></td></tr></tbody></table></div></div></div><p></p>
+<p>This works for object initialization, but we cannot pick the correct 
+overload easily: we have to create temporary object or use explicit 
+casting:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_944612"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_944612_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_944612" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="keyword bold">void</code> <code class="plain">fun(</code><code class="color1 bold">int</code> <code class="plain">i);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="keyword bold">void</code> <code class="plain">fun(BigInt i);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">fun(1);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="comments">// pick first overload</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>5</code></td><td class="content"><code class="plain">fun(BigInt{1});&nbsp; </code><code class="comments">// pick second overload</code></td></tr></tbody></table></div></div></div><p></p>
+<h3>Goals of user-defined literals</h3>
+<p>User-defined literals can be defined only for the “interesting” types
+ of literals: integral numbers, floating-point numbers, characters and 
+character strings. New literal types are defined by specifying new 
+literal suffixes (it is not possible to specify new literal prefixes). 
+The primary goals, as declared in the proposals, were for the Committee 
+to have a tool for specifying new literal types by means of Standard 
+Library, rather than by extending the core language. Changing the 
+Standard Library appears to be easier. The Committee wants to use this 
+tool to add any literals that are added, or intended for future 
+addition, to C or standard C extensions. One such example is <a href="http://publib.boulder.ibm.com/infocenter/iseries/v7r1m0/index.jsp?topic=%2Frzarg%2Fdfp_literals.htm">decimal floating-point literal</a>, like <code>10.2df</code>.
+ This goal has only partially been achieved because many new C literals 
+require prefixes or syntax other that suffixes/prefixes:</p>
+<ul>
+<li>binary integer literals (proposed to C but rejected): <code>0b11011</code>,</li>
+<li>hex floating-point literals: <code>0x102Ap12</code>,</li>
+<li>new char literals: <code>u'A'</code>,</li>
+</ul>
+<p>The other goal for the literals was to prepare the way for the 
+addition of the new C++ Standard Library components: arbitrary-precision
+ integers, decimal floating-point numbers, fixed-point numbers, new 
+string types, SI units.</p>
+<p>While user-defined literals are the toy primarily for the Standard 
+Library designers, normal users have also limited access to it. </p>
+<h3>Cooked literals</h3>
+<p>There is a number of ways to define a new literal suffix. In this part we will focus on the one called a <em>cooked</em> literal. Suppose our program processes weights (the physical quantity). We do not want to use type <code>double</code>
+ because we are working in an international environment and for some 
+developers “weight” naturally means “kilograms” and for others, it 
+obviously means “pounds.” So we introduce a new type <code>Kilograms</code>. The name of the type states clearly what the unit is. We prevent the conversion from <code>double</code> to avoid any inadvertent weight unit confusion:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_825374"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_825374_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_825374" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>01</code></td><td class="content"><code class="keyword bold">class</code> <code class="plain">Kilograms</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>02</code></td><td class="content"><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>03</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="color1 bold">double</code> <code class="plain">rawWeight;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>04</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>05</code></td><td class="content"><code class="keyword bold">public</code><code class="plain">:</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>06</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword bold">class</code> <code class="plain">DoubleIsKilos{}; </code><code class="comments">// a tag</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>07</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword bold">explicit</code> <code class="plain">constexpr Kilograms(DoubleIsKilos, </code><code class="color1 bold">double</code> <code class="plain">wgt) : rawWeight{wgt} {}</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>08</code></td><td class="content"><code class="plain">};</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>09</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>10</code></td><td class="content"><code class="plain">Kilograms wgt = 100.2; </code><code class="comments">// compile-time error</code></td></tr></tbody></table></div></div></div> <p></p>
+<p>The ugly constructor prevents the inadvertent usage of the raw weight. Now, our goal is to make the following syntax work:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_872489"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_872489_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_872489" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">Kilograms wgt = 100.2_kg;</code></td></tr></tbody></table></div></div></div><p></p>
+<p>We cannot define the literal <code>100.2kg</code> due to the 
+limitation that C++ programmers suffer from: we can only define suffixes
+ that start with an underscore. This is to prevent suffix name clashes  
+with the potential future standard suffixes. First, let’s see the 
+literal definition. The detailed explanation will follow.</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_273779"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_273779_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_273779" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">constexpr Kilograms operator </code><code class="string">""</code> <code class="plain">_kg( </code><code class="color1 bold">long</code> <code class="color1 bold">double</code> <code class="plain">wgt )</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword bold">return</code> <code class="plain">Kilograms{Kilograms::DoubleIsKilos{}, </code><code class="keyword bold">static_cast</code><code class="plain">&lt;</code><code class="color1 bold">double</code><code class="plain">&gt;(wgt)};</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">}</code></td></tr></tbody></table></div></div></div><p></p>
+<p>We defined a special function. Similarly as if we defined <code>operator+=</code>. It takes <code>long double</code> as its argument and returns <code>Kilograms</code>. The function is declared as <code>constexpr</code>.
+ It is not essential to make our simple example work, but in general it 
+is a good idea, because the literals are often used to initialize 
+compile-time constants. The part <code>operator "" _kg</code> is a convention; it says “define literal suffix <code>_kg</code>.” Note however that the space between <code>""</code> and <code>_kg</code> is essential: otherwise token <code>""_kg</code> is interpreted as one (empty) string with a suffix in the earlier stages of parsing the source code.</p>
+<p>Another thing to note is that even though we will be storing <code>double</code>s we still took <code>long double</code> as argument and made an effort to narrow it down to type <code>double</code>.
+ This is characteristic of cooked literal definitions: you are forced to
+ use the longest possible type of this “category”: for floating-point 
+literals it is <code>long double</code>; for integer literals it is <code>unsigned long long</code>.
+ Yes, unsigned, because the minus (or plus) sign is never part of the 
+literal: it is a unary operator applied to the temporary initialized 
+with the literal.</p>
+<p>Note that we can have more than one literal return the same type. For instance, while we use type <code>Kilograms</code> we can still allow the programmers that think in pounds to use pound-based literals:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_573819"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_573819_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_573819" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">constexpr Kilograms operator </code><code class="string">""</code> <code class="plain">_lb( </code><code class="color1 bold">long</code> <code class="color1 bold">double</code> <code class="plain">wgt )</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword bold">return</code> <code class="plain">Kilograms{Kilograms::DoubleIsKilos{}, </code><code class="keyword bold">static_cast</code><code class="plain">&lt;</code><code class="color1 bold">double</code><code class="plain">&gt;(wgt * 0.45359237)};</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">}</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>5</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>6</code></td><td class="content"><code class="plain">Kilograms wgt = 200.5_lb;</code></td></tr></tbody></table></div></div></div><p></p>
+<p>You can still safely mix the two units:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_941346"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_941346_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_941346" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">Kilograms w = 200.5_lb + 100.1_kg; </code><code class="comments">// ok (assuming we also define operator+)</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">Kilograms v = 21000.33 + 100.1_kg; </code><code class="comments">// error: cannot add Kilograms and double</code></td></tr></tbody></table></div></div></div><p></p>
+<p>So, how the cooked literals work? When compiler encounters a token like <code>100.1_kg</code>
+ it recognizes it as a floating-point literal with an unrecognized 
+suffix. At this point a C++03 compiler would stop and report an error; 
+C++11 compiler now looks through all user-defined literal operators and 
+tries to match the suffix. If it finds the right suffix and sees that 
+you have chosen to use a cooked literal, it interprets the part <code>100.1</code> as the longest floating point type (<code>long double</code>) and passes it to your function. This process of computing the input parameter of type <code>long double</code>
+ to your literal operator is called “cooking”: you do not need to parse 
+the digits in the literal one by one, the compiler does it for you. Now,
+ what you can do is to change the type of the input argument or 
+transform its value.</p>
+<p>Let’s see one other example that will demonstrate one characteristic 
+or limitation of cooked literal operator. We define a type that 
+represents a probability: its base type is <code>long double</code> but the valid range of its values is [0, 1]:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_334208"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_334208_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_334208" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="keyword bold">class</code> <code class="plain">Probability</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="color1 bold">long</code> <code class="color1 bold">double</code> <code class="plain">value;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="comments">// invariant:&nbsp; 0.0 &lt;= value &amp;&amp; value &lt;= 1.0</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>5</code></td><td class="content"><code class="keyword bold">public</code><code class="plain">:</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>6</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword bold">explicit</code> <code class="plain">constexpr Probability(</code><code class="color1 bold">long</code> <code class="color1 bold">double</code> <code class="plain">v);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>7</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="comments">// ...</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>8</code></td><td class="content"><code class="plain">};</code></td></tr></tbody></table></div></div></div><p></p>
+<p>In order to define our constexpr literal operator we will use both 
+compile-time and run-time error-reporting technique described in <a href="http://akrzemi1.wordpress.com/2011/05/06/compile-time-computations/">“Compile-time computations”</a>:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_268232"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_268232_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_268232" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">constexpr Probability operator</code><code class="string">""</code> <code class="plain">_prob( </code><code class="color1 bold">long</code> <code class="color1 bold">double</code> <code class="plain">v )</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword bold">return</code> <code class="plain">v &gt; 1.0 ? </code><code class="keyword bold">throw</code> <code class="plain">BadProbability{v} : Probability{v};</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">}</code></td></tr></tbody></table></div></div></div><p></p>
+<p>Note that we are not checking for the other condition (<code>v &lt; 0.0</code>) because a literal never represents a negative value. Now we might expect that the following would cause a compile-time error:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_984313"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_984313_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_984313" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">Probability p = 1.2_prob;</code></td></tr></tbody></table></div></div></div><p></p>
+<p>Such expectation makes sense: ‘nominal’ value of the literal is 
+always known at compile-time; so it should be easy to also transform 
+this value at compile-time. However, as is the case for, say <code>operator+=</code>, an operator invocation (even a literal operator) is just a function call, and our line is equivalent to:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_883520"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_883520_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_883520" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">Probability p = operator</code><code class="string">""</code> <code class="plain">_prob(1.2);</code></td></tr></tbody></table></div></div></div><p></p>
+<p>Thus, as with any other <code>constexpr</code> function, they are not
+ evaluated at compile-time (even if called with compile-time constants) 
+unless you initialize another compile-time constant:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_761268"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_761268_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_761268" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">constexpr Probability p = 1.2_prob; </code><code class="comments">// compile-time error</code></td></tr></tbody></table></div></div></div> <p></p>
+<p>For another example consider a string literal suffix  that renders a value of type <code>std::string</code> rather than <code>const char *</code>:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_767737"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_767737_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_767737" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">std::string operator</code><code class="string">""</code> <code class="plain">_s(</code><code class="keyword bold">const</code> <code class="color1 bold">char</code> <code class="plain">* str, </code><code class="color1 bold">size_t</code> <code class="plain">len)</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword bold">return</code> <code class="plain">std::string{str, len};</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">}</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>5</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>6</code></td><td class="content"><code class="keyword bold">void</code> <code class="plain">fun(</code><code class="keyword bold">const</code> <code class="color1 bold">char</code><code class="plain">*);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>7</code></td><td class="content"><code class="keyword bold">void</code> <code class="plain">fun(std::string);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>8</code></td><td class="content"><code class="plain">fun(</code><code class="string">"dog"</code><code class="plain">_s); </code><code class="comments">// picks second overload</code></td></tr></tbody></table></div></div></div><p></p>
+<p>This is another example of a cooked literal. The second argument (<code>len</code>)
+ is required by the literal operator logic in C++, but we need not use 
+it inside. Being cooked in this case means that all escape sequences or 
+ special sequences in raw string literals are performed before our 
+operator is called:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_805109"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_805109_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_805109" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">auto s1 = </code><code class="string">"\\dog\\"</code><code class="plain">_s;&nbsp; </code><code class="comments">// renders: \dog\ </code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">auto s2 = R</code><code class="string">"(\dog\)"</code><code class="plain">_s; </code><code class="comments">// renders: \dog\</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="functions bold">assert</code> <code class="plain">(s1 == s2);</code></td></tr></tbody></table></div></div></div><p></p>
+<h3>How useful is that?</h3>
+<p>Note that so far we are only talking about cooked literal forms, and leave the other kind (<em>raw</em>
+ literal forms) for the next post. The question now is if we really need
+ cooked literals, and if the value they add justifies the addition of 
+the new feature to the language?</p>
+<p>Consider the string example first. We can select the right overload 
+by simply creating a temporary explicitly (rather than inside the 
+literal operator):</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_385473"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_385473_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_385473" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="keyword bold">void</code> <code class="plain">fun(</code><code class="keyword bold">const</code> <code class="color1 bold">char</code><code class="plain">*);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="keyword bold">void</code> <code class="plain">fun(std::string);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="plain">fun(std::string{</code><code class="string">"dog"</code><code class="plain">}); </code><code class="comments">// picks second overload</code></td></tr></tbody></table></div></div></div><p></p>
+<p>It is a bit longer but sufficient, and many people may find it 
+cleaner and less arcane: everyone knows how and why you create 
+temporaries.</p>
+<p>Now, to units example, I can think of at least two alternatives 
+without literals. First, we can use functions instead of literal 
+operators:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_430274"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_430274_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_430274" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">Kilograms w = pounds(200.5) + kilograms(100.1);</code></td></tr></tbody></table></div></div></div><p></p>
+<p>This approach has been adopted in time utilities in header <code>&lt;chrono&gt;</code> in the current standard (see <a href="http://www.stroustrup.com/C++11FAQ.html#std-duration">here</a> for short intro and <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2661.htm">here</a> for the formal proposal). With <code>&lt;chrono&gt;</code>, you can specify any time duration this way:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_638721"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_638721_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_638721" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="preprocessor">#include &lt;chrono&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="keyword bold">using</code> <code class="keyword bold">namespace</code> <code class="plain">std::chrono;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">auto duration1 = hours(8) + minutes(30) + seconds(5) + milliseconds(120);</code></td></tr></tbody></table></div></div></div><p></p>
+<p>This is a bit more verbose than literal suffixes, but is extremely readable: you just cannot interpret the meaning incorrectly.</p>
+<p>Another way of addressing the weight units safety would be to define 
+constants that represent “units”, and then use multiplication to combine
+ nominal values with units:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_578397"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_578397_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_578397" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">constexpr Kilograms kg{Kilograms::DoubleIsKilos{}, 1.0}</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">constexpr Kilograms lb{Kilograms::DoubleIsKilos{}, 0.45359237};</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">Kilograms w = 200.5 * lb + 100.1 * kg;</code></td></tr></tbody></table></div></div></div><p></p>
+<p>This approach has been adopted by <a href="http://www.boost.org/doc/libs/1_50_0/doc/html/boost_units.html">Boost.Units</a> library, where units of physical quantities are represented by constants:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_652946"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_652946_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_652946" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="keyword bold">using</code> <code class="keyword bold">namespace</code> <code class="plain">boost::units;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="keyword bold">using</code> <code class="keyword bold">namespace</code> <code class="plain">boost::units::si;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content">&nbsp;</td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="plain">quantity&lt;force&gt;&nbsp; F&nbsp; = 2.0 * newton;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>5</code></td><td class="content"><code class="plain">quantity&lt;length&gt; dx = 2.0 * meter;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>6</code></td><td class="content"><code class="plain">quantity&lt;energy&gt; E1 = F * dx;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>7</code></td><td class="content"><code class="plain">quantity&lt;energy&gt; E2 = 2.0 * newton&nbsp; *&nbsp; 2.0 * meter;</code></td></tr></tbody></table></div></div></div><p></p>
+<p>The multiplication operator is fairly intuitive here, because in 
+physics two symbols glued together are already interpreted as 
+multiplication even if we scale a unit by a scalar: 3m means “the 
+one-meter unit scaled by the factor of three,” or “3 times m.”</p>
+<p>Admittedly, literals take us a bit closer to the notation from physics: <em>E</em>
+ = 2.0N · 2.0m. But is this goal worth complicating the language? It is 
+worth noting that operators, like + or *, are also not necessary, and we
+ could do without them by using function calls: </p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_978982"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_978982_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_978982" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">Kilograms v = add(mul(a, b), c);</code></td></tr></tbody></table></div></div></div><p></p>
+<p>And in fact, this is what we would be forced to do in languages that 
+do not provide operator overloading if we chose to use a user-defined 
+type. But you can see that the lack of arithmetic operators really 
+disturbs. With SI units the situation is different. First, less 
+programmers need them; second, there is a limit to which we can 
+represent units, because some of them require symbols outside of basic 
+source character set, e.g. μs.</p>
+<p>There is one practical gain from using cooked literals though. 
+Because numeric literals never represent negative numbers, you can 
+easily eliminate all negative values at compile-time from your 
+non-negative type. This is what we did for type <code>Probability</code>:</p>
+<p></p><div class="syntaxhighlighter  " id="highlighter_303012"><div class="bar          "><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_303012_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_303012" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="color1 bold">double</code> <code class="plain">d = -0.5;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="comments">// ok: operator-(0.5);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">Probaility p = -0.5_prob; </code><code class="comments">// error: operator- not defined for Probability</code></td></tr></tbody></table></div></div></div><p></p>
+<p>And that’s it for now. In part II, we will look at raw literals.</p>
+
+<div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "akrzemi1.wordpress.com");
+GA_googleAddAttr("BlogId", "21765996");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "science");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "programming");
+GA_googleAddAttr("Tag", "c11");
+GA_googleAddAttr("Tag", "correctness");
+GA_googleAddAttr("theme_bg", "ffffff"); 
+GA_googleAddAttr("theme_text", "333333"); 
+GA_googleAddAttr("theme_link", "0066cc"); 
+GA_googleAddAttr("theme_border", "cccccc"); 
+GA_googleAddAttr("theme_url", "ff4b33"); 
+GA_googleAddAdSensePageAttr("google_page_url", "http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+</script>
+</div>
+<style type="text/css">
+div.wpadvert>div { margin-top: 1em; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpadvert script[src*='shareth.ru']").length > 0 || jQuery(".wpadvert .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpadvert' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-rating-enabled sd-like-enabled"><div class="sd-block sd-rating"><h3 class="sd-title">Rate this:</h3><div style="display: inline-block;" class="pd-rating" id="pd_rating_holder_4527172_post_3860"><div class="rating-icons" id="pd_rate_4527172_post_3860" style="float:left;"><div onmouseout="PDRTJS_4527172_post_3860.rebuild();" onclick="PDRTJS_4527172_post_3860.rate(1);" onmouseover="PDRTJS_4527172_post_3860.hover(1);" id="PDRTJS_4527172_post_3860_stars_1" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div onmouseout="PDRTJS_4527172_post_3860.rebuild();" onclick="PDRTJS_4527172_post_3860.rate(2);" onmouseover="PDRTJS_4527172_post_3860.hover(2);" id="PDRTJS_4527172_post_3860_stars_2" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div onmouseout="PDRTJS_4527172_post_3860.rebuild();" onclick="PDRTJS_4527172_post_3860.rate(3);" onmouseover="PDRTJS_4527172_post_3860.hover(3);" id="PDRTJS_4527172_post_3860_stars_3" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div onmouseout="PDRTJS_4527172_post_3860.rebuild();" onclick="PDRTJS_4527172_post_3860.rate(4);" onmouseover="PDRTJS_4527172_post_3860.hover(4);" id="PDRTJS_4527172_post_3860_stars_4" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div onmouseout="PDRTJS_4527172_post_3860.rebuild();" onclick="PDRTJS_4527172_post_3860.rate(5);" onmouseover="PDRTJS_4527172_post_3860.hover(5);" id="PDRTJS_4527172_post_3860_stars_5" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) bottom left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div></div><span style="float:left;">&nbsp;</span><div id="rating_info_4527172_post_3860" style="display:block;float:left;background:url(http://i0.poll.fm/images/ratings/info.png) no-repeat 3px 2px;width:16px;height:16px;cursor:pointer; null " onclick="javascript:PDRTJS_4527172_post_3860.togglePopup();return false;"><span style="display:none;">i</span></div><div class="pd_popup_holder" id="pd_popup_holder_4527172_post_3860">&nbsp;</div><div class="rating-msg" id="PDRTJS_4527172_post_3860_msg" style="float:left; padding-left: 5px; text-align: left; font:normal normal /16px ; color: #;">1 Vote</div><p style="padding: 0px; margin: 0px; clear: both;"></p><img src="sampleWordPressPage2_files/p-ab3gTb8xb3dLg.gif" style="display: none;" alt="Quantcast" border="0" height="1" width="1"></div></div><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-3860" class="wpl-button "><a href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/?like=1&amp;_wpnonce=534f767a6d" title="I like this." class="like needs-login sd-button" rel="nofollow"><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></div></div>											</div><!-- .entry-content -->
+
+
+					<div class="entry-utility">
+						This entry was posted in <a href="http://akrzemi1.wordpress.com/category/programming/" title="View all posts in programming" rel="category tag">programming</a> and tagged <a href="http://akrzemi1.wordpress.com/tag/c11/" rel="tag">C++11</a>, <a href="http://akrzemi1.wordpress.com/tag/correctness/" rel="tag">correctness</a>. Bookmark the <a href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/" title="Permalink to User-defined literals — Part&nbsp;I" rel="bookmark">permalink</a>.											</div><!-- .entry-utility -->
+				</div><!-- #post-## -->
+
+				<div id="nav-below" class="navigation">
+					<div class="nav-previous"><a href="http://akrzemi1.wordpress.com/2012/07/12/quality-matters/" rel="prev"><span class="meta-nav">←</span> Quality&nbsp;Matters</a></div>
+					<div class="nav-next"><a href="http://akrzemi1.wordpress.com/2012/09/30/why-make-your-classes-final/" rel="next">Why make your classes&nbsp;final? <span class="meta-nav">→</span></a></div>
+				</div><!-- #nav-below -->
+
+				
+			<div id="comments">
+
+
+			<h3 id="comments-title">3 Responses to <em>User-defined literals — Part&nbsp;I</em></h3>
+
+
+			<ol class="commentlist">
+					<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-405">
+		<div id="comment-405">
+			<div class="comment-author vcard">
+				<img id="grav-e7960a6913827d8cf8472e37719e2c31-0" alt="" src="sampleWordPressPage2_files/e7960a6913827d8cf8472e37719e2c31.png" class="avatar avatar-40 grav-hashed grav-hijack" height="40" width="40">				<cite class="fn">Grout</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/#comment-405">
+				August 15, 2012 at 9:05 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Why doesn’t C++11 have “”s for std::string, perchance?  Seems incredibly obvious and useful.</p>
+</div>
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/?replytocom=405#respond" onclick='return addComment.moveForm("comment-405", "405", "respond", "3860")'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-akrzemi1 bypostauthor odd alt depth-2 highlander-comment" id="li-comment-407">
+		<div id="comment-407">
+			<div class="comment-author vcard">
+				<img id="grav-c3baf4aa5bebf6d1407ed4e3b0981864-0" alt="" src="sampleWordPressPage2_files/c3baf4aa5bebf6d1407ed4e3b0981864.jpeg" class="avatar avatar-40 grav-hashed grav-hijack" height="40" width="40">				<cite class="fn"><a href="http://akrzemi1.wordpress.com/" rel="external nofollow" class="url">Andrzej Krzemieński</a></cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/#comment-407">
+				August 16, 2012 at 1:18 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p><code>""s</code> as language feature or 
+Standard Library component? If you mean the latter, the usage would not 
+be that simple. You would have to add some declaration in front:</p>
+<div class="syntaxhighlighter  " id="highlighter_985109"><div class="bar"><div class="toolbar"><a class="item viewSource" style="width: 16px; height: 16px;" title="view source" href="#viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_985109_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_985109" menu="false" src="sampleWordPressPage2_files/clipboard.swf" height="16" width="16"></div><a class="item printSource" style="width: 16px; height: 16px;" title="print" href="#printSource">print</a><a class="item about" style="width: 16px; height: 16px;" title="?" href="#about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="keyword bold">using</code> <code class="keyword bold">namespace</code> <code class="plain">std::string_literals;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="plain">use(</code><code class="string">""</code><code class="plain">s);</code></td></tr></tbody></table></div></div></div>
+<p>And then the compilation times may be marginally affected because a new function call needs to be compiled.<br>
+Honestly, I do not know the C++ Committees intentions or process, so I 
+can only guess that the addition of literals was so new that no-one 
+wanted to risk building standard library additions atop of it. Some 
+bodies even requested that user-defined literals be removed, see <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2011/n3250.html" rel="nofollow">here</a>.<br>
+But I can see (<a href="https://groups.google.com/a/isocpp.org/forum/#%21topic/std-proposals/XZzslep8oqY[1-25]" rel="nofollow">here</a>) that the plan is still to add <code>""s</code> in the future standard.</p>
+</div>
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/?replytocom=407#respond" onclick='return addComment.moveForm("comment-407", "407", "respond", "3860")'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	<ul class="children">
+	<li class="comment even depth-3 highlander-comment" id="li-comment-410">
+		<div id="comment-410">
+			<div class="comment-author vcard">
+				<img id="grav-e7960a6913827d8cf8472e37719e2c31-1" alt="" src="sampleWordPressPage2_files/e7960a6913827d8cf8472e37719e2c31.png" class="avatar avatar-40 grav-hashed grav-hijack" height="40" width="40">				<cite class="fn">Grout</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/#comment-410">
+				August 17, 2012 at 7:05 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Thank for the mailing list pointer; that’ll be interesting to follow.  High kook ratio, though.</p>
+</div>
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/?replytocom=410#respond" onclick='return addComment.moveForm("comment-410", "410", "respond", "3860")'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li>
+</ul>
+</li>
+</ul>
+</li>
+			</ol>
+
+
+
+
+								<div class="js" id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://akrzemi1.wordpress.com/wp-comments-post.php" method="post" id="commentform">
+																										
+
+
+												
+<input name="hc_post_as" id="hc_post_as" value="guest" type="hidden">
+
+<div class="comment-form-field comment-textarea">
+	
+	<div id="comment-form-comment"><textarea tabindex="-1" style="height: 44px; resize: none; overflow-y: hidden; position: absolute; top: 0px; left: -9999px; width: 618px; line-height: 24px; text-decoration: none; letter-spacing: 0px;" placeholder="Enter your comment here..."></textarea><textarea style="height: 44px; resize: none; overflow-y: hidden;" placeholder="Enter your comment here..." id="comment" name="comment"></textarea></div>
+</div>
+
+<div style="display: none;" id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="sampleWordPressPage2_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Gravatar" class="no-grav" width="25">
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email"></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text"></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text"></div>
+				</div> 
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="sampleWordPressPage2_files/wplogo.png" alt="WordPress.com Logo" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" type="hidden">
+				<input name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" type="hidden">
+				<input name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" type="hidden">
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'wordpress'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="sampleWordPressPage2_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Twitter picture" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" type="hidden">
+				<input name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" type="hidden">
+				<input name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" type="hidden">
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'twitter'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="sampleWordPressPage2_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Facebook photo" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" type="hidden">
+				<input name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" type="hidden">
+				<input name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" type="hidden">
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'facebook'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+	
+	
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+});
+</script>
+
+<div style="display: none;" id="comment-form-subscribe"> 
+	<p class="comment-subscription-form"><input name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6" type="checkbox"> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p><p class="post-subscription-form"><input name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="7" type="checkbox"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts via email.</label></p></div>
+
+												<p style="display: none;" class="form-submit">
+							<input name="submit" id="comment-submit" value="Post Comment" type="submit">
+							<input name="comment_post_ID" value="3860" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+						</p>
+						
+<input name="genseq" value="1352401160" type="hidden">
+<p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="71e4b33e35" type="hidden"></p><script type="text/javascript" src="sampleWordPressPage2_files/form.js"></script>
+<p style="display: none;"><input id="ak_js" name="ak_js" value="1352401161396" type="hidden"></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>			
+</div><!-- #comments -->
+
+
+			</div><!-- #content -->
+		</div><!-- #container -->
+
+
+		<div id="primary" class="widget-area" role="complementary">
+						<ul class="xoxo">
+
+<li id="search-2" class="widget-container widget_search"><form role="search" method="get" id="searchform" action="http://akrzemi1.wordpress.com/">
+	<div><label class="screen-reader-text" for="s">Search for:</label>
+	<input name="s" id="s" type="text">
+	<input id="searchsubmit" value="Search" type="submit">
+	</div>
+	</form></li>		<li id="recent-posts-2" class="widget-container widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+					<li>
+				<a href="http://akrzemi1.wordpress.com/2012/10/29/user-defined-literals-part-iii/" title="User-defined literals — Part&nbsp;III">User-defined literals — Part&nbsp;III</a>
+						</li>
+					<li>
+				<a href="http://akrzemi1.wordpress.com/2012/10/23/user-defined-literals-part-ii/" title="User-defined literals — Part&nbsp;II">User-defined literals — Part&nbsp;II</a>
+						</li>
+					<li>
+				<a href="http://akrzemi1.wordpress.com/2012/09/30/why-make-your-classes-final/" title="Why make your classes&nbsp;final?">Why make your classes&nbsp;final?</a>
+						</li>
+					<li>
+				<a href="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/" title="User-defined literals — Part&nbsp;I">User-defined literals — Part&nbsp;I</a>
+						</li>
+					<li>
+				<a href="http://akrzemi1.wordpress.com/2012/07/12/quality-matters/" title="Quality&nbsp;Matters">Quality&nbsp;Matters</a>
+						</li>
+				</ul>
+		</li><li id="archives-2" class="widget-container widget_archive"><h3 class="widget-title">Archives</h3>		<ul>
+			<li><a href="http://akrzemi1.wordpress.com/2012/10/" title="October 2012">October 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2012/09/" title="September 2012">September 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2012/08/" title="August 2012">August 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2012/07/" title="July 2012">July 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2012/06/" title="June 2012">June 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2012/05/" title="May 2012">May 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2012/04/" title="April 2012">April 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2012/03/" title="March 2012">March 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2012/02/" title="February 2012">February 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2012/01/" title="January 2012">January 2012</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2011/12/" title="December 2011">December 2011</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2011/11/" title="November 2011">November 2011</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2011/10/" title="October 2011">October 2011</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2011/09/" title="September 2011">September 2011</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2011/08/" title="August 2011">August 2011</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2011/07/" title="July 2011">July 2011</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2011/06/" title="June 2011">June 2011</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2011/05/" title="May 2011">May 2011</a></li>
+	<li><a href="http://akrzemi1.wordpress.com/2011/04/" title="April 2011">April 2011</a></li>
+		</ul>
+</li><li id="categories-2" class="widget-container widget_categories"><h3 class="widget-title">Categories</h3>		<ul>
+			<li class="cat-item cat-item-196"><a href="http://akrzemi1.wordpress.com/category/programming/" title="as the name implies...">programming</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://akrzemi1.wordpress.com/category/uncategorized/" title="View all posts filed under Uncategorized">Uncategorized</a>
+</li>
+		</ul>
+</li>			</ul>
+		</div><!-- #primary .widget-area -->
+
+
+		<div id="secondary" class="widget-area" role="complementary">
+			<ul class="xoxo">
+				<li id="linkcat-1356" class="widget-container widget_links"><h3 class="widget-title">Blogroll</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://www.justsoftwaresolutions.co.uk/blog/" title="Anthony Williams’s blog on multithreading in C++11">Anthony Williams's blog</a></li>
+<li><a href="http://bartoszmilewski.wordpress.com/" title="Bartosz Milewski’s Programming Cafe">Bartosz Milewski's Cafe</a></li>
+<li><a href="http://www.codesynthesis.com/%7Eboris/blog/">Boris Kolpackov</a></li>
+<li><a href="http://cpptruths.blogspot.com/">C++ Truths</a></li>
+<li><a href="http://cpp-next.com/">C++Next</a></li>
+<li><a href="http://blog.corensic.com/">Corensic</a></li>
+<li><a href="http://mortoray.wordpress.com/">Musing Dragoman</a></li>
+<li><a href="http://herbsutter.com/">Sutter’s Mill</a></li>
+<li><a href="http://definedbehavior.blogspot.com/" title="[Un]defined behavior">[Un]defined behavior</a></li>
+
+	</ul>
+</li>
+<li id="linkcat-168780" class="widget-container widget_links"><h3 class="widget-title">C++ Links</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://www2.research.att.com/%7Ebs/homepage.html">Bjarne Stroustrup's homepage</a></li>
+<li><a href="http://www.boost.org/">Boost's homepage</a></li>
+<li><a href="http://cppannotations.sourceforge.net/cppannotations/html/">C++ Annotations</a></li>
+<li><a href="http://cplusplus.github.com/LWG/" title="C++ Standards Committee Library Working Group">C++ Standards Committee — LWG</a></li>
+<li><a href="http://fpcomplete.com/blog/">FPComplete</a></li>
+<li><a href="http://www.gotw.ca/gotw/">Guru Of The week</a></li>
+<li><a href="http://home.roadrunner.com/%7Ehinnant/">Howard Hinnant's page</a></li>
+<li><a href="https://groups.google.com/a/isocpp.org/forum/#%21forum/std-discussion">ISO C++ Standard – Discussion</a></li>
+<li><a href="https://groups.google.com/a/isocpp.org/forum/#%21forum/std-proposals">ISO C++ Standard – Future Proposals</a></li>
+<li><a href="http://www.synesis.com.au/publications.html">Matthew Wilson's work</a></li>
+<li><a href="http://www.isocpp.org/">Standard C++ Foundation</a></li>
+<li><a href="http://www.sgi.com/tech/stl/">STL Programmer's Guide</a></li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/">The C++ Standards Committee</a></li>
+<li><a href="http://en.wikipedia.org/wiki/C%2B%2B11">Wikipedia on C++11</a></li>
+
+	</ul>
+</li>
+			</ul>
+		</div><!-- #secondary .widget-area -->
+
+	</div><!-- #main -->
+
+	<div id="footer" role="contentinfo">
+		<div id="colophon">
+
+
+
+			<div id="site-info">
+				<a href="http://akrzemi1.wordpress.com/" title="Andrzej's C++ blog" rel="home">
+					Andrzej's C++ blog				</a>
+			</div><!-- #site-info -->
+
+			<div id="site-generator">
+				Theme: <a href="http://theme.wordpress.com/themes/twentyten/" title="Learn more about this theme">Twenty Ten</a>				<a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.
+			</div><!-- #site-generator -->
+
+		</div><!-- #colophon -->
+	</div><!-- #footer -->
+
+</div><!-- #wrapper -->
+
+
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":",language.en,type.wpcom,posttag.c11,posttag.correctness,as"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript><div style="display: none;"><img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=%2Clanguage.en%2Ctype.wpcom%2Cposttag.c11%2Cposttag.correctness%2Cas" height="1" width="1" alt="" /></div></noscript>
+
+
+	<script type="text/javascript">
+	/* <![CDATA[ */
+	(function($){
+		$(document).on( 'ready post-load', function() {
+
+			// Remove the login box when clicking the page
+			$( document ).mousedown( function( e ) {
+				if ( null == $( e.target ).closest( '#wpl-mustlogin' ).get( 0 ) ) {
+					$( '#wpl-mustlogin' ).remove();
+				}
+			});
+
+			// Handle clicking the like button itself
+			$('.wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+
+				var postid = $(this).parent().attr('id').split('like-')[1];
+				$.post( 'http://akrzemi1.wordpress.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=e700614368; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+
+				$(this).parent().siblings('.wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="https://akrzemi1.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="postid" value="' + postid + '" /> \
+							<input type="hidden" name="redirect_to" value="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i?year=2012&#038;monthnum=08&#038;day=12&#038;name=user-defined-literals-part-i&#038;like=1" /> \
+							<input type="hidden" name="wpl_rand" value="e700614368" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox&user=1" id="wpl-signup-link">Sign up with WordPress.com for free</a></p> \
+						</form> \
+					</div> \
+				');
+
+				$('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+
+			$('#wpl-mustlogin input.input').live( 'focus', function() {
+				$(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( $(this).val() == '' ) {
+					$(this).prev().show();
+				}
+			});
+
+			$('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+
+				$.post( 'http://akrzemi1.wordpress.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					$('#wpl-mustlogin form').submit();
+				} );
+			});
+
+			$('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+
+				var link = $(this).attr('href');
+
+				$.post( 'http://akrzemi1.wordpress.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});
+		})
+	})(jQuery);
+	/* ]]> */
+	</script>
+<script type="text/javascript" src="sampleWordPressPage2_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="sampleWordPressPage2_files/wpgroho.js"></script>
+<script>jQuery(document).ready(function($){ Gravatar.profile_cb = function( h, d ) { WPGroHo.syncProfileData( h, d );	}; Gravatar.my_hash = WPGroHo.my_hash; Gravatar.init( 'body', '#wp-admin-bar-my-account' ); });</script>	<div style="display:none">
+	<div class="grofile-hash-map-e7960a6913827d8cf8472e37719e2c31">
+	</div>
+	<div class="grofile-hash-map-c3baf4aa5bebf6d1407ed4e3b0981864">
+	</div>
+	</div>
+<script type="text/javascript">
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/akrzemi1.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/akrzemi1.wordpress.com\/wp-login.php?action=logout&_wpnonce=98afcf95ba","homeURL":"http:\/\/akrzemi1.wordpress.com\/","postID":"3860","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"0"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="sampleWordPressPage2_files/script.js"></script>
+
+	<div style="bottom: -264px;" id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id="bsub-text">Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow “Andrzej's C++ blog”</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 51 other followers</p>
+			<p><input name="email" style="width: 95%; padding: 1px 2px" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;' id="loggedout-follow-field" type="email"></p>
+
+			<input name="action" value="subscribe" type="hidden">
+			<input name="blog_id" value="21765996" type="hidden">
+			<input name="source" value="http://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/" type="hidden">
+			<input name="sub-type" value="loggedout-follow" type="hidden">
+
+			<input id="_wpnonce" name="_wpnonce" value="4b75839069" type="hidden"><input name="_wp_http_referer" value="/2012/08/12/user-defined-literals-part-i/" type="hidden">
+			<p id="bsub-subscribe-button"><input value="Sign me up" type="submit"></p>
+			</form>
+					<div id="bsub-credit"><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+<script type="text/javascript" charset="UTF-8" id="polldaddyRatings"><!--//--><![CDATA[//><!--
+PDRTJS_settings_4527172_post_3860={"id":4527172,"unique_id":"wp-post-3860","title":"User-defined%20literals%20%26mdash%3B%20Part%26nbsp%3BI","permalink":"http:\/\/akrzemi1.wordpress.com\/2012\/08\/12\/user-defined-literals-part-i\/","item_id":"_post_3860"}; if ( typeof PDRTJS_RATING !== 'undefined' ){if ( typeof PDRTJS_4527172_post_3860 == 'undefined' ){PDRTJS_4527172_post_3860 = new PDRTJS_RATING( PDRTJS_settings_4527172_post_3860 );}}
+//--><!]]></script><script type="text/javascript" charset="UTF-8" src="sampleWordPressPage2_files/rating.js"></script><script type="text/javascript" src="sampleWordPressPage2_files/beacon.js"></script><script type="text/javascript">try{COMSCORE.beacon({c1:2,c2:7518284});}catch(e){}</script><noscript><p class="robots-nocontent"><img src="http://b.scorecardresearch.com/p?cj=1c1=2&#038;c2=7518284" alt="" style="display:none" width="1" height="1" /></p></noscript><script type="text/javascript" src="sampleWordPressPage2_files/a.js"></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter-wpcom/shThemeDefault.css?m=1267535107g&amp;ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf?m=1300143157g';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.all();
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"http:\/\/akrzemi1.wordpress.com\/wp-includes\/js\/thickbox\/loadingAnimation.gif","closeImage":"http:\/\/akrzemi1.wordpress.com\/wp-includes\/js\/thickbox\/tb-close.png"};
+var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"http:\/\/akrzemi1.wordpress.com\/wp-includes\/js\/thickbox\/loadingAnimation.gif","closeImage":"http:\/\/akrzemi1.wordpress.com\/wp-includes\/js\/thickbox\/tb-close.png"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="sampleWordPressPage2_files/a_003.js"></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="sampleWordPressPage2_files/w.js" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'21765996','v':'wpcom','user_id':'0','post':'3860','subd':'akrzemi1'});
+ex_go({'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWtpP0NsWnVkPS9sL0ViLndld3AlTlV5ST9WY3J1RWNQW0Zycy1kaXRqWmJuPVdobHk/MkNULW5nbkkrSUR3RS85bjIwaWZRTTBLdls0OFpbTVN4dj1rTTNhfFBORk5iZ25IZ3U0NS0meFNtNXJId1NST1NbVnkvaz9ORk5CMlR4QXBxWUhQMy5PeitmJVtyNTZsQV9oUWlvbl0/Mk1tNmNQYlAxfj1SZmpRVnJUVWJkfFYuKz81ekoyJn5ISkJjNTNZU1lCeEx1Jm94LTZfV2JYaD81WTljT1I2NnpEUnZ+cWs1M0xYLE1QZHdISE4uWi1DLjhCYUwuW0JKQ0MtYlQzeSVMcj0='});
+addLoadEvent(function(){linktracker_init('21765996',3860);});
+	</script><img id="wpstats" src="sampleWordPressPage2_files/g.gif" alt=""><img id="wpstats2" src="sampleWordPressPage2_files/g_002.gif" alt="" style="display:none">
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+
+</body></html>

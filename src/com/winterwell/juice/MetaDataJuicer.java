@@ -127,9 +127,9 @@ public class MetaDataJuicer extends AJuicer {
 			
 		} else if (key == AJuicer.MSG_TYPE) {
 			if (videoTypeNames.contains(contentStr)) {
-				value = "video";
+				value = KMsgType.VIDEO;
 			} else {
-				value = "misc";
+				value = KMsgType.MISC;
 			} 
 		} else {
 			value = contentStr;
