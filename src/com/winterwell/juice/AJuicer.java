@@ -97,44 +97,7 @@ public abstract class AJuicer {
 	 * @param html
 	 * @param pages The extractions made by this juicer.
 	 */
-	abstract List<Anno> juice(JuiceMe doc);
+	abstract void juice(Item doc);
 
-	protected <X> void put(JuiceMe doc, int start, int end, Key<X> type, X value) {
-		assert type != null;
-		if (value==null) return;
-		Anno<X> anno = new Anno<X>(start, end, type, value);
-		anno.juicer = this;
-		doc.type2annotation.putOne(type, anno);
-	}
-	
-	protected <X> void putIfAbsent(JuiceMe doc, Key<X> type, X value) {
-		if (value==null) return;
-		if (doc.type2annotation.containsKey(type)) return;
-		put(doc, type, value);
-	}
-	
-	/**
-	 * Which annotations (if any) has this class added?
-	 * @param doc
-	 * @return never null, can be empty
-	 */
-	protected List<Anno> added(JuiceMe doc) {
-		List<Anno> added = new ArrayList(4);
-		for(Anno a : doc.type2annotation.getValueSet()) {
-			if (a.juicer==this) added.add(a);
-		}
-		return added;
-	}
-
-	
-	/**
-	 * A document-level annotation (gets given position start=end=0)
-	 * @param doc
-	 * @param type
-	 * @param value
-	 */
-	protected <X> void put(JuiceMe doc, Key<X> type, X value) {
-		put(doc, 0,0,type,value);
-	}
 
 }

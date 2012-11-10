@@ -21,10 +21,10 @@ public class MetaDataJuicerTest {
 		
 		
 		Set<Anno> expectedElements = new HashSet<Anno>() {{
-			add(new Anno<String>(0, 0, AJuicer.TITLE, "The Rock"));
-			add(new Anno<KMsgType>(0, 0, AJuicer.MSG_TYPE, KMsgType.VIDEO));
-			add(new Anno<String>(0, 0, AJuicer.URL, "http://www.imdb.com/title/tt0117500/"));
-			add(new Anno<String>(0, 0, AJuicer.IMAGE_URL, "http://ia.media-imdb.com/images/rock.jpg"));
+			add(new Anno<String>(AJuicer.TITLE, "The Rock"));
+			add(new Anno<KMsgType>(AJuicer.MSG_TYPE, KMsgType.VIDEO));
+			add(new Anno<String>(AJuicer.URL, "http://www.imdb.com/title/tt0117500/"));
+			add(new Anno<String>(AJuicer.IMAGE_URL, "http://ia.media-imdb.com/images/rock.jpg"));
 		}};
 		
 		testJuicer(htmlFileName, expectedElements);
@@ -39,22 +39,22 @@ public class MetaDataJuicerTest {
 		final Time articleTime = new Time(date);
 		
 		Set<Anno> expectedElements = new HashSet<Anno>() {{
-			add(new Anno<String>(0, 0, AJuicer.DESC, "Design intended to inspire schoolchildren and adults to program sees overwhelming demand as first versions go on sale. By Charles Arthur"));
-			add(new Anno<String>(0, 0, AJuicer.TITLE, "Demand for Raspberry Pi, the British £22 computer, crashes website"));
-			add(new Anno<KMsgType>(0, 0, AJuicer.MSG_TYPE, KMsgType.MISC));
-			add(new Anno<Time>(0, 0, AJuicer.PUB_TIME, articleTime));
+			add(new Anno<String>(AJuicer.DESC, "Design intended to inspire schoolchildren and adults to program sees overwhelming demand as first versions go on sale. By Charles Arthur"));
+			add(new Anno<String>(AJuicer.TITLE, "Demand for Raspberry Pi, the British £22 computer, crashes website"));
+			add(new Anno<KMsgType>(AJuicer.MSG_TYPE, KMsgType.MISC));
+			add(new Anno<Time>(AJuicer.PUB_TIME, articleTime));
 			
-			add(new Anno<String>(0, 0, AJuicer.TAGS, "Raspberry Pi"));
-			add(new Anno<String>(0, 0, AJuicer.TAGS, "Computing"));
-			add(new Anno<String>(0, 0, AJuicer.TAGS, "UK news"));
-			add(new Anno<String>(0, 0, AJuicer.TAGS, "Technology"));
-			add(new Anno<String>(0, 0, AJuicer.TAGS, "Education"));
-			add(new Anno<String>(0, 0, AJuicer.TAGS, "Internet"));
-			add(new Anno<String>(0, 0, AJuicer.TAGS, "Software"));
-			add(new Anno<String>(0, 0, AJuicer.TAGS, "Linux"));
+			add(new Anno<String>(AJuicer.TAGS, "Raspberry Pi"));
+			add(new Anno<String>(AJuicer.TAGS, "Computing"));
+			add(new Anno<String>(AJuicer.TAGS, "UK news"));
+			add(new Anno<String>(AJuicer.TAGS, "Technology"));
+			add(new Anno<String>(AJuicer.TAGS, "Education"));
+			add(new Anno<String>(AJuicer.TAGS, "Internet"));
+			add(new Anno<String>(AJuicer.TAGS, "Software"));
+			add(new Anno<String>(AJuicer.TAGS, "Linux"));
 			
-			add(new Anno<String>(0, 0, AJuicer.URL, "http://www.guardian.co.uk/technology/2012/feb/29/raspberry-pi-computer-sale-british"));
-			add(new Anno<String>(0, 0, AJuicer.IMAGE_URL, "https://static-secure.guim.co.uk/sys-images/Admin/BkFill/Default_image_group/2011/8/26/1314356568077/Engineer-Eben-Upton-with--003.jpg"));
+			add(new Anno<String>(AJuicer.URL, "http://www.guardian.co.uk/technology/2012/feb/29/raspberry-pi-computer-sale-british"));
+			add(new Anno<String>(AJuicer.IMAGE_URL, "https://static-secure.guim.co.uk/sys-images/Admin/BkFill/Default_image_group/2011/8/26/1314356568077/Engineer-Eben-Upton-with--003.jpg"));
 			
 		}};
 		
@@ -71,7 +71,8 @@ public class MetaDataJuicerTest {
 		JuiceMe document = new JuiceMe(html);
 		
 		MetaDataJuicer mdj = new MetaDataJuicer();
-		List<Anno> resultAnnotations = mdj.juice(document);
+		mdj.juice(document);
+		List<Anno> resultAnnotations = document.getAnnotations(); 
 		
 		containsSameElements(resultAnnotations, expectedAnnotations);
 	}

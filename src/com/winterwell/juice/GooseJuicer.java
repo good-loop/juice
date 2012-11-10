@@ -22,33 +22,31 @@ import winterwell.utils.time.Time;
 public class GooseJuicer extends AJuicer {	
 
 	@Override
-	List<Anno> juice(JuiceMe doc) {
+	void juice(Item doc) {
 	 Configuration configuration = new Configuration();
 	    configuration.setMinBytesForImages(4500);
 	    configuration.setLocalStoragePath("/tmp/goose");
 	    configuration.setEnableImageFetching(false); // i don't care about the image, just want text, this is much faster!
 	    configuration.setImagemagickConvertPath("/opt/local/bin/convert");
 		Goose goose = new Goose(configuration);		
-		Article article = goose.extractContent(doc.url, doc.html);
+		Article article = goose.extractContent(doc.getURL(), doc.getHTML());
 //		System.out.println(article);
 		
 		String cleanText = article.cleanedArticleText();
-		put(doc, POST_BODY, cleanText);
+		doc.put(POST_BODY, cleanText);
 		
 		String title = article.title();
-		putIfAbsent(doc,TITLE, title);
+		doc.putIfAbsent(TITLE, title);
 		
 		String uri = article.canonicalLink();
-		put(doc, URL, uri);
+		doc.put(URL, uri);
 		
 		String desc = article.metaDescription();
-		putIfAbsent(doc, DESC, desc);
+		doc.putIfAbsent(DESC, desc);
 		
 		if (article.publishDate()!=null) {
-			putIfAbsent(doc, PUB_TIME, new Time(article.publishDate()));
+			doc.putIfAbsent(PUB_TIME, new Time(article.publishDate()));
 		}
-		
-		return added(doc);
 	}
 
 	

@@ -4,13 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
@@ -27,59 +25,68 @@ import winterwell.utils.time.Time;
 public class WordPressJuicer extends AJuicer {
 
 	@Override
-	List<Anno> juice(JuiceMe doc) {
+	void juice(Item item) {
 		// Fail fast for non-WordPress
-		String blog = new BlogSniffer().sniff(doc.html);
-		if (!BlogSniffer.WORDPRESS.equals(blog))
-			return Collections.EMPTY_LIST;
+		String blog = new BlogSniffer().sniff(item.getHTML());
+		if (!BlogSniffer.WORDPRESS.equals(blog)) {
+			return;
+		}
+		
+		Item post = new Item(KMsgType.POST, item.getDoc());
 
-		extractTags(doc);
-		extractRating(doc);
-		extractPostBody(doc);
-		extractMetadata(doc);
-		extractTitle(doc);
-		extractPrevPost(doc);
+		extractTags(post);
+		extractRating(post);
+		extractPostBody(post);
+		extractMetadata(post);
+		extractTitle(post);
+		extractPrevPost(post);
 
-		return added(doc);
+		JuiceMe juiceMe = (JuiceMe) item;
+		juiceMe.addItem(post);
+		
+		Elements commentElements = getCommentElements(item);
+		
+		extractComments(juiceMe, commentElements, null);
 	}
 
-	private void extractTags(JuiceMe doc) {
+	
+
+	private void extractTags(Item post) {
 		List<Anno<String>> tagAnnotations = new ArrayList<Anno<String>>();
 
-		Elements tagElements = doc.doc.getElementsByAttributeValueEnding("rel",
+		Elements tagElements = post.getDoc().getElementsByAttributeValueEnding("rel",
 				"tag");
 
 		for (Element tagElement : tagElements) {
 			String tagName = tagElement.text();
-			Anno<String> annotation = new Anno<String>(0, 0, AJuicer.TAGS,
+			Anno<String> annotation = new Anno<String>(AJuicer.TAGS,
 					tagName);
 			tagAnnotations.add(annotation);
-			annotation.juicer = this;
 		}
 
-		doc.type2annotation.addAll(AJuicer.TAGS, tagAnnotations);
+		post.type2annotation.addAll(AJuicer.TAGS, tagAnnotations);
 
 	}
 
-	private void extractRating(JuiceMe doc) {
+	private void extractRating(Item post) {
 		// TODO: Rating is set not in the markup but through JavaScript code.
 		// Value of rating is requested from PollDaddy service.
 	}
 
-	private void extractType(JuiceMe doc) {
-		put(doc, AJuicer.MSG_TYPE, KMsgType.POST);
+	private void extractType(Item post) {
+		post.put(AJuicer.MSG_TYPE, KMsgType.POST);
 	}
 
 	// Extract text body of a post
-	private void extractPostBody(JuiceMe doc) {
+	private void extractPostBody(Item post) {
 		// Get element with article's text
-		Elements elements = doc.doc.getElementsByClass("entry-content");
+		Elements elements = post.getDoc().getElementsByClass("entry-content");
 
 		Element rootDiv = elements.get(0);
 		String text = rootDiv.text();
 		text = cleanText(text);
 		
-		put(doc, AJuicer.POST_BODY, text);
+		post.put(AJuicer.POST_BODY, text);
 	}
 
 	String[] endings = new String[] {"About these ads", "Rate this"};
@@ -117,8 +124,8 @@ public class WordPressJuicer extends AJuicer {
 	 *         </a>
 	 *     </span>
 	 */
-	private void extractMetadata(JuiceMe doc) {
-		Element metadataElement = doc.doc.getElementsByClass("entry-meta").get(0);
+	private void extractMetadata(Item post) {
+		Element metadataElement = post.getDoc().getElementsByClass("entry-meta").get(0);
 		
 		Calendar calendar = null;
 		try {
@@ -149,7 +156,7 @@ public class WordPressJuicer extends AJuicer {
 			calendar.set(Calendar.MILLISECOND, 0);
 			
 			Time publicationTime = new Time(calendar);
-			put(doc, AJuicer.PUB_TIME, publicationTime);
+			post.put(AJuicer.PUB_TIME, publicationTime);
 		}
 		
 		// Extract author's name
@@ -157,7 +164,7 @@ public class WordPressJuicer extends AJuicer {
 		if (!authorSpanElements.isEmpty()) {
 			Element authorSpan = authorSpanElements.get(0);
 			String authorName = authorSpan.text();
-			put(doc, AJuicer.AUTHOR_NAME, authorName);
+			post.put(AJuicer.AUTHOR_NAME, authorName);
 		}		
 		
 	}
@@ -168,11 +175,11 @@ public class WordPressJuicer extends AJuicer {
 	 * <h1 class="entry-title">SoDash nominated for Best Advertising or Marketing Tech Startup Award</h1>
 	 * 
 	 */	
-	private void extractTitle(JuiceMe doc) {
-		Element entryTitleTag = doc.doc.getElementsByClass("entry-title").get(0);
+	private void extractTitle(Item post) {
+		Element entryTitleTag = post.getDoc().getElementsByClass("entry-title").get(0);
 		String title = entryTitleTag.text();
 		
-		put(doc, AJuicer.TITLE, removeNBSP(title));
+		post.put(AJuicer.TITLE, removeNBSP(title));
 					
 	}
 	
@@ -198,9 +205,9 @@ public class WordPressJuicer extends AJuicer {
 	 *     </div>
 	 * </div><!-- #nav-below -->
 	 */
-	private void extractPrevPost(JuiceMe doc) {
+	private void extractPrevPost(Item post) {
 		// Search for navigation bar
-		Elements prevNavElements =doc.doc.getElementsByClass("nav-previous");
+		Elements prevNavElements =post.getDoc().getElementsByClass("nav-previous");
 		if (!prevNavElements.isEmpty()) {
 			Element divElement = prevNavElements.first();
 			// Search for link on the previous post 
@@ -209,10 +216,86 @@ public class WordPressJuicer extends AJuicer {
 				Element prevLink = prevLinks.first();
 				String prevPostURL = prevLink.attr("href");
 				
-				put(doc, AJuicer.PREVIOUS, prevPostURL);
+				post.put(AJuicer.PREVIOUS, prevPostURL);
 			}
 		}
 	}
 
+	WordPressCommentsJuicer commentsJuicer = new WordPressCommentsJuicer();
+	
+	private void extractComments(JuiceMe juiceMe, Elements commentElements, String prevURL) {
+		if (commentElements != null) {
+		
+			
+			for (Element commentElement : commentElements) {
+				Item comment = new Item(KMsgType.COMMENT, commentElement);
+				commentsJuicer.juice(comment);
+				juiceMe.addItem(comment);							
+				
+				if (prevURL != null) {
+					comment.put(AJuicer.PREVIOUS, prevURL);
+				}
+			
+				if (hasReply(commentElement)) {
+					String currentCommentURL = comment.getSingleAnnotation(AJuicer.URL).value;
+					
+					Elements replyCommentElements = getReplyCommentElement(comment.getDoc());
+					
+					extractComments(juiceMe, replyCommentElements, currentCommentURL);			
+				}
+							
+			}
+		}
+	}
 
+	/**
+	 * Extract list of parent elements of comments from the following markup:
+	 * <ol class="commentlist">
+	 * 		<li class="comment byuser comment-author-mpusz even thread-even depth-1 highlander-comment" 
+	 *          id="li-comment-364">
+	 *         ...
+	 *      </li>
+	 *      <li class="comment byuser comment-author-mpusz even depth-3 highlander-comment" 
+	 *          id="li-comment-366">
+	 *         ...
+	 *      </li>
+	 * </ol>
+	 */
+	private Elements getCommentElements(Item item) {
+		Elements commentListParents = item.getDoc().getElementsByClass("commentlist");
+				
+		if (!commentListParents.isEmpty()) {
+			Element commentList = commentListParents.first();
+			return commentList.children();
+		}
+		
+		return null;
+	}
+	
+	
+	/**
+	 * Check if comment element has a reply by examining the following markup:
+	 * <li class="comment byuser comment-author-mpusz even thread-even depth-1 highlander-comment" id="li-comment-364">
+	 * 
+	 * 		...
+	 * 
+	 * 		<ul class="children">
+	 * 			<li class="comment byuser comment-author-akrzemi1 bypostauthor odd alt depth-2 highlander-comment" id="li-comment-365">
+	 * 				...
+	 * 			</li>
+	 * 		</ul>
+	 * </li>
+	 * @param commentElement
+	 * @return
+	 */
+	private boolean hasReply(Element commentElement) {
+		Elements commentReplyElements = commentElement.getElementsByClass("children");
+		
+		return (! commentReplyElements.isEmpty());
+	}
+	
+	private Elements getReplyCommentElement(Element commentElement) {
+		Element childrenParent = commentElement.getElementsByClass("children").first();
+		return childrenParent.children();
+	}
 }

@@ -18,7 +18,7 @@ public class DateFinder extends AJuicer {
 	 * Find dates within doc (ideally we'll get the main article's publication date).
 	 */
 	@Override
-	List<Anno> juice(JuiceMe doc) {
+	void juice(Item doc) {
 		throw new TodoException();
 	}
 

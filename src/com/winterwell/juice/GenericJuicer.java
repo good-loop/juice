@@ -15,7 +15,7 @@ import winterwell.utils.web.XMLNode;
 class GenericJuicer extends AJuicer {
 
 	@Override
-	List<Anno> juice(JuiceMe doc) {
+	void juice(Item doc) {
 		throw new TodoException();
 	}
 

@@ -53,47 +53,45 @@ public class MetaDataJuicer extends AJuicer {
 	private Set<String> extractedTags = new HashSet<String>();
 	
 	@Override
-	List<Anno> juice(JuiceMe doc) {		
+	void juice(Item item) {		
 		
 		extractedTags.clear();
 		
-		Elements metaTags = doc.doc.getElementsByTag("meta");
+		Elements metaTags = item.getDoc().getElementsByTag("meta");
 		
 		for (Element metaTag : metaTags) {
 			// Check if it is metadata if Open Graph format
 			String propertyVal = metaTag.attr("property");			
 			if (!propertyVal.isEmpty()) {
-				extractOG(doc, propertyVal, metaTag);
+				extractOG(item, propertyVal, metaTag);
 			} else {
 				
 				String nameValue = metaTag.attr("name");
 				if (nameValue.equals("description")) {
 					String descrValue = metaTag.attr("content");
-					put(doc, AJuicer.DESC, descrValue);
+					item.put(AJuicer.DESC, descrValue);
 				}				
 			}
 		}
 		
 		// If no URL was extracted from Open Graph metadata, extract
 		// canonical URL
-		List<Anno> urlAnnos = doc.type2annotation.get(AJuicer.URL);
+		List<Anno> urlAnnos = item.type2annotation.get(AJuicer.URL);
 		if (urlAnnos == null) {
 		
-			Elements canons = doc.doc.getElementsByAttributeValue("rel", "canonical");
+			Elements canons = item.getDoc().getElementsByAttributeValue("rel", "canonical");
 			for (Element element : canons) {
 				String urlValue = element.attr("href");
-				put(doc, AJuicer.URL, urlValue);
+				item.put(AJuicer.URL, urlValue);
 				break;
 			}
 		}
 		
-		saveExtractedTags(doc);
-		
-		return added(doc);
+		saveExtractedTags(item);
 	}
 
 	// Extract Open Graph metadata from meta tag
-	private void extractOG(JuiceMe doc, String propertyVal, Element metaTag) {
+	private void extractOG(Item doc, String propertyVal, Element metaTag) {
 		String contentVal = metaTag.attr("content");
 		Key key = propertyKeyMap.get(propertyVal);
 		
@@ -105,7 +103,7 @@ public class MetaDataJuicer extends AJuicer {
 	
 	private SimpleDateFormat dataFormater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-	private void saveValue(JuiceMe doc, Key key, String contentStr) {
+	private void saveValue(Item item, Key key, String contentStr) {
 		Object value = null;
 		
 		// We store all tags at once
@@ -137,21 +135,20 @@ public class MetaDataJuicer extends AJuicer {
 		
 		// If value was extracted store this value
 		if (value != null) {
-			put(doc, key, value);
+			item.put(key, value);
 		}
 	}
 
 	// Save all extracted tags
-	private void saveExtractedTags(JuiceMe doc) {
+	private void saveExtractedTags(Item item) {
 		List<Anno> tagAnnotations = new ArrayList<Anno>();
 		
 		for (String tag : extractedTags) {
-			Anno<String> anno = new Anno<String>(0, 0, AJuicer.TAGS, tag);
-			anno.juicer = this;
+			Anno<String> anno = new Anno<String>(AJuicer.TAGS, tag);
 			tagAnnotations.add(anno);
 		}
 		
-		doc.type2annotation.addAll(AJuicer.TAGS, tagAnnotations);
+		item.type2annotation.addAll(AJuicer.TAGS, tagAnnotations);
 		
 	}
 

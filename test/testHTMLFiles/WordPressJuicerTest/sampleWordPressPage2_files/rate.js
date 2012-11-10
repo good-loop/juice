@@ -1,6 +1,6 @@
-PDRTJS_4527172_post_3860.avg_rating = 4;
-PDRTJS_4527172_post_3860.votes = 1;		
-PDRTJS_settings_4527172_post_3860= {
+PDRTJS_4527172_post_3030.avg_rating = 5;
+PDRTJS_4527172_post_3030.votes = 1;		
+PDRTJS_settings_4527172_post_3030= {
 			"type" : "stars",
 			"size" : "sml",
 			"star_color" : "yellow",
@@ -25,6 +25,6 @@ PDRTJS_settings_4527172_post_3860= {
 			"text_rate_up" : "Rate Up",
 			"text_rate_down" : "Rate Down"
 		};
-PDRTJS_4527172_post_3860.init();		
-PDRTJS_4527172_post_3860.token='dd33f98797ffa960b18de72f0d23db02';
-/*4527172,_post_3860,wp-post-3860,1534857468,4-1*/
+PDRTJS_4527172_post_3030.init();		
+PDRTJS_4527172_post_3030.token='fe1e2a8b88577532a4d5d54ffdcf7dc9';
+/*4527172,_post_3030,wp-post-3030,1534858119,5-1*/

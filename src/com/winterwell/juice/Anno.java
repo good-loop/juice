@@ -10,31 +10,17 @@ import winterwell.utils.containers.IntRange;
  * 
  * @author daniel
  */
-public final class Anno<X> 
-extends IntRange implements Serializable {
+public final class Anno<X> implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	transient AJuicer juicer;
 	
-	public Anno(int start, int end, Key type, X value) {
-		super(start, end);
+	public Anno(Key type, X value) {
 		this.type = type.getName();
 		this.value = value;
 	}
 	
 	final String type;
 	final X value;
-	
-	public CharSequence getText(CharSequence base) {
-		return base.subSequence(low, high);
-	}
 
-	@Override
-	public String toString() {
-		return "Anno [type=" + type + ", value=" + value + ", high=" + high
-				+ ", low=" + low + "]";
-	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

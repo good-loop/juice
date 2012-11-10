@@ -22,7 +22,8 @@ public class GooseJuicerTest {
 		
 		JuiceMe doc = new JuiceMe(url, html);
 				
-		List<Anno> annos = pj.juice(doc);
+		pj.juice(doc);
+		List<Anno> annos = doc.getAnnotations();
 		
 		System.out.println(annos);
 		
@@ -44,7 +45,8 @@ public class GooseJuicerTest {
 		
 		JuiceMe doc = new JuiceMe(url, html);
 		
-		List<Anno> annos = pj.juice(doc);
+		pj.juice(doc);
+		List<Anno> annos = doc.getAnnotations();
 		
 		System.out.println(doc.getTitle()+" by "+doc.getAuthor()+" on "+doc.getPublishedTime());
 		System.out.println(doc.getText());

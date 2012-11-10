@@ -1,67 +1,80 @@
 package com.winterwell.juice;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import winterwell.utils.Key;
-import winterwell.utils.containers.ListMap;
-import winterwell.utils.time.Time;
-
 /**
- * Internal container for document, plus extractions. 
- *
+ * Internal container for document.
+ * 
+ * It extends Item, to store document-level metadata. To store metadata
+ * for a specific part of a document an Item with extracted metadata should
+ * be added to an object of this class.
+ * 
+ * @author ivan
  */
-public class JuiceMe {
+public class JuiceMe extends Item {
 
-	Document doc;
+	String html;
+		
+	private final List<Item> extractedItems = new ArrayList<Item>();
 	
 	public JuiceMe(String url, String html) {
 		assert html != null : url;
 		this.url = url;
 		this.html = html;
-		doc = Jsoup.parse(html, url);
+		this.doc = Jsoup.parse(html, url);
 	}
 	
 	// Protected constructor for Unit-testing where web-pages are read from
 	// a file, not from the Internet
 	JuiceMe(String html) {
 		this.html = html;
-		doc = Jsoup.parse(html);
+		this.doc = Jsoup.parse(html);
 	}
 	
-	String url;
-	String html;
+	JuiceMe(Document doc) {
+		this.doc = doc;
+	}
+
+	List<Item> getExtractedItems() {
+		return extractedItems;
+	}
+	
+	@Override
+	public String getHTML() {
+		if (html != null) {
+			return html;
+		}
 		
+		return doc.html();
+	}
+
 	/**
-	 * Each type can have several annotations -- e.g. a web-page
-	 * might contain a few articles.
+	 * Add item extracted from a document
+	 * @param item
 	 */
-	final ListMap<Key,Anno> type2annotation = new ListMap();
-
-	// Convenience methods. Questionable.
-	
-	public String getTitle() {
-		Anno a = type2annotation.getOne(AJuicer.TITLE);		
-		return a==null? null : (String) a.value;		
-	}
-	
-	public String getAuthor() {
-		Anno a = type2annotation.getOne(AJuicer.AUTHOR_NAME);
-		return a==null? null : (String) a.value;
+	public void addItem(Item item) {
+		extractedItems.add(item);		
 	}
 
-	public Time getPublishedTime() {
-		Anno a = type2annotation.getOne(AJuicer.PUB_TIME);
-		return a==null? null : (Time) a.value;
-	}
-	
-	public String getText() {
-		Anno a = type2annotation.getOne(AJuicer.POST_BODY);
-		return a==null? null : (String) a.value;
+	/**
+	 * Get all items of a specified type.
+	 * @param requiredType
+	 * @return list of extracted items of a specified types or empty list
+	 */
+	public List<Item> getItemsOfType(KMsgType requiredType) {
+		List<Item> itemsOfType = new ArrayList<Item>();
+		
+		for (Item item : extractedItems) {
+			if (item.getType() == requiredType) {			
+				itemsOfType.add(item);
+			}
+		}
+		
+		return itemsOfType;
 	}
 	
 }
