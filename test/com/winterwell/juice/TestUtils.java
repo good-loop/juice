@@ -8,7 +8,7 @@ import org.junit.Ignore;
 
 @Ignore
 public class TestUtils {
-	// Reading HTML from file
+	// Reading HTML markup from a file
 	static String readFile(String file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 

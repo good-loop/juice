@@ -114,7 +114,7 @@ public class WordPressCommentsJuicer extends AJuicer {
 			comment.put(AJuicer.PUB_TIME, time);
 			
 		} catch (ParseException pe) {
-			
+			// We failed to parse date, so simply ignore it
 		}
 		
 	}
