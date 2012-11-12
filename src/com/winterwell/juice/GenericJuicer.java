@@ -14,9 +14,10 @@ import winterwell.utils.web.XMLNode;
 
 class GenericJuicer extends AJuicer {
 
+
 	@Override
-	void juice(Item doc) {
-		throw new TodoException();
+	void juice(JuiceMe doc) {
+		// TODO Auto-generated method stub
 	}
 
 	//		String desc = getDescription(chunk);

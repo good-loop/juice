@@ -46,7 +46,7 @@ public class Item {
 	<X> void put(Anno<X> anno) {
 //		if (value==null) return;
 		
-//		Anno<X> anno = new Anno<X>(type, value);
+//		Anno<X> anno = new Anno<X>(type, value); Now made in AJuicer with source-tag info
 		type2annotation.put(anno.name, anno);
 	}
 	

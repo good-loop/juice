@@ -12,7 +12,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
+import winterwell.utils.NotUniqueException;
 import winterwell.utils.time.Time;
+import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 /**
  * Class for extracting metadata from WordPress posts. It can extract post's tags,
@@ -28,14 +31,15 @@ import winterwell.utils.time.Time;
 public class WordPressJuicer extends AJuicer {
 
 	@Override
-	void juice(Item item) {
+	void juice(JuiceMe item) {
 		// Fail fast for non-WordPress
 		String blog = new BlogSniffer().sniff(item.getHTML());
 		if (!BlogSniffer.WORDPRESS.equals(blog)) {
 			return;
 		}
 		
-		// Dan: This looks wrong / inconsistent with what's done in MetaDataJuicer
+		// Dan: This looks inconsistent with what's done in MetaDataJuicer
+		// Also, we should not assume one post per page. A blog page often has several posts on it.
 		Item post = new Item(
 //				KMsgType.POST, 
 				item.getDoc());
@@ -72,7 +76,7 @@ public class WordPressJuicer extends AJuicer {
 			tags.add(tagName);
 		}
 				
-		post.put(new Anno<List<String>>(AJuicer.TAGS, tags, null));
+		post.put(anno(AJuicer.TAGS, tags, null));
 
 	}
 
@@ -82,7 +86,7 @@ public class WordPressJuicer extends AJuicer {
 	}
 
 	private void extractType(Item post) {
-		post.put(AJuicer.MSG_TYPE, KMsgType.POST);
+		post.put(anno(AJuicer.MSG_TYPE, KMsgType.POST, post.doc));
 	}
 
 	// Extract text body of a post
@@ -94,7 +98,7 @@ public class WordPressJuicer extends AJuicer {
 		String text = rootDiv.text();
 		text = cleanText(text);
 		
-		post.put(new Anno<String>(AJuicer.POST_BODY, text, rootDiv));
+		post.put(anno(AJuicer.POST_BODY, text, rootDiv));
 	}
 
 	String[] endings = new String[] {"About these ads", "Rate this"};
@@ -172,7 +176,7 @@ public class WordPressJuicer extends AJuicer {
 		if (!authorSpanElements.isEmpty()) {
 			Element authorSpan = authorSpanElements.get(0);
 			String authorName = authorSpan.text();
-			post.put(AJuicer.AUTHOR_NAME, authorName);
+			post.put(anno(AJuicer.AUTHOR_NAME, authorName, authorSpan));
 		}		
 		
 	}
@@ -184,13 +188,22 @@ public class WordPressJuicer extends AJuicer {
 	 * 
 	 */	
 	private void extractTitle(Item post) {
-		Element entryTitleTag = post.getDoc().getElementsByClass("entry-title").get(0);
+		// Dan: WordPress tags aren't enforced -- we have to handle the "no such tag" case
+		// TODO use a more defensive approach throughout.
+		Element entryTitleTag = one(post.getDoc().getElementsByClass("entry-title"));
+		if (entryTitleTag==null) return;
 		String title = entryTitleTag.text();
 		
-		post.put(AJuicer.TITLE, removeNBSP(title));
+		post.put(anno(AJuicer.TITLE, removeNBSP(title), entryTitleTag));
 					
 	}
 	
+
+
+	/** 
+	 * @param str
+	 * @return
+	 */
 	private String removeNBSP(String str) {
 		String cleaned = str.replace("\u00a0"," ");
 		return cleaned;

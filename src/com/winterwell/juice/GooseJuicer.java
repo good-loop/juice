@@ -22,7 +22,7 @@ import winterwell.utils.time.Time;
 public class GooseJuicer extends AJuicer {	
 
 	@Override
-	void juice(Item doc) {
+	void juice(JuiceMe doc) {
 	 Configuration configuration = new Configuration();
 	    configuration.setMinBytesForImages(4500);
 	    configuration.setLocalStoragePath("/tmp/goose");

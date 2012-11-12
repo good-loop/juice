@@ -53,8 +53,9 @@ public class MetaDataJuicer extends AJuicer {
 	// Dan: It would be better to use the Item itself to hold tags -- to allow for multi-Item pages, and multi-threaded use
 //	private Set<String> extractedTags = new HashSet<String>();
 	
+	
 	@Override
-	void juice(Item item) {		
+	void juice(JuiceMe item) {		
 		
 		// Dan: It would be better to have this as a local variable (less room for bugs)
 //		extractedTags.clear();
@@ -72,7 +73,7 @@ public class MetaDataJuicer extends AJuicer {
 				String nameValue = metaTag.attr("name");
 				if (nameValue.equals("description")) {
 					String descrValue = metaTag.attr("content");
-					item.put(new Anno(AJuicer.DESC, descrValue, metaTag));
+					item.put(anno(AJuicer.DESC, descrValue, metaTag));
 				}				
 			}
 		}
@@ -85,7 +86,7 @@ public class MetaDataJuicer extends AJuicer {
 			Elements canons = item.getDoc().getElementsByAttributeValue("rel", "canonical");
 			for (Element element : canons) {
 				String urlValue = element.attr("href");
-				item.put(new Anno(AJuicer.URL, urlValue, element));
+				item.put(anno(AJuicer.URL, urlValue, element));
 				break;
 			}
 		}
@@ -93,7 +94,9 @@ public class MetaDataJuicer extends AJuicer {
 //		saveExtractedTags(item);
 	}
 
-	// Extract Open Graph metadata from meta tag
+	
+
+	/** Extract Open Graph metadata from meta tag */
 	private void extractOG(Item doc, String propertyVal, Element metaTag) {
 		String contentVal = metaTag.attr("content");
 		Key key = propertyKeyMap.get(propertyVal);
@@ -115,7 +118,7 @@ public class MetaDataJuicer extends AJuicer {
 			if (tags==null) {
 				// Dan: Here is one place where a list of Annos would allow more flexibility
 				// -- the flexibility to record the source behind each tag. But we won't need that now, perhaps never. 
-				tags = new Anno<List<String>>(AJuicer.TAGS, new ArrayList(), null);
+				tags = anno(AJuicer.TAGS, new ArrayList(), null);
 				item.type2annotation.put(AJuicer.TAGS, tags);
 			}
 			tags.value.add(contentStr);

@@ -31,10 +31,12 @@ public class JuiceMe
 	Element doc;
 	
 	private final List<Item> extractedItems = new ArrayList<Item>();
+
+	String url;
 	
 	public JuiceMe(String url, String html) {
 		assert html != null : url;
-//		this.url = url;
+		this.url = url;
 		this.html = html;
 		this.doc = Jsoup.parse(html, url);
 	}
@@ -73,6 +75,14 @@ public class JuiceMe
 	 */
 	void addItem(Item item) {
 		extractedItems.add(item);		
+	}
+
+	public Element getDoc() {
+		return doc;
+	}
+
+	public String getURL() {
+		return url;
 	}
 
 //	/**

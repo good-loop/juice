@@ -18,15 +18,15 @@ public final class Anno<X> implements Serializable {
 	/**
 	 * ?? Does this serialize OK?
 	 */
-	private Element src;
+	Element src;
 	
 	/**
 	 * 
 	 * @param type
 	 * @param value
-	 * @param src Annotations will need some link to where they came from
-	 * -- to allow juicers to work together. This can be null if the source is
-	 * multiple tags.
+	 * @param src Annotations should have info on where they came from
+	 * -- to allow juicers to work together. But this isn't always possible.
+	 * E.g. this can be null if the source is multiple tags.
 	 */
 	public Anno(Key<X> type, X value, Element src) {
 		this.name = type;

@@ -33,7 +33,8 @@ public class Juice {
 		for (String url : args) {
 			String html = new FakeBrowser().getPage(url);
 			JuiceMe juiced = juice.juice(url, html);
-			System.out.println('"'+juiced.getTitle()+"\" by "+juiced.getAuthor()+" date:"+juiced.getPublishedTime());
+			Item item = juiced.getExtractedItems().get(0);
+			System.out.println('"'+item.getTitle()+"\" by "+item.getAuthor()+" date:"+item.getPublishedTime());
 		}
 	}
 	

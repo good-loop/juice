@@ -3,7 +3,11 @@ package com.winterwell.juice;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import winterwell.utils.Key;
+import winterwell.utils.NotUniqueException;
 import winterwell.utils.TodoException;
 import winterwell.utils.time.Time;
 
@@ -24,20 +28,17 @@ public abstract class AJuicer {
 	 * Avatar image for the author.
 	 */
 	public static final Key<String> AUTHOR_IMG = new Key("author.img");
+	
 	/**
-	 * Author contact details. You might find... email, twitter, facebook, youtube, phone-number.
-	 * Format: (canonical external ID)@(service)	<br>
-	 * For blogs, service="blogs"
-	 * For forums / message-boards, service="forums"
-	 * For other web-pages, service="web"
+	 * Author id. You might find... email, twitter, facebook, youtube, phone-number.
 	 * <p> 
-	 * This ID must be unique across the web! 
+	 * This ID must be stable (the same author will always get the same id) and unique across the web! 
 	 * <p>
 	 * On a blog, use one of:<br>
-	 *  (a) email@domain-name@blogs	(preferred if known)<br>
-	 *  (b) screen-name@domain-name@blogs	(if this is reliable, i.e. it can reliably be found for posts & comments & is unlikely to change)<br>
-	 *  (c) url-to-profile-page@blogs	<br>
-	 *  (d) name@domain-name@blogs
+	 *  (a) email@domain-name	(preferred if known)<br>
+	 *  (b) screen-name@domain-name	(if this is reliable, i.e. it can reliably be found for posts & comments & is unlikely to change)<br>
+	 *  (c) url-to-profile-page	<br>
+	 *  (d) name@domain-name
 	 *  
 	 * @see XId in Creole
 	 */
@@ -93,16 +94,18 @@ public abstract class AJuicer {
 	public static final Key<String> DESC = new Key("desc");	
 	
 	/**
-	 * Unique & stable id for the Item. Every Item should have one!<br>
-	 * Format: (canonical external ID)@(service)
+	 * Unique & stable id for the Item. Every Item should have one!
 	 * <p>
-	 * The url is often a good choice for canonical external ID. If there are multiple items on a page,
-	 * or if the url is not stable (e.g. a frontpage of site url), then use:  
+	 * The url is often a good choice for the canonical external ID -- especially the canonical url. 
+	 * <br>
+	 * If there are multiple items on a page, then only the main item (if there is one) can use the url.
+	 * The other items (e.g. comments) may have to use a generated XId<br>
+	 * Similarly, if the url is not a stable identifier (e.g. it's for the frontpage of the site), then use
+	 * a generated XId.
+	 * <p>
+	 * Generated XIds must follow a predictable pattern, such that the same item will always
+	 * generate the same XId. I suggest using:<br>
 	 *  domain + published-time + md5hash-of-text.
-	 * <p>
-	 * For blogs, service="blogs"
-	 * For forums / message-boards, service="forums"
-	 * For other web-pages, service="web"
 	 *   
 	 * @see XId in Creole
 	 */
@@ -113,7 +116,41 @@ public abstract class AJuicer {
 	 * @param html
 	 * @param pages The extractions made by this juicer.
 	 */
-	abstract void juice(Item doc);
+	abstract void juice(JuiceMe doc);
+
+	/**
+	 * Convenience method for new Anno (this will infer the generic parameter for you).
+	 * @param key
+	 * @param value
+	 * @param element Can be null. See {@link Anno#Anno(Key, Object, Element)}
+	 * @return new Anno(key, value, element)
+	 */
+	protected <V> Anno<V> anno(Key<V> key, V value, Element element) {
+		return new Anno<V>(key, value, element);
+	}
+	
+
+	/**
+	 * @param elements
+	 * @return the first element, if there is one, or null if not.
+	 * @throws NotUniqueException
+	 */
+	protected Element one(Elements elements) {
+		return one(elements, true);
+	}
+	
+	/**
+	 * @param elements
+	 * @param strict If true, 2 or more elements will create an exception.
+	 * If false, just returns the first element!
+	 * @return the first element, if there is one, or null if not.
+	 * @throws NotUniqueException
+	 */
+	protected Element one(Elements elements, boolean strict) {
+		if (elements==null || elements.isEmpty()) return null;
+		if (strict && elements.size() > 1) throw new NotUniqueException(elements.outerHtml());
+		return elements.get(0);
+	}
 
 
 }
