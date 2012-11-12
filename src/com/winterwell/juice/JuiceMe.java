@@ -7,6 +7,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import winterwell.utils.StrUtils;
+import winterwell.utils.web.WebUtils;
+
 /**
  * Internal container for document.
  * 
@@ -26,6 +29,13 @@ public class JuiceMe
 
 {
 
+	// Dan: toString methods are nice for debugging
+	public String toString() {
+		if (url!=null) return "JuiceMe["+url+"]"; 
+		if (html!=null) return "JuiceMe["+StrUtils.ellipsize(WebUtils.stripTags(html), 140)+"]";
+		return super.toString();
+	}
+	
 	String html;
 
 	Element doc;

@@ -17,6 +17,7 @@ public final class Anno<X> implements Serializable {
 
 	/**
 	 * ?? Does this serialize OK?
+	 * Can be null
 	 */
 	Element src;
 	
@@ -32,6 +33,12 @@ public final class Anno<X> implements Serializable {
 		this.name = type;
 		this.value = value;
 		this.src = src;
+	}
+	
+	// Dan: toString methods are nice for debugging
+	@Override
+	public String toString() {
+		return name+": "+value;
 	}
 	
 	/**
