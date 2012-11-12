@@ -2,6 +2,8 @@ package com.winterwell.juice;
 
 import java.io.Serializable;
 
+import org.jsoup.nodes.Element;
+
 import winterwell.utils.Key;
 import winterwell.utils.containers.IntRange;
 
@@ -12,20 +14,38 @@ import winterwell.utils.containers.IntRange;
  */
 public final class Anno<X> implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * ?? Does this serialize OK?
+	 */
+	private Element src;
 	
-	public Anno(Key type, X value) {
-		this.type = type.getName();
+	/**
+	 * 
+	 * @param type
+	 * @param value
+	 * @param src Annotations will need some link to where they came from
+	 * -- to allow juicers to work together. This can be null if the source is
+	 * multiple tags.
+	 */
+	public Anno(Key<X> type, X value, Element src) {
+		this.name = type;
 		this.value = value;
+		this.src = src;
 	}
 	
-	final String type;
+	/**
+	 * Note: This field is redundant
+	 */
+	final Key<X> name;
+	
 	final X value;
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
@@ -43,11 +63,11 @@ public final class Anno<X> implements Serializable {
 		}
 		
 		Anno other = (Anno) obj;
-		if (type == null) {
-			if (other.type != null) {
+		if (name == null) {
+			if (other.name != null) {
 				return false;
 			}
-		} else if (!type.equals(other.type)) {
+		} else if (!name.equals(other.name)) {
 			return false;
 		}
 		

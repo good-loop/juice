@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 /**
  * Internal container for document.
@@ -15,15 +16,25 @@ import org.jsoup.nodes.Document;
  * 
  * @author ivan
  */
-public class JuiceMe extends Item {
+public class JuiceMe 
+
+// extends Item 
+// Dan: I think this is a mistake, because it is unclear whether to look at the top-level JuiceMe
+// object (as MetaDataJuicer does), or the contained items (as WordPressJuicer does).
+// Also, it is 1 level (but no deeper) of a tree structure, which is a bit odd.
+// We are doing tree-structure instead via the PREVIOUS annotation (because it allows for cross-page threading).
+
+{
 
 	String html;
-		
+
+	Element doc;
+	
 	private final List<Item> extractedItems = new ArrayList<Item>();
 	
 	public JuiceMe(String url, String html) {
 		assert html != null : url;
-		this.url = url;
+//		this.url = url;
 		this.html = html;
 		this.doc = Jsoup.parse(html, url);
 	}
@@ -35,15 +46,15 @@ public class JuiceMe extends Item {
 		this.doc = Jsoup.parse(html);
 	}
 	
-	JuiceMe(Document doc) {
-		this.doc = doc;
-	}
+	// Don't expose JSoup
+//	JuiceMe(Document doc) {
+//		this.doc = doc;
+//	}
 
 	List<Item> getExtractedItems() {
 		return extractedItems;
 	}
 	
-	@Override
 	public String getHTML() {
 		if (html != null) {
 			return html;
@@ -60,21 +71,21 @@ public class JuiceMe extends Item {
 		extractedItems.add(item);		
 	}
 
-	/**
-	 * Get all items of a specified type.
-	 * @param requiredType
-	 * @return list of extracted items of a specified types or empty list
-	 */
-	public List<Item> getItemsOfType(KMsgType requiredType) {
-		List<Item> itemsOfType = new ArrayList<Item>();
-		
-		for (Item item : extractedItems) {
-			if (item.getType() == requiredType) {			
-				itemsOfType.add(item);
-			}
-		}
-		
-		return itemsOfType;
-	}
+//	/**
+//	 * Get all items of a specified type.
+//	 * @param requiredType
+//	 * @return list of extracted items of a specified types or empty list
+//	 */
+//	public List<Item> getItemsOfType(KMsgType requiredType) {
+//		List<Item> itemsOfType = new ArrayList<Item>();
+//		
+//		for (Item item : extractedItems) {
+//			if (item.getType() == requiredType) {			
+//				itemsOfType.add(item);
+//			}
+//		}
+//		
+//		return itemsOfType;
+//	}
 	
 }

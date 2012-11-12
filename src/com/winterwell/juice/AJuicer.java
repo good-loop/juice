@@ -58,7 +58,7 @@ public abstract class AJuicer {
 	public static final Key<String> URL = new Key("url");
 	
 	/**
-	 * The previous post in the thread, if there is one.
+	 * The XId for the previous post in the thread, if there is one.
 	 * E.g. in a comment thread, this might be the preceding comment (if the comment is a 
 	 * reply to that one), or it might be the top-level post (if the comment is a response
 	 * to the top level post -- this can be used as the default guess).
@@ -81,7 +81,7 @@ public abstract class AJuicer {
 	/**
 	 * Is the post labelled with tags or a category?<br> 
 	 */
-	public static final Key<String> TAGS = new Key("tags");
+	public static final Key<List<String>> TAGS = new Key("tags");
 	
 	/**
 	 * The "best" image to show as an illustration for this post.
@@ -91,6 +91,22 @@ public abstract class AJuicer {
 	 * A short summary description of the post.
 	 */
 	public static final Key<String> DESC = new Key("desc");	
+	
+	/**
+	 * Unique & stable id for the Item. Every Item should have one!<br>
+	 * Format: (canonical external ID)@(service)
+	 * <p>
+	 * The url is often a good choice for canonical external ID. If there are multiple items on a page,
+	 * or if the url is not stable (e.g. a frontpage of site url), then use:  
+	 *  domain + published-time + md5hash-of-text.
+	 * <p>
+	 * For blogs, service="blogs"
+	 * For forums / message-boards, service="forums"
+	 * For other web-pages, service="web"
+	 *   
+	 * @see XId in Creole
+	 */
+	public static final Key<String> XID = new Key("xid");
 	
 	/**
 	 * @param url

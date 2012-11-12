@@ -44,6 +44,9 @@ public class MetaDataJuicerTest {
 			add(new Anno<KMsgType>(AJuicer.MSG_TYPE, KMsgType.MISC));
 			add(new Anno<Time>(AJuicer.PUB_TIME, articleTime));
 			
+			add(new Anno<String>(AJuicer.AUTHOR_XID, "http://www.guardian.co.uk/profile/charlesarthur@web"));
+//			add(new Anno<String>(AJuicer.AUTHOR_NAME, "Charles Arthur")); would be nice; not essential
+			
 			add(new Anno<String>(AJuicer.TAGS, "Raspberry Pi"));
 			add(new Anno<String>(AJuicer.TAGS, "Computing"));
 			add(new Anno<String>(AJuicer.TAGS, "UK news"));

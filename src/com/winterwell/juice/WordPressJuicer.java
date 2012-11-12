@@ -18,6 +18,9 @@ import winterwell.utils.time.Time;
  * Class for extracting metadata from WordPress posts. It can extract post's tags,
  * text body of a post, title, link to a previous post (if exists), post creation
  * date/time and name of the author of the post. 
+ * <p>
+ * 
+ * Dan: TODO what happens if we have the home page of a blog, which has several posts on it?
  * 
  * @author ivan
  *
@@ -32,7 +35,10 @@ public class WordPressJuicer extends AJuicer {
 			return;
 		}
 		
-		Item post = new Item(KMsgType.POST, item.getDoc());
+		// Dan: This looks wrong / inconsistent with what's done in MetaDataJuicer
+		Item post = new Item(
+//				KMsgType.POST, 
+				item.getDoc());
 
 		extractTags(post);
 		extractRating(post);
@@ -56,15 +62,17 @@ public class WordPressJuicer extends AJuicer {
 
 		Elements tagElements = post.getDoc().getElementsByAttributeValueEnding("rel",
 				"tag");
-
+		List<String> tags = new ArrayList();
+		
 		for (Element tagElement : tagElements) {
 			String tagName = tagElement.text();
-			Anno<String> annotation = new Anno<String>(AJuicer.TAGS,
-					tagName);
-			tagAnnotations.add(annotation);
+//			Anno<String> annotation = new Anno<String>(AJuicer.TAGS,
+//					tagName);
+//			tagAnnotations.add(annotation);
+			tags.add(tagName);
 		}
-
-		post.type2annotation.addAll(AJuicer.TAGS, tagAnnotations);
+				
+		post.put(new Anno<List<String>>(AJuicer.TAGS, tags, null));
 
 	}
 
@@ -86,7 +94,7 @@ public class WordPressJuicer extends AJuicer {
 		String text = rootDiv.text();
 		text = cleanText(text);
 		
-		post.put(AJuicer.POST_BODY, text);
+		post.put(new Anno<String>(AJuicer.POST_BODY, text, rootDiv));
 	}
 
 	String[] endings = new String[] {"About these ads", "Rate this"};
@@ -223,29 +231,36 @@ public class WordPressJuicer extends AJuicer {
 
 	WordPressCommentsJuicer commentsJuicer = new WordPressCommentsJuicer();
 	
+	/**
+	 * Dan: TODO please document
+	 * 
+	 * @param juiceMe
+	 * @param commentElements
+	 * @param prevURL
+	 */
 	private void extractComments(JuiceMe juiceMe, Elements commentElements, String prevURL) {
-		if (commentElements != null) {
-		
+		if (commentElements == null) return; // Dan: avoid nesting when you can		
 			
-			for (Element commentElement : commentElements) {
-				Item comment = new Item(KMsgType.COMMENT, commentElement);
-				commentsJuicer.juice(comment);
-				juiceMe.addItem(comment);							
-				
-				if (prevURL != null) {
-					comment.put(AJuicer.PREVIOUS, prevURL);
-				}
+		for (Element commentElement : commentElements) {
+			Item comment = new Item(
+					//KMsgType.COMMENT, 
+					commentElement);
+			commentsJuicer.juice(comment);
+			juiceMe.addItem(comment);							
 			
-				if (hasReply(commentElement)) {
-					String currentCommentURL = comment.getSingleAnnotation(AJuicer.URL).value;
-					
-					Elements replyCommentElements = getReplyCommentElement(comment.getDoc());
-					
-					extractComments(juiceMe, replyCommentElements, currentCommentURL);			
-				}
-							
+			if (prevURL != null) {
+				comment.put(AJuicer.PREVIOUS, prevURL);
 			}
-		}
+		
+			if (hasReply(commentElement)) {
+				String currentCommentURL = comment.getAnnotation(AJuicer.URL).value;
+				
+				Elements replyCommentElements = getReplyCommentElement(comment.getDoc());
+				
+				extractComments(juiceMe, replyCommentElements, currentCommentURL);			
+			}
+						
+		}		
 	}
 
 	/**

@@ -50,13 +50,16 @@ public class MetaDataJuicer extends AJuicer {
 		add("video.other");
 	}};
 	
-	private Set<String> extractedTags = new HashSet<String>();
+	// Dan: It would be better to use the Item itself to hold tags -- to allow for multi-Item pages, and multi-threaded use
+//	private Set<String> extractedTags = new HashSet<String>();
 	
 	@Override
 	void juice(Item item) {		
 		
-		extractedTags.clear();
+		// Dan: It would be better to have this as a local variable (less room for bugs)
+//		extractedTags.clear();
 		
+		// TODO what if there are multiple items within a page? 
 		Elements metaTags = item.getDoc().getElementsByTag("meta");
 		
 		for (Element metaTag : metaTags) {
@@ -69,25 +72,25 @@ public class MetaDataJuicer extends AJuicer {
 				String nameValue = metaTag.attr("name");
 				if (nameValue.equals("description")) {
 					String descrValue = metaTag.attr("content");
-					item.put(AJuicer.DESC, descrValue);
+					item.put(new Anno(AJuicer.DESC, descrValue, metaTag));
 				}				
 			}
 		}
 		
 		// If no URL was extracted from Open Graph metadata, extract
 		// canonical URL
-		List<Anno> urlAnnos = item.type2annotation.get(AJuicer.URL);
-		if (urlAnnos == null) {
+		Anno<String> urlAnno = item.getAnnotation(AJuicer.URL);
+		if (urlAnno == null) {
 		
 			Elements canons = item.getDoc().getElementsByAttributeValue("rel", "canonical");
 			for (Element element : canons) {
 				String urlValue = element.attr("href");
-				item.put(AJuicer.URL, urlValue);
+				item.put(new Anno(AJuicer.URL, urlValue, element));
 				break;
 			}
 		}
 		
-		saveExtractedTags(item);
+//		saveExtractedTags(item);
 	}
 
 	// Extract Open Graph metadata from meta tag
@@ -96,19 +99,26 @@ public class MetaDataJuicer extends AJuicer {
 		Key key = propertyKeyMap.get(propertyVal);
 		
 		if (key != null) {
-			saveValue(doc, key, contentVal);
+			saveValue(doc, key, contentVal, metaTag);
 		}
 		
 	}
 	
 	private SimpleDateFormat dataFormater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-	private void saveValue(Item item, Key key, String contentStr) {
+	private void saveValue(Item item, Key key, String contentStr, Element srcTag) {
 		Object value = null;
 		
 		// We store all tags at once
 		if (key == AJuicer.TAGS) {
-			extractedTags.add(contentStr);
+			Anno<List<String>> tags = item.getAnnotation(AJuicer.TAGS);
+			if (tags==null) {
+				// Dan: Here is one place where a list of Annos would allow more flexibility
+				// -- the flexibility to record the source behind each tag. But we won't need that now, perhaps never. 
+				tags = new Anno<List<String>>(AJuicer.TAGS, new ArrayList(), null);
+				item.type2annotation.put(AJuicer.TAGS, tags);
+			}
+			tags.value.add(contentStr);
 			return;
 		}
 		
@@ -135,21 +145,22 @@ public class MetaDataJuicer extends AJuicer {
 		
 		// If value was extracted store this value
 		if (value != null) {
-			item.put(key, value);
+			item.put(new Anno(key, value, srcTag));
 		}
 	}
 
-	// Save all extracted tags
-	private void saveExtractedTags(Item item) {
-		List<Anno> tagAnnotations = new ArrayList<Anno>();
-		
-		for (String tag : extractedTags) {
-			Anno<String> anno = new Anno<String>(AJuicer.TAGS, tag);
-			tagAnnotations.add(anno);
-		}
-		
-		item.type2annotation.addAll(AJuicer.TAGS, tagAnnotations);
-		
-	}
+//	// Save all extracted tags
+//	// TODO Instead, use item.
+//	private void saveExtractedTags(Item item) {
+//		List<Anno> tagAnnotations = new ArrayList<Anno>();
+//		
+//		for (String tag : extractedTags) {
+//			Anno<String> anno = new Anno<String>(AJuicer.TAGS, tag);
+//			tagAnnotations.add(anno);
+//		}
+//		
+//		item.type2annotation.addAll(AJuicer.TAGS, tagAnnotations);
+//		
+//	}
 
 }

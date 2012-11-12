@@ -329,10 +329,10 @@ public class WordPressJuicerTest {
 		
 		List<Anno> annotations = posts.get(0).getAnnotations(); 
 		
-		Set<X> extractedValues = new HashSet<>();
+		Set<X> extractedValues = new HashSet();
 		
 		for (Anno<X> annotation : annotations) {
-			if (annotation.type.equals(key.getName())) {
+			if (annotation.name.equals(key.getName())) {
 				extractedValues.add(annotation.value);
 			}
 		}
