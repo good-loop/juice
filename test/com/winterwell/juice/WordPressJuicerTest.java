@@ -16,6 +16,35 @@ import winterwell.utils.time.Time;
 
 public class WordPressJuicerTest {
 
+	@Test
+	public void testBlogHomePage() throws Exception {
+		String htmlFileName = "sampleWordPressHomePage.html";		
+				
+		String filePath = testDirectoryPrefix + htmlFileName;
+		String html = TestUtils.readFile(filePath);
+		
+		JuiceMe document = new JuiceMe(html);		
+		
+		WordPressJuicer wpj = new WordPressJuicer();		
+		
+		wpj.juice(document);
+		
+		List<Item> posts = document.getExtractedItems();
+		
+		List<Anno> annotations = posts.get(0).getAnnotations(); 
+		
+		Set<X> extractedValues = new HashSet();
+		
+		for (Anno<X> annotation : annotations) {
+			if (annotation.name.equals(key.getName())) {
+				extractedValues.add(annotation.value);
+			}
+		}
+		
+		assertEquals(expectedValues, extractedValues);
+	}
+	
+	
 	// Title extraction tests
 	
 	@Test

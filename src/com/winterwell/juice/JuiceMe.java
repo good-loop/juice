@@ -51,7 +51,11 @@ public class JuiceMe
 //		this.doc = doc;
 //	}
 
-	List<Item> getExtractedItems() {
+	/**
+	 * 
+	 * @return the items found in this page
+	 */
+	public List<Item> getExtractedItems() {
 		return extractedItems;
 	}
 	
@@ -67,7 +71,7 @@ public class JuiceMe
 	 * Add item extracted from a document
 	 * @param item
 	 */
-	public void addItem(Item item) {
+	void addItem(Item item) {
 		extractedItems.add(item);		
 	}
 
