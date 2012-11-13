@@ -210,6 +210,10 @@ public class WordPressJuicer extends AJuicer {
 	}
 	
 	/**
+	 * FIXME the example below shows blog-navigation next/previous.
+	 * This is not the same as threading. The 2 posts described below are not threaded together.
+	 * Threading in blogs only occurs in the comment stream.  
+	 * 
 	 * Extracting URL to previous post from the following markup:
 	 * <div id="nav-below" class="navigation">
 	 *     <div class="nav-previous">
@@ -227,6 +231,7 @@ public class WordPressJuicer extends AJuicer {
 	 * </div><!-- #nav-below -->
 	 */
 	private void extractPrevPost(Item post) {
+		Dan: This method may not be needed -- see javadoc comments above
 		// Search for navigation bar
 		Elements prevNavElements =post.getDoc().getElementsByClass("nav-previous");
 		if (!prevNavElements.isEmpty()) {
