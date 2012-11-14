@@ -230,8 +230,8 @@ public class WordPressJuicer extends AJuicer {
 	 *     </div>
 	 * </div><!-- #nav-below -->
 	 */
-	private void extractPrevPost(Item post) {
-		Dan: This method may not be needed -- see javadoc comments above
+	/*private void extractPrevPost(Item post) {
+		// Dan: This method may not be needed -- see javadoc comments above
 		// Search for navigation bar
 		Elements prevNavElements =post.getDoc().getElementsByClass("nav-previous");
 		if (!prevNavElements.isEmpty()) {
@@ -245,26 +245,28 @@ public class WordPressJuicer extends AJuicer {
 				post.put(AJuicer.PREVIOUS, prevPostURL);
 			}
 		}
-	}
+	}*/
 
 	WordPressCommentsJuicer commentsJuicer = new WordPressCommentsJuicer();
 	
 	/**
 	 * Dan: TODO please document
 	 * 
-	 * @param juiceMe
+	 * @param document
 	 * @param commentElements
 	 * @param prevURL
 	 */
-	private void extractComments(JuiceMe juiceMe, Elements commentElements, String prevURL) {
-		if (commentElements == null) return; // Dan: avoid nesting when you can		
+	private void extractComments(JuiceMe document, Elements commentElements, String prevURL) {		
 			
 		for (Element commentElement : commentElements) {
+			
+			JuiceMe commentDocument = new JuiceMe(document.getURL(), commentElement);
+			
 			Item comment = new Item(
 					//KMsgType.COMMENT, 
 					commentElement);
 			commentsJuicer.juice(comment);
-			juiceMe.addItem(comment);							
+			document.addItem(comment);							
 			
 			if (prevURL != null) {
 				comment.put(AJuicer.PREVIOUS, prevURL);
@@ -275,7 +277,9 @@ public class WordPressJuicer extends AJuicer {
 				
 				Elements replyCommentElements = getReplyCommentElement(comment.getDoc());
 				
-				extractComments(juiceMe, replyCommentElements, currentCommentURL);			
+				if (replyCommentElements != null) {
+					extractComments(document, replyCommentElements, currentCommentURL);
+				}
 			}
 						
 		}		

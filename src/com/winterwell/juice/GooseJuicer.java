@@ -32,20 +32,23 @@ public class GooseJuicer extends AJuicer {
 		Article article = goose.extractContent(doc.getURL(), doc.getHTML());
 //		System.out.println(article);
 		
+		Item item = new Item(doc.getDoc());
+		
+		
 		String cleanText = article.cleanedArticleText();
-		doc.put(POST_BODY, cleanText);
+		item.put(anno(POST_BODY, cleanText, null));
 		
 		String title = article.title();
-		doc.putIfAbsent(TITLE, title);
+		item.putIfAbsent(anno(TITLE, title, null));
 		
 		String uri = article.canonicalLink();
-		doc.put(URL, uri);
+		item.put(anno(URL, uri, null));
 		
 		String desc = article.metaDescription();
-		doc.putIfAbsent(DESC, desc);
+		item.putIfAbsent(anno(DESC, desc, null));
 		
 		if (article.publishDate()!=null) {
-			doc.putIfAbsent(PUB_TIME, new Time(article.publishDate()));
+			item.putIfAbsent(anno(PUB_TIME, new Time(article.publishDate()), null));
 		}
 	}
 

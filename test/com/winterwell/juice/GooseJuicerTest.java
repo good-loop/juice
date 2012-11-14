@@ -23,17 +23,17 @@ public class GooseJuicerTest {
 		JuiceMe doc = new JuiceMe(url, html);
 				
 		pj.juice(doc);
-		List<Anno> annos = doc.getAnnotations();
+		Item extractedItem = doc.getExtractedItems().get(0);
 		
-		System.out.println(annos);
+		System.out.println(extractedItem.getAnnotations());
 		
-		System.out.println(doc.getTitle()+" by "+doc.getAuthor()+" on "+doc.getPublishedTime());
+		System.out.println(extractedItem.getTitle()+" by "+extractedItem.getAuthor()+" on "+extractedItem.getPublishedTime());		
 		
-		assert ! Utils.isBlank(doc.getAuthor());
-		assert ! Utils.isBlank(doc.getTitle());		
+		assert ! Utils.isBlank(extractedItem.getAuthor());
+		assert ! Utils.isBlank(extractedItem.getTitle());		
 		
-		assert TimeUtils.equalish(doc.getPublishedTime(),
-									new Time(2012, 2, 29), TUnit.DAY) : doc.getPublishedTime();
+		assert TimeUtils.equalish(extractedItem.getPublishedTime(),
+									new Time(2012, 2, 29), TUnit.DAY) : extractedItem.getPublishedTime();
 	}
 	
 
@@ -46,10 +46,10 @@ public class GooseJuicerTest {
 		JuiceMe doc = new JuiceMe(url, html);
 		
 		pj.juice(doc);
-		List<Anno> annos = doc.getAnnotations();
+		Item extractedItem = doc.getExtractedItems().get(0);
 		
-		System.out.println(doc.getTitle()+" by "+doc.getAuthor()+" on "+doc.getPublishedTime());
-		System.out.println(doc.getText());
+		System.out.println(extractedItem.getTitle()+" by "+extractedItem.getAuthor()+" on "+extractedItem.getPublishedTime());
+		System.out.println(extractedItem.getText());
 	}
 
 }

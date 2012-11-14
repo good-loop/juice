@@ -33,6 +33,7 @@ public class MetaDataJuicer extends AJuicer {
 		put("og:image", AJuicer.IMAGE_URL);
 		put("og:type", AJuicer.MSG_TYPE);
 		put("og:description", AJuicer.DESC);
+		put("article:author", AJuicer.AUTHOR_XID);
 		
 		put("article:published_time", AJuicer.PUB_TIME);
 					
@@ -50,18 +51,15 @@ public class MetaDataJuicer extends AJuicer {
 		add("video.other");
 	}};
 	
-	// Dan: It would be better to use the Item itself to hold tags -- to allow for multi-Item pages, and multi-threaded use
-//	private Set<String> extractedTags = new HashSet<String>();
-	
 	
 	@Override
-	void juice(JuiceMe item) {		
+	void juice(JuiceMe document) {
 		
-		// Dan: It would be better to have this as a local variable (less room for bugs)
-//		extractedTags.clear();
+		Item item = new Item(document.getDoc());
+		document.addItem(item);
 		
 		// TODO what if there are multiple items within a page? 
-		Elements metaTags = item.getDoc().getElementsByTag("meta");
+		Elements metaTags = document.getDoc().getElementsByTag("meta");
 		
 		for (Element metaTag : metaTags) {
 			// Check if it is metadata if Open Graph format
@@ -83,7 +81,7 @@ public class MetaDataJuicer extends AJuicer {
 		Anno<String> urlAnno = item.getAnnotation(AJuicer.URL);
 		if (urlAnno == null) {
 		
-			Elements canons = item.getDoc().getElementsByAttributeValue("rel", "canonical");
+			Elements canons = document.getDoc().getElementsByAttributeValue("rel", "canonical");
 			for (Element element : canons) {
 				String urlValue = element.attr("href");
 				item.put(anno(AJuicer.URL, urlValue, element));
@@ -91,10 +89,7 @@ public class MetaDataJuicer extends AJuicer {
 			}
 		}
 		
-//		saveExtractedTags(item);
-	}
-
-	
+	}	
 
 	/** Extract Open Graph metadata from meta tag */
 	private void extractOG(Item doc, String propertyVal, Element metaTag) {
@@ -142,6 +137,8 @@ public class MetaDataJuicer extends AJuicer {
 			} else {
 				value = KMsgType.MISC;
 			} 
+		} else if (key == AJuicer.AUTHOR_XID) {
+			value = contentStr += "@web";
 		} else {
 			value = contentStr;
 		}
@@ -151,19 +148,5 @@ public class MetaDataJuicer extends AJuicer {
 			item.put(new Anno(key, value, srcTag));
 		}
 	}
-
-//	// Save all extracted tags
-//	// TODO Instead, use item.
-//	private void saveExtractedTags(Item item) {
-//		List<Anno> tagAnnotations = new ArrayList<Anno>();
-//		
-//		for (String tag : extractedTags) {
-//			Anno<String> anno = new Anno<String>(AJuicer.TAGS, tag);
-//			tagAnnotations.add(anno);
-//		}
-//		
-//		item.type2annotation.addAll(AJuicer.TAGS, tagAnnotations);
-//		
-//	}
 
 }

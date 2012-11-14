@@ -19,7 +19,10 @@ import winterwell.utils.time.Time;
 public class WordPressCommentsJuicer extends AJuicer {
 
 	@Override
-	void juice(Item comment) {
+	void juice(JuiceMe commentDoc) {
+		Item comment = new Item();
+		comment.put(anno(AJuicer.MSG_TYPE, KMsgType.COMMENT, null));
+		
 		extractText(comment);
 		extractAuthorMetadata(comment);
 		extractPostMetadata(comment);
@@ -28,10 +31,11 @@ public class WordPressCommentsJuicer extends AJuicer {
 	
 	private void extractText(Item comment) {
 		Elements commentContentElements = comment.getDoc().getElementsByClass("comment-content");
-		if (!commentContentElements.isEmpty()) {
-			String commentText = commentContentElements.first().text();
-			comment.put(AJuicer.POST_BODY, commentText);
-		}
+		Element commentElement = one(commentContentElements, true);
+		
+		String commentText = commentElement.text();
+		comment.put(anno(AJuicer.POST_BODY, commentText, commentElement));
+		
 		
 	}
 	
@@ -67,11 +71,11 @@ public class WordPressCommentsJuicer extends AJuicer {
 		Element nameElement = authorElement.getElementsByClass("fn").first();
 		
 		String authorName = nameElement.text();
-		comment.put(AJuicer.AUTHOR_NAME, authorName);
+		comment.put(anno(AJuicer.AUTHOR_NAME, authorName, authorElement));
 		
 		Element imageElement = authorElement.getElementsByTag("img").first();
 		String avatarURL = imageElement.attr("src");
-		comment.put(AJuicer.AUTHOR_IMG, avatarURL);
+		comment.put(anno(AJuicer.AUTHOR_IMG, avatarURL, imageElement));
 		
 		
 		
@@ -104,14 +108,14 @@ public class WordPressCommentsJuicer extends AJuicer {
 		
 		Element commentURL = commentMetaElement.getElementsByTag("a").first();		
 		String commentURLStr = commentURL.attr("href");
-		comment.put(AJuicer.URL, commentURLStr);
+		comment.put(anno(AJuicer.URL, commentURLStr, commentURL));
 		
 		try {
 		
 			String timeText = commentURL.text();
 			Date parsedDate = dateFormat.parse(timeText);
 			Time time = new Time(parsedDate);
-			comment.put(AJuicer.PUB_TIME, time);
+			comment.put(anno(AJuicer.PUB_TIME, time, commentURL));
 			
 		} catch (ParseException pe) {
 			// We failed to parse date, so simply ignore it

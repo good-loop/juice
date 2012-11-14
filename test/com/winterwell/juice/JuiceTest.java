@@ -51,13 +51,14 @@ public class JuiceTest {
 		Juice pj = new Juice();
 		
 		JuiceMe doc = pj.juice(url, html);
+		Item extractedItem = doc.getExtractedItems().get(0);
 		
-		System.out.println(doc);
-		assert doc.getTitle().equals("Demand for Raspberry Pi, the British £22 computer, crashes website") : doc.getTitle();
+		System.out.println(extractedItem);
+		assert extractedItem.getTitle().equals("Demand for Raspberry Pi, the British £22 computer, crashes website") : extractedItem.getTitle();
 		
-		assert ! Utils.isBlank(doc.getAuthor()) : doc.getExtractedItems();		
-		assert TimeUtils.equalish(doc.getPublishedTime(),
-									new Time(2012, 2, 29), TUnit.DAY) : doc.getPublishedTime();
+		assert ! Utils.isBlank(extractedItem.getAuthor()) : extractedItem.getAnnotations();		
+		assert TimeUtils.equalish(extractedItem.getPublishedTime(),
+									new Time(2012, 2, 29), TUnit.DAY) : extractedItem.getPublishedTime();
 	}
 
 }

@@ -37,12 +37,10 @@ public class JuiceMe
 	}
 	
 	String html;
-
+	String url;
 	Element doc;
 	
-	private final List<Item> extractedItems = new ArrayList<Item>();
-
-	String url;
+	private final List<Item> extractedItems = new ArrayList<Item>();	
 	
 	public JuiceMe(String url, String html) {
 		assert html != null : url;
@@ -62,6 +60,12 @@ public class JuiceMe
 //	JuiceMe(Document doc) {
 //		this.doc = doc;
 //	}
+
+	public JuiceMe(String url, Element element) {
+		this.url = url;
+		this.doc = element;
+		
+	}
 
 	/**
 	 * 
