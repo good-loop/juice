@@ -1,15 +1,18 @@
 package com.winterwell.juice;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.validation.constraints.AssertFalse;
 
 import org.junit.Test;
 
@@ -18,34 +21,107 @@ import winterwell.utils.time.Time;
 
 public class WordPressJuicerTest {
 
-	/*@Test
-	public void testBlogHomePage() throws Exception {
-		String htmlFileName = "sampleWordPressHomePage.html";		
+	/// Check if WordPress juicer can extract multiple pages
+	
+	@Test
+	public void testBlogHomePagePostsNames() throws Exception {
+		String htmlFileName = "CppBlog.html";		
 				
 		String filePath = testDirectoryPrefix + htmlFileName;
 		String html = TestUtils.readFile(filePath);
 		
 		JuiceMe document = new JuiceMe(html);		
 		
-		WordPressJuicer wpj = new WordPressJuicer();		
-		
+		WordPressJuicer wpj = new WordPressJuicer();
 		wpj.juice(document);
 		
-		List<Item> posts = document.getExtractedItems();
+		// Tags of the first post
+		final ArrayList<String> post1Tags = new ArrayList<String>() {{
+			add("programming");
+			add("C++11");
+			add("correctness");
+			add("exception handling");
+			add("resource handling");
+		}};
 		
-		Collection<Anno> annotations = posts.get(0).getAnnotations();
+		// Values of annotations for the first post
+		final HashMap<Key, Object> post1 = new HashMap<Key, Object>() {{
+			put(AJuicer.TITLE, "(Not) using std::thread");
+			put(AJuicer.PUB_TIME, createTime(2012, 10, 14, 22, 37));
+			put(AJuicer.TAGS, post1Tags);
+		}};
 		
-		Set extractedValues = new HashSet();
+		// Tags for the second post
+		final ArrayList<String> post2Tags = new ArrayList<String>() {{
+			add("programming");
+			add("C++11");
+			add("correctness");
+		}};
 		
-		for (Anno annotation : annotations) {
-			if (annotation.name.equals(key.getName())) {
-				extractedValues.add(annotation.value);
+		// Values of annotations for the second post
+		final HashMap<Key, Object> post2 = new HashMap<Key, Object>() {{
+			put(AJuicer.TITLE, "User-defined literals — Part III");
+			put(AJuicer.PUB_TIME, createTime(2012, 9, 29, 21, 6));
+			put(AJuicer.TAGS, post2Tags);
+		}};
+		
+		// Tags of the third post
+		final ArrayList<String> post3Tags = new ArrayList<String>() {{
+			add("programming");
+			add("C++11");
+			add("correctness");
+		}};
+		
+		// Values of annotations for the third post
+		final HashMap<Key, Object> post3 = new HashMap<Key, Object>() {{
+			put(AJuicer.TITLE, "User-defined literals — Part II");
+			put(AJuicer.PUB_TIME, createTime(2012, 9, 23, 8, 51));
+			put(AJuicer.TAGS, post3Tags);
+		}};
+		
+		// Store post annotation values
+		ArrayList<HashMap<Key, Object>> expected = new ArrayList<HashMap<Key, Object>>() {{
+			add(post1);
+			add(post2);
+			add(post3);
+		}};
+		
+		for (HashMap<Key, Object> post : expected) {
+			// Get post with the required name
+			String postTitle = (String) post.get(AJuicer.TITLE);
+			Item resultPost = getPostWithTitle(postTitle, document);
+			
+			// Compare annotation values
+			for (Key key : post.keySet()) {
+				Object expectedValue = post.get(key);
+				Object extractedValue = resultPost.getAnnotation(key).value;
+				
+				assertEquals(expectedValue, extractedValue);
+			}
+		}
+	}
+	
+	private Item getPostWithTitle(String expectedTitle, JuiceMe document) {
+		Collection<Item> posts = document.getItemsOfType(KMsgType.POST);
+		
+		for (Item post : posts) {
+			String title = post.getAnnotation(AJuicer.TITLE).value;
+			if (expectedTitle.equals(title)) {
+				return post;
 			}
 		}
 		
-		assertEquals(expectedValues, extractedValues);
-	}*/
-	
+		assertFalse("No post found with title: " + expectedTitle, true);
+		return null;
+	}
+
+	private Object createTime(int year, int month, int day, int hour, int minute) {
+		Calendar calendar = new GregorianCalendar();
+		calendar.set(year, month, day, hour, minute, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+				
+		return new Time(calendar);
+	}
 	
 	// Title extraction tests
 	
