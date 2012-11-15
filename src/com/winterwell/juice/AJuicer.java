@@ -22,6 +22,14 @@ public abstract class AJuicer {
 	 * The text of an article.
 	 */
 	public static final Key<String> POST_BODY = new Key("postBody");
+	
+	/**
+	 * Part of the text of an article. Use case: If we're juicing the home-page of a
+	 * blog, it will often have several article snippets, giving the first 1 or two paragraphs
+	 * but not the whole body-text. 
+	 */
+	public static final Key<String> POST_BODY_PART = new Key("postBodyPart");
+	
 	public static final Key<String> TITLE = new Key("title");
 	public static final Key<String> AUTHOR_NAME = new Key("author.name");
 	/**
