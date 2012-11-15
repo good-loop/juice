@@ -104,6 +104,10 @@ public class WordPressJuicer extends AJuicer {
 		text = cleanText(text);
 		
 		post.put(anno(AJuicer.POST_BODY, text, rootDiv));
+		
+		Element firstParagraphElement = Utils.getFirstParagraphElement(rootDiv);
+		String firstParagraph = Utils.extractFirstParagraph(firstParagraphElement);
+		post.put(anno(AJuicer.POST_BODY_PART, firstParagraph, firstParagraphElement));
 	}
 
 	String[] endings = new String[] {"About these ads", "Rate this"};
@@ -204,11 +208,10 @@ public class WordPressJuicer extends AJuicer {
 					
 	}
 	
-
-
 	/** 
-	 * @param str
-	 * @return
+	 * Remove no-break space from the string
+	 * @param str - string to clean 
+	 * @return original string without no-break spaces
 	 */
 	private String removeNBSP(String str) {
 		String cleaned = str.replace("\u00a0"," ");
@@ -256,11 +259,16 @@ public class WordPressJuicer extends AJuicer {
 	
 	
 	/**
-	 * Dan: TODO please document
+	 * Extracting comments from a post. Real extracting of metadata is done in
+	 * WordPressCommentsJuicer, this method, just finds comments on page and
+	 * stores them to document.
 	 * 
 	 * @param document
-	 * @param commentElements
-	 * @param prevURL
+	 * @param commentElements - elements of "root" comments that are not replies
+	 * to any other comments
+	 * @param prevItem - item with the previously extracted comment
+	 * @param prevMap - store previous relations between comments. Key is a reply,
+	 * value is a previous comment.
 	 */
 	private void extractComments(JuiceMe document, Elements commentElements, Item prevItem, Map<Item, Item> prevMap) {		
 			
@@ -271,14 +279,14 @@ public class WordPressJuicer extends AJuicer {
 			document.addItem(comment);							
 			
 			if (prevItem != null) {
-				prevMap.put(comment, prevItem);
-				
+				prevMap.put(comment, prevItem);				
 			}
 		
+			// Adding replies
 			if (hasReply(commentElement)) {
 				
 				Elements replyCommentElements = getReplyCommentElement(comment.getDoc());
-				
+				// Add replies for this comment
 				if (replyCommentElements != null) {
 					extractComments(document, replyCommentElements, comment, prevMap);
 				}
