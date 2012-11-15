@@ -2,6 +2,7 @@ package com.winterwell.juice;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 
 import org.jsoup.nodes.Element;
@@ -20,18 +21,24 @@ public class WordPressCommentsJuicer extends AJuicer {
 
 	@Override
 	void juice(JuiceMe commentDoc) {
-		Item comment = new Item();
-		comment.put(anno(AJuicer.MSG_TYPE, KMsgType.COMMENT, null));
+		Collection<Item> commentItems = commentDoc.getItemsOfType(KMsgType.COMMENT);
 		
-		extractText(comment);
-		extractAuthorMetadata(comment);
-		extractPostMetadata(comment);
+		for (Item commentItem : commentItems) {		
+			extractText(commentItem);
+			extractAuthorMetadata(commentItem);
+			extractPostMetadata(commentItem);
+		}
 	}
 
 	
 	private void extractText(Item comment) {
-		Elements commentContentElements = comment.getDoc().getElementsByClass("comment-content");
-		Element commentElement = one(commentContentElements, true);
+		Elements commentContentElements = comment.getDoc().getElementsByClass("comment-body");
+		
+		if (commentContentElements.isEmpty()) {
+			commentContentElements = comment.getDoc().getElementsByClass("comment-content");
+		}
+		
+		Element commentElement = commentContentElements.first();
 		
 		String commentText = commentElement.text();
 		comment.put(anno(AJuicer.POST_BODY, commentText, commentElement));

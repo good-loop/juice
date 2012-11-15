@@ -84,16 +84,17 @@ public class Item {
 		return a == null ? null : (String) a.value;
 	}
 	
+	public KMsgType getType() {
+		Anno a = type2annotation.get(AJuicer.MSG_TYPE);
+		return a == null ? null : (KMsgType) a.value;
+	}
+	
 	/**
 	 * Get all extracted annotaions.
-	 * @return list of all extracted annotation for this item. If no annotations
-	 * were extracted returns empty list.
+	 * @return collection of all extracted annotation for this item. If no annotations
+	 * were extracted returns empty collection.
 	 */
 	public Collection<Anno> getAnnotations() {
-//		List<Anno> resultAnnotations = new ArrayList<Anno>();
-//		for (List<Anno> value : type2annotation.values()) {
-//			resultAnnotations.addAll(value);
-//		}
 		
 		return type2annotation.values(); // resultAnnotations;
 	}

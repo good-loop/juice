@@ -6,16 +6,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
-import winterwell.utils.NotUniqueException;
 import winterwell.utils.time.Time;
-import winterwell.utils.web.WebUtils;
-import winterwell.utils.web.WebUtils2;
 
 /**
  * Class for extracting metadata from WordPress posts. It can extract post's tags,
@@ -31,36 +30,42 @@ import winterwell.utils.web.WebUtils2;
 public class WordPressJuicer extends AJuicer {
 
 	@Override
-	void juice(JuiceMe item) {
+	void juice(JuiceMe document) {
 		// Fail fast for non-WordPress
-		String blog = new BlogSniffer().sniff(item.getHTML());
+		String blog = new BlogSniffer().sniff(document.getHTML());
 		if (!BlogSniffer.WORDPRESS.equals(blog)) {
 			return;
 		}
 		
-		// Dan: This looks inconsistent with what's done in MetaDataJuicer
-		// Also, we should not assume one post per page. A blog page often has several posts on it.
-		Item post = new Item(
-//				KMsgType.POST, 
-				item.getDoc());
-
-		extractTags(post);
-		extractRating(post);
-		extractPostBody(post);
-		extractMetadata(post);
-		extractTitle(post);
-		extractPrevPost(post);
-
-		JuiceMe juiceMe = (JuiceMe) item;
-		juiceMe.addItem(post);
+		Elements postElements = document.getDoc().getElementsByClass("post");
 		
-		Elements commentElements = getCommentElements(item);
+		for (Element postElement : postElements) {
+			Item postItem = new Item(postElement);
+			postItem.put(anno(AJuicer.MSG_TYPE, KMsgType.POST, postElement));
+			
+			extractTags(postItem);
+			extractRating(postItem);
+			extractPostBody(postItem);
+			extractMetadata(postItem);
+			extractTitle(postItem);
+			
+			document.addItem(postItem);
+		}
 		
-		extractComments(juiceMe, commentElements, null);
+		Elements commentElements = getCommentElements(document.getDoc());
+		
+		if (commentElements != null) {
+			Map<Item, Item> prevMap = new HashMap<Item, Item>();
+			
+			extractComments(document, commentElements, null, prevMap);
+			
+			WordPressCommentsJuicer commentsJuicer = new WordPressCommentsJuicer();
+			commentsJuicer.juice(document);
+			savePrevRelations(prevMap);
+		}
+		
 	}
-
 	
-
 	private void extractTags(Item post) {
 		List<Anno<String>> tagAnnotations = new ArrayList<Anno<String>>();
 
@@ -137,12 +142,13 @@ public class WordPressJuicer extends AJuicer {
 	 *     </span>
 	 */
 	private void extractMetadata(Item post) {
-		Element metadataElement = post.getDoc().getElementsByClass("entry-meta").get(0);
+		Element metadataElement = post.getDoc().getElementsByClass("entry-meta").get(0);		
+		Element dateElement = metadataElement.getElementsByClass("entry-date").get(0);
 		
 		Calendar calendar = null;
 		try {
 			// Extract posting date
-			Element dateElement = metadataElement.getElementsByClass("entry-date").get(0);
+			
 			String dateText = dateElement.text();
 			Date date = dateFormat.parse(dateText);
 			
@@ -168,7 +174,7 @@ public class WordPressJuicer extends AJuicer {
 			calendar.set(Calendar.MILLISECOND, 0);
 			
 			Time publicationTime = new Time(calendar);
-			post.put(AJuicer.PUB_TIME, publicationTime);
+			post.put(anno(AJuicer.PUB_TIME, publicationTime, dateElement));
 		}
 		
 		// Extract author's name
@@ -247,7 +253,7 @@ public class WordPressJuicer extends AJuicer {
 		}
 	}*/
 
-	WordPressCommentsJuicer commentsJuicer = new WordPressCommentsJuicer();
+	
 	
 	/**
 	 * Dan: TODO please document
@@ -256,29 +262,25 @@ public class WordPressJuicer extends AJuicer {
 	 * @param commentElements
 	 * @param prevURL
 	 */
-	private void extractComments(JuiceMe document, Elements commentElements, String prevURL) {		
+	private void extractComments(JuiceMe document, Elements commentElements, Item prevItem, Map<Item, Item> prevMap) {		
 			
 		for (Element commentElement : commentElements) {
 			
-			JuiceMe commentDocument = new JuiceMe(document.getURL(), commentElement);
-			
-			Item comment = new Item(
-					//KMsgType.COMMENT, 
-					commentElement);
-			commentsJuicer.juice(comment);
+			Item comment = new Item(commentElement);
+			comment.put(anno(AJuicer.MSG_TYPE, KMsgType.COMMENT, commentElement));
 			document.addItem(comment);							
 			
-			if (prevURL != null) {
-				comment.put(AJuicer.PREVIOUS, prevURL);
+			if (prevItem != null) {
+				prevMap.put(comment, prevItem);
+				
 			}
 		
 			if (hasReply(commentElement)) {
-				String currentCommentURL = comment.getAnnotation(AJuicer.URL).value;
 				
 				Elements replyCommentElements = getReplyCommentElement(comment.getDoc());
 				
 				if (replyCommentElements != null) {
-					extractComments(document, replyCommentElements, currentCommentURL);
+					extractComments(document, replyCommentElements, comment, prevMap);
 				}
 			}
 						
@@ -298,8 +300,8 @@ public class WordPressJuicer extends AJuicer {
 	 *      </li>
 	 * </ol>
 	 */
-	private Elements getCommentElements(Item item) {
-		Elements commentListParents = item.getDoc().getElementsByClass("commentlist");
+	private Elements getCommentElements(Element element) {
+		Elements commentListParents = element.getElementsByClass("commentlist");
 				
 		if (!commentListParents.isEmpty()) {
 			Element commentList = commentListParents.first();
@@ -334,5 +336,15 @@ public class WordPressJuicer extends AJuicer {
 	private Elements getReplyCommentElement(Element commentElement) {
 		Element childrenParent = commentElement.getElementsByClass("children").first();
 		return childrenParent.children();
+	}
+	
+	private void savePrevRelations(Map<Item, Item> prevMap) {
+		for (Item comment : prevMap.keySet()) {
+			Item prevComment = prevMap.get(comment);
+			
+			String prevCommentURL = prevComment.getAnnotation(AJuicer.URL).value;
+			comment.put(anno(AJuicer.PREVIOUS, prevCommentURL, prevComment.doc.parent()));
+		}
+		
 	}
 }

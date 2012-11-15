@@ -99,21 +99,21 @@ public class JuiceMe
 		return url;
 	}
 
-//	/**
-//	 * Get all items of a specified type.
-//	 * @param requiredType
-//	 * @return list of extracted items of a specified types or empty list
-//	 */
-//	public List<Item> getItemsOfType(KMsgType requiredType) {
-//		List<Item> itemsOfType = new ArrayList<Item>();
-//		
-//		for (Item item : extractedItems) {
-//			if (item.getType() == requiredType) {			
-//				itemsOfType.add(item);
-//			}
-//		}
-//		
-//		return itemsOfType;
-//	}
+	/**
+	 * Get all items of a specified type.
+	 * @param requiredType
+	 * @return list of extracted items of a specified types or empty list
+	 */
+	public List<Item> getItemsOfType(KMsgType requiredType) {
+		List<Item> itemsOfType = new ArrayList<Item>();
+		
+		for (Item item : extractedItems) {
+			if (item.getType() == requiredType) {			
+				itemsOfType.add(item);
+			}
+		}
+		
+		return itemsOfType;
+	}
 	
 }
