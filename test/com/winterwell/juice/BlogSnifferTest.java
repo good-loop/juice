@@ -20,6 +20,12 @@ public class BlogSnifferTest {
 			String type = sniffer.sniff(html);
 			assert BlogSniffer.WORDPRESS.equals(type) : type;
 		}
+	}
+	
+	@Test
+	public void testSniffNotWordpress() {
+		BlogSniffer sniffer = new BlogSniffer();
+		FakeBrowser fb = new FakeBrowser();
 		{	// Sandpit (ContentWave?)
 			String html = fb.getPage("http://thesandpit.com/the-founders-blog/2012/4/5/big-data-must-be-accurate-data.html");
 			String type = sniffer.sniff(html);
