@@ -67,17 +67,12 @@ public class WordPressJuicer extends AJuicer {
 	}
 	
 	private void extractTags(Item post) {
-		List<Anno<String>> tagAnnotations = new ArrayList<Anno<String>>();
-
 		Elements tagElements = post.getDoc().getElementsByAttributeValueEnding("rel",
 				"tag");
 		List<String> tags = new ArrayList();
 		
 		for (Element tagElement : tagElements) {
 			String tagName = tagElement.text();
-//			Anno<String> annotation = new Anno<String>(AJuicer.TAGS,
-//					tagName);
-//			tagAnnotations.add(annotation);
 			tags.add(tagName);
 		}
 				
@@ -90,11 +85,7 @@ public class WordPressJuicer extends AJuicer {
 		// Value of rating is requested from PollDaddy service.
 	}
 
-	private void extractType(Item post) {
-		post.put(anno(AJuicer.MSG_TYPE, KMsgType.POST, post.doc));
-	}
-
-	// Extract text body of a post
+	/** Extract text body of a post */
 	private void extractPostBody(Item post) {
 		// Get element with article's text
 		Elements elements = post.getDoc().getElementsByClass("entry-content");
@@ -112,7 +103,7 @@ public class WordPressJuicer extends AJuicer {
 
 	String[] endings = new String[] {"About these ads", "Rate this"};
 	
-	// Remove text at the end of text div that is not related to the post
+	/** Remove text at the end of text div that is not related to the post */
 	private String cleanText(String text) {
 		
 		for (String ending : endings) {
@@ -217,45 +208,6 @@ public class WordPressJuicer extends AJuicer {
 		String cleaned = str.replace("\u00a0"," ");
 		return cleaned;
 	}
-	
-	/**
-	 * FIXME the example below shows blog-navigation next/previous.
-	 * This is not the same as threading. The 2 posts described below are not threaded together.
-	 * Threading in blogs only occurs in the comment stream.  
-	 * 
-	 * Extracting URL to previous post from the following markup:
-	 * <div id="nav-below" class="navigation">
-	 *     <div class="nav-previous">
-	 *     		<a href="http://www.soda.sh/static/blog/?p=33" rel="prev">
-	 *     			<span class="meta-nav">←</span> 
-	 *     			A strange bug in the Twitter search API: OR + location = fail
-	 *     		</a>
-	 *     </div>
-	 *     <div class="nav-next">
-	 *     		<a href="http://www.soda.sh/static/blog/?p=47" rel="next">
-	 *     			More tweets than time? SoDash investment to develop smarter handling of social media 
-	 *     			<span class="meta-nav">→</span>
-	 *     		</a>
-	 *     </div>
-	 * </div><!-- #nav-below -->
-	 */
-	/*private void extractPrevPost(Item post) {
-		// Dan: This method may not be needed -- see javadoc comments above
-		// Search for navigation bar
-		Elements prevNavElements =post.getDoc().getElementsByClass("nav-previous");
-		if (!prevNavElements.isEmpty()) {
-			Element divElement = prevNavElements.first();
-			// Search for link on the previous post 
-			Elements prevLinks = divElement.getElementsByAttributeValue("rel", "prev");
-			if (!prevLinks.isEmpty()) {
-				Element prevLink = prevLinks.first();
-				String prevPostURL = prevLink.attr("href");
-				
-				post.put(AJuicer.PREVIOUS, prevPostURL);
-			}
-		}
-	}*/
-
 	
 	
 	/**

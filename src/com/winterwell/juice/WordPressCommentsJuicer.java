@@ -91,7 +91,7 @@ public class WordPressCommentsJuicer extends AJuicer {
 		
 	}
 	
-	SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' h:mm a");	
+	static SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' h:mm a");	
 	
 	/**
 	 * Extracting comment's URL and comment's publication time from the following markup:

@@ -11,6 +11,11 @@ import winterwell.utils.NotUniqueException;
 import winterwell.utils.TodoException;
 import winterwell.utils.time.Time;
 
+/**
+ * Base for building juicers. Also defines the standard annotations. 
+ * @author Daniel, Ivan
+ *
+ */
 public abstract class AJuicer {
 
 	/**
