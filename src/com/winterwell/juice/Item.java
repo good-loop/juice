@@ -20,33 +20,19 @@ import winterwell.utils.time.Time;
  * 
  */
 public class Item {
-//	protected KMsgType type;
-	
-	// Just a Map is better here
-	protected final Map<Key, Anno> type2annotation = new HashMap<Key, Anno>();
 
-//	protected String url;
+	protected final Map<Key, Anno> type2annotation = new HashMap<Key, Anno>();
 
 	protected Item() {}
 	
-//	Dan: type is an annotation too.
 	public Item(Element doc) {
-//		this.type = type;
 		this.doc = doc;
 	}
 	
 	
 	Element doc;
-	
-//	Dan: type is an annotation too.
-//	public KMsgType getType() {
-//		return type;
-//	}
-	
-	<X> void put(Anno<X> anno) {
-//		if (value==null) return;
 		
-//		Anno<X> anno = new Anno<X>(type, value); Now made in AJuicer with source-tag info
+	<X> void put(Anno<X> anno) {
 		type2annotation.put(anno.name, anno);
 	}
 	
@@ -68,10 +54,18 @@ public class Item {
 		Anno a = type2annotation.get(AJuicer.TITLE);
 		return a == null ? null : (String) a.value;
 	}
+	
+	@Override
+	public String toString() {
+		return "Item["+type2annotation+"]";
+	}
 
 	public String getAuthor() {
 		Anno a = type2annotation.get(AJuicer.AUTHOR_NAME);
-		return a == null ? null : (String) a.value;
+		if (a!=null) return (String) a.value;
+		a = type2annotation.get(AJuicer.AUTHOR_XID);
+		if (a!=null) return a.value.toString();
+		return null;
 	}
 
 	public Time getPublishedTime() {
@@ -94,9 +88,8 @@ public class Item {
 	 * @return collection of all extracted annotation for this item. If no annotations
 	 * were extracted returns empty collection.
 	 */
-	public Collection<Anno> getAnnotations() {
-		
-		return type2annotation.values(); // resultAnnotations;
+	public Collection<Anno> getAnnotations() {		
+		return type2annotation.values();
 	}
 
 	public String getHTML() {
@@ -111,28 +104,16 @@ public class Item {
 	 */
 	public <X> Anno<X> getAnnotation(Key<X> key) {
 		return type2annotation.get(key);
-//		List<Anno> list = type2annotation.get(key);
-//		
-//		if (list == null) {
-//			list = new ArrayList<Anno>();
-//		}
-//		
-//		return list;
 	}
 	
-//	/**
-//	 * Get a single (first) annotation of a specified type.
-//	 * @param key
-//	 * @return returns single (first) annotation of a specified type. If no
-//	 * annotation of a specified type exists, returns null.
-//	 */
-//	public <X> Anno<X> getSingleAnnotation(Key<X> key) {
-//		return type2annotation.getOne(key);
-//	}
 
-	// Use the url annotation
-//	public String getURL() {
-//		return url;
-//	}
+	/**
+	 * @param key
+	 * @return annotation value, if one is set
+	 */
+	public <X> X get(Key<X> key) {
+		Anno<X> a = type2annotation.get(key);
+		return a==null? null : a.value;
+	}
 	
 }

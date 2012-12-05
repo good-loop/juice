@@ -54,33 +54,30 @@ public class MetaDataJuicer extends AJuicer {
 	
 	@Override
 	void juice(JuiceMe document) {
+		// FIXME what if we already have a doc item?
+		Item item = new Item(document.getDoc());		
+		document.addItem(item);		 
 		
-		Item item = new Item(document.getDoc());
-		document.addItem(item);
-		
-		// TODO what if there are multiple items within a page? 
 		Elements metaTags = document.getDoc().getElementsByTag("meta");
 		
 		for (Element metaTag : metaTags) {
 			// Check if it is metadata if Open Graph format
 			String propertyVal = metaTag.attr("property");			
-			if (!propertyVal.isEmpty()) {
+			if ( ! propertyVal.isEmpty()) {
 				extractOG(item, propertyVal, metaTag);
-			} else {
-				
-				String nameValue = metaTag.attr("name");
-				if (nameValue.equals("description")) {
-					String descrValue = metaTag.attr("content");
-					item.put(anno(AJuicer.DESC, descrValue, metaTag));
-				}				
+				continue;
 			}
+			String nameValue = metaTag.attr("name");
+			if (nameValue.equals("description")) {
+				String descrValue = metaTag.attr("content");
+				item.put(anno(AJuicer.DESC, descrValue, metaTag));
+			}							
 		}
 		
 		// If no URL was extracted from Open Graph metadata, extract
 		// canonical URL
 		Anno<String> urlAnno = item.getAnnotation(AJuicer.URL);
-		if (urlAnno == null) {
-		
+		if (urlAnno == null) {		
 			Elements canons = document.getDoc().getElementsByAttributeValue("rel", "canonical");
 			for (Element element : canons) {
 				String urlValue = element.attr("href");
@@ -145,7 +142,7 @@ public class MetaDataJuicer extends AJuicer {
 		
 		// If value was extracted store this value
 		if (value != null) {
-			item.put(new Anno(key, value, srcTag));
+			item.put(anno(key, value, srcTag));
 		}
 	}
 

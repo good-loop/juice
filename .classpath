@@ -3,10 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="libs/goose.jar"/>
 	<classpathentry kind="lib" path="libs/jsoup.jar" sourcepath="/middleware/jsoup/jsoup-1.7.1-sources.jar"/>
-	<classpathentry kind="lib" path="libs/winterwell.utils.jar"/>
-	<classpathentry kind="lib" path="libs/winterwell.web.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.utils"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.web"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
