@@ -5,7 +5,6 @@ import java.io.Serializable;
 import org.jsoup.nodes.Element;
 
 import winterwell.utils.Key;
-import winterwell.utils.containers.IntRange;
 
 /**
  * Annotate a region of a document.

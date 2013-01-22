@@ -1,16 +1,12 @@
 package com.winterwell.juice;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import winterwell.utils.Key;
-import winterwell.utils.containers.ListMap;
 import winterwell.utils.time.Time;
 
 /**

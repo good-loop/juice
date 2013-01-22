@@ -1,10 +1,5 @@
 package com.winterwell.juice;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import winterwell.utils.FailureException;
-import winterwell.utils.Printer;
 import winterwell.web.FakeBrowser;
 
 /**

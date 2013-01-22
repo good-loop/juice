@@ -1,6 +1,5 @@
 package com.winterwell.juice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.nodes.Element;
@@ -8,7 +7,6 @@ import org.jsoup.select.Elements;
 
 import winterwell.utils.Key;
 import winterwell.utils.NotUniqueException;
-import winterwell.utils.TodoException;
 import winterwell.utils.time.Time;
 
 /**

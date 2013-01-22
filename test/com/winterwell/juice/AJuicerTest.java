@@ -1,7 +1,5 @@
 package com.winterwell.juice;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class AJuicerTest {
