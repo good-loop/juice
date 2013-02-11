@@ -30,11 +30,11 @@ import winterwell.utils.time.Time;
 public class WordPressJuicer extends AJuicer {
 
 	@Override
-	void juice(JuiceMe document) {
+	boolean juice(JuiceMe document) {
 		// Fail fast for non-WordPress
 		String blog = new BlogSniffer().sniff(document.getHTML());
-		if (!BlogSniffer.WORDPRESS.equals(blog)) {
-			return;
+		if ( ! BlogSniffer.WORDPRESS.equals(blog)) {
+			return false;
 		}
 		
 		Elements postElements = document.getDoc().getElementsByClass("post");
@@ -63,7 +63,7 @@ public class WordPressJuicer extends AJuicer {
 			commentsJuicer.juice(document);
 			savePrevRelations(prevMap);
 		}
-		
+		return true;
 	}
 	
 	private void extractTags(Item post) {

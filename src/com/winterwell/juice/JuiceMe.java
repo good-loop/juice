@@ -114,5 +114,17 @@ public class JuiceMe
 		
 		return itemsOfType;
 	}
+
+	/**
+	 * Convenience to access the first Item, which should be the main part of the page.
+	 * @return Item. Never null (the item will be created if need be)
+	 */
+	public Item getMainItem() {
+		if (extractedItems.isEmpty()) {
+			Item item = new Item(getDoc());		
+			addItem(item);
+		}
+		return extractedItems.get(0);
+	}
 	
 }

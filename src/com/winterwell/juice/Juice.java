@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import winterwell.utils.reporting.Log;
 import winterwell.web.FakeBrowser;
 
 /**
@@ -13,6 +14,7 @@ import winterwell.web.FakeBrowser;
  */
 public class Juice {
 	
+	private static final String LOGTAG = "juice";
 	AJuicer[] juicers;
 	
 	/**
@@ -34,19 +36,23 @@ public class Juice {
 	}
 	
 	public Juice() {
-		juicers = new AJuicer[]{
+		juicers = new AJuicer[]{				
 			new WordPressJuicer(),
+			new PinterestJuicer(),
 			new MetaDataJuicer()
 //			new GenericJuicer()	
 		};
 	}
 	
 	public JuiceMe juice(String url, String html) {		
-		JuiceMe doc = new JuiceMe(url,html);
+		JuiceMe doc = new JuiceMe(url, html);
 		for(AJuicer juicer : juicers) {
-			juicer.juice(doc);
+			boolean done = juicer.juice(doc);
 			// TODO stop early -- When are we done??
-			
+			if (done) {
+				Log.d(LOGTAG, "Stop juicing "+url+" at "+juicer);
+				break;
+			}
 		}		
 		return doc;
 	}

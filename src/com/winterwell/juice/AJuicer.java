@@ -64,6 +64,7 @@ public abstract class AJuicer {
 	 * Published time.
 	 */
 	public static final Key<Time> PUB_TIME = new Key("time");
+	
 	/**
 	 * The canonical url for this post (which may be different from the url used to read this page).
 	 */
@@ -126,12 +127,13 @@ public abstract class AJuicer {
 	 * @param url
 	 * @param html
 	 * @param pages The extractions made by this juicer.
+	 * @param true if this juicer considers the job to be done
 	 */
-	abstract void juice(JuiceMe doc);
+	abstract boolean juice(JuiceMe doc);
 
 	/**
 	 * Convenience method for new Anno (this will infer the generic parameter for you).
-	 * @param key
+	 * @param key e.g. AJuicer#TITLE
 	 * @param value
 	 * @param element Can be null. See {@link Anno#Anno(Key, Object, Element)}
 	 * @return new Anno(key, value, element)

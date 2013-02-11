@@ -20,7 +20,7 @@ import winterwell.utils.time.Time;
 public class WordPressCommentsJuicer extends AJuicer {
 
 	@Override
-	void juice(JuiceMe commentDoc) {
+	boolean juice(JuiceMe commentDoc) {
 		Collection<Item> commentItems = commentDoc.getItemsOfType(KMsgType.COMMENT);
 		
 		for (Item commentItem : commentItems) {		
@@ -28,6 +28,8 @@ public class WordPressCommentsJuicer extends AJuicer {
 			extractAuthorMetadata(commentItem);
 			extractPostMetadata(commentItem);
 		}
+		
+		return true;
 	}
 
 	

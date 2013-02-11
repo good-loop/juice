@@ -52,10 +52,8 @@ public class MetaDataJuicer extends AJuicer {
 	
 	
 	@Override
-	void juice(JuiceMe document) {
-		// FIXME what if we already have a doc item?
-		Item item = new Item(document.getDoc());		
-		document.addItem(item);		 
+	boolean juice(JuiceMe document) {		
+		Item item = document.getMainItem();
 		
 		Elements metaTags = document.getDoc().getElementsByTag("meta");
 		
@@ -85,17 +83,16 @@ public class MetaDataJuicer extends AJuicer {
 			}
 		}
 		
+		return false;
 	}	
 
 	/** Extract Open Graph metadata from meta tag */
 	private void extractOG(Item doc, String propertyVal, Element metaTag) {
 		String contentVal = metaTag.attr("content");
-		Key key = propertyKeyMap.get(propertyVal);
-		
+		Key key = propertyKeyMap.get(propertyVal);		
 		if (key != null) {
 			saveValue(doc, key, contentVal, metaTag);
-		}
-		
+		}		
 	}
 	
 	private SimpleDateFormat dataFormater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");

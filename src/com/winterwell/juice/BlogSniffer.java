@@ -17,13 +17,14 @@ public class BlogSniffer {
 	private static final String BLOGGER = "blog.googleblogger";
 	private static final String MOVABLE_TYPE = "blog.movabletype";
 	private static final String TYPEPAD = "blog.typepad";
+	private static final String PINTEREST = "pinterest";
 	
 	/**
 	 * 
 	 * @param html
 	 * @return known blog type, or null
 	 */
-	public String sniff(String html) {
+	public String sniff(String html) {		
 		// xpath would be better - except not-good-xml can throw it 
 		Pattern GENERATOR1 = Pattern.compile(
 				"<meta\\s+name=[\"']generator[\"']\\s+content=[\"'](.+?)[\"']", Pattern.CASE_INSENSITIVE);
@@ -52,6 +53,9 @@ public class BlogSniffer {
 		if (gen.startsWith("typepad")) {
 			return TYPEPAD;
 		}
+		if (html.contains("pinterestapp:pinboard")) {
+			return PINTEREST;
+		}		
 		// unknown!
 		return null;
 	}

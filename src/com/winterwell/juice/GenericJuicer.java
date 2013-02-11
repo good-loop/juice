@@ -5,8 +5,9 @@ class GenericJuicer extends AJuicer {
 
 
 	@Override
-	void juice(JuiceMe doc) {
+	boolean juice(JuiceMe doc) {
 		// TODO Auto-generated method stub
+		return false;
 	}
 
 	//		String desc = getDescription(chunk);
