@@ -14,6 +14,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
+import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 
 /**
@@ -89,7 +90,11 @@ public class WordPressJuicer extends AJuicer {
 	private void extractPostBody(Item post) {
 		// Get element with article's text
 		Elements elements = post.getDoc().getElementsByClass("entry-content");
-
+		if (elements.size()==0) {
+			Log.e(getClass().getSimpleName(), "No post body? "+post.getHTML());
+			return;
+		}
+		
 		Element rootDiv = elements.get(0);
 		String text = rootDiv.text();
 		text = cleanText(text);

@@ -3,6 +3,7 @@ package com.winterwell.juice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,10 +17,26 @@ import java.util.Set;
 import org.junit.Test;
 
 import winterwell.utils.Key;
+import winterwell.utils.io.FileUtils;
 import winterwell.utils.time.Time;
 
 public class WordPressJuicerTest {
 
+	@Test
+	public void testBugFeb2013() {
+		String url = "http://carlwanders.wordpress.com/2010/07/06/skyscanner-net-features-and-review/";
+		File f = TestUtils.getTestFile("wordpress", url);
+
+		String html = FileUtils.read(f);
+		
+		JuiceMe document = new JuiceMe(url, html);		
+		
+		WordPressJuicer wpj = new WordPressJuicer();
+		boolean done = wpj.juice(document);
+		
+		System.out.println(document);
+	}
+	
 	/// Check if WordPress juicer can extract multiple pages
 	
 	@Test
