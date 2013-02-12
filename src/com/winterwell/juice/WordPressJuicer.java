@@ -30,6 +30,8 @@ import winterwell.utils.time.Time;
  */
 public class WordPressJuicer extends AJuicer {
 
+	private static final String LOGTAG = "WordPressJuicer";
+
 	@Override
 	boolean juice(JuiceMe document) {
 		// Fail fast for non-WordPress
@@ -91,8 +93,12 @@ public class WordPressJuicer extends AJuicer {
 		// Get element with article's text
 		Elements elements = post.getDoc().getElementsByClass("entry-content");
 		if (elements.size()==0) {
-			Log.e(getClass().getSimpleName(), "No post body? "+post.getHTML());
-			return;
+			Log.e(LOGTAG, "No entry-content; falling back to entry");
+			elements = post.getDoc().getElementsByClass("entry");
+			if (elements.size()==0) {
+				Log.e(LOGTAG, "No post body? "+post.getHTML());
+				return;
+			}
 		}
 		
 		Element rootDiv = elements.get(0);
@@ -142,7 +148,12 @@ public class WordPressJuicer extends AJuicer {
 	 *     </span>
 	 */
 	private void extractMetadata(Item post) {
-		Element metadataElement = post.getDoc().getElementsByClass("entry-meta").get(0);		
+		Elements es = post.getDoc().getElementsByClass("entry-meta");
+		if (es.size()==0) {
+			Log.d(LOGTAG, "No entry-meta elements");
+			return;
+		}
+		Element metadataElement = es.get(0);		
 		Element dateElement = metadataElement.getElementsByClass("entry-date").get(0);
 		
 		Calendar calendar = null;
