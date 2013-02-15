@@ -8,6 +8,7 @@ import java.util.Date;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 
 
@@ -18,6 +19,8 @@ import winterwell.utils.time.Time;
  *
  */
 public class WordPressCommentsJuicer extends AJuicer {
+
+	private static final String LOGTAG = "WordPressCommentsJuicer";
 
 	@Override
 	boolean juice(JuiceMe commentDoc) {
@@ -41,7 +44,10 @@ public class WordPressCommentsJuicer extends AJuicer {
 		}
 		
 		Element commentElement = commentContentElements.first();
-		
+		if (commentElement==null) {
+			Log.w(LOGTAG, "No comment element for "+comment);
+			return;
+		}
 		String commentText = commentElement.text();
 		comment.put(anno(AJuicer.POST_BODY, commentText, commentElement));
 		
