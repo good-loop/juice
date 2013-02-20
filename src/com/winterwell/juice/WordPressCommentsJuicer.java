@@ -86,16 +86,19 @@ public class WordPressCommentsJuicer extends AJuicer {
 		}
 		
 		Element authorElement = commentAuthorElements.first();
+		if (authorElement==null) {
+			return;
+		}
 		Element nameElement = authorElement.getElementsByClass("fn").first();
 		
 		String authorName = nameElement.text();
 		comment.put(anno(AJuicer.AUTHOR_NAME, authorName, authorElement));
 		
 		Element imageElement = authorElement.getElementsByTag("img").first();
-		String avatarURL = imageElement.attr("src");
-		comment.put(anno(AJuicer.AUTHOR_IMG, avatarURL, imageElement));
-		
-		
+		if (imageElement!=null) {
+			String avatarURL = imageElement.attr("src");
+			comment.put(anno(AJuicer.AUTHOR_IMG, avatarURL, imageElement));
+		}		
 		
 	}
 	
