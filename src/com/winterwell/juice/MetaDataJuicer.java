@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,12 +10,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import winterwell.utils.Key;
 import winterwell.utils.time.Time;
+import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 
 /**
@@ -24,6 +28,8 @@ import winterwell.utils.time.Time;
  *
  */
 public class MetaDataJuicer extends AJuicer {
+
+	private static final String ANON = "anon";
 
 	// Map from name of property to 
 	private final Map<String, Key> propertyKeyMap = new HashMap<String, Key>() {{
@@ -49,7 +55,6 @@ public class MetaDataJuicer extends AJuicer {
 		add("video.tv_show");
 		add("video.other");
 	}};
-	
 	
 	@Override
 	boolean juice(JuiceMe document) {		
@@ -80,6 +85,40 @@ public class MetaDataJuicer extends AJuicer {
 				String urlValue = element.attr("href");
 				item.put(anno(AJuicer.URL, urlValue, element));
 				break;
+			}
+		}
+		
+		// No Author info? Let's grab some website info
+		if (item.getAuthor()==null) {
+			// Website domain
+			String url = item.get(AJuicer.URL);
+			if (url == null) url = document.getURL();
+			String domain = null;
+			if (url != null) {
+				domain = WebUtils.getDomain(url);
+			}			
+			if (domain==null) domain = "web";
+
+			// Author tag?
+			// e.g. <meta name=author content=eliphas>
+			for (Element metaTag : metaTags) {
+				if ("author".equals(metaTag.attr("name"))) {
+					String author = metaTag.attr("content");
+					if ( ! winterwell.utils.Utils.isBlank(author)) {
+						String xid = author+"@"+domain;
+						item.put(anno(AJuicer.AUTHOR_XID, xid, metaTag));		
+						break;	
+					}
+				}
+			}			
+			// Fallback: Domain as author 
+			item.putIfAbsent(anno(AJuicer.AUTHOR_XID, ANON+"@"+domain, null));
+		    			
+			// Icon
+			Elements es = document.getDoc().getElementsByAttributeValue("rel", "shortcut icon");
+			if ( ! es.isEmpty()) {
+				String iconUrl = es.get(0).attr("href");
+				item.putIfAbsent(anno(AJuicer.AUTHOR_IMG, iconUrl, es.get(0)));
 			}
 		}
 		
