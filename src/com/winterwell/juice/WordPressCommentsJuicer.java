@@ -10,6 +10,8 @@ import org.jsoup.select.Elements;
 
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
+import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 
 /**
@@ -79,27 +81,24 @@ public class WordPressCommentsJuicer extends AJuicer {
 	 * @param comment
 	 */
 	private void extractAuthorMetadata(Item comment) {
-		Elements commentAuthorElements = comment.getDoc().getElementsByClass("comment-author");
-		
+		Elements commentAuthorElements = comment.getDoc().getElementsByClass("comment-author");		
 		if (commentAuthorElements.isEmpty()) {
 			return;
-		}
-		
+		}		
 		Element authorElement = commentAuthorElements.first();
 		if (authorElement==null) {
 			return;
 		}
 		Element nameElement = authorElement.getElementsByClass("fn").first();
-		
-		String authorName = nameElement.text();
-		comment.put(anno(AJuicer.AUTHOR_NAME, authorName, authorElement));
-		
+		if (nameElement != null) {
+			String authorName = nameElement.text();
+			comment.put(anno(AJuicer.AUTHOR_NAME, authorName, authorElement));
+		}		
 		Element imageElement = authorElement.getElementsByTag("img").first();
 		if (imageElement!=null) {
 			String avatarURL = imageElement.attr("src");
 			comment.put(anno(AJuicer.AUTHOR_IMG, avatarURL, imageElement));
-		}		
-		
+		}				
 	}
 	
 	static SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' h:mm a");	
