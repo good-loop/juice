@@ -91,17 +91,12 @@ public class WordPressJuicer extends AJuicer {
 	/** Extract text body of a post */
 	private void extractPostBody(Item post) {
 		// Get element with article's text
-		Elements elements = post.getDoc().getElementsByClass("entry-content");
-		if (elements.size()==0) {
-			Log.e(LOGTAG, "No entry-content; falling back to entry");
-			elements = post.getDoc().getElementsByClass("entry");
-			if (elements.size()==0) {
-				Log.e(LOGTAG, "No post body? "+post.getHTML());
-				return;
-			}
+		Element rootDiv = getFirstElementByClass(post.getDoc(), "entry-content", "post-content", "entry");
+		if (rootDiv==null) {
+			Log.e(LOGTAG, "No post body? "+post.getHTML());
+			return;
 		}
 		
-		Element rootDiv = elements.get(0);
 		String text = rootDiv.text();
 		text = cleanText(text);
 		
@@ -148,13 +143,12 @@ public class WordPressJuicer extends AJuicer {
 	 *     </span>
 	 */
 	private void extractMetadata(Item post) {
-		Elements es = post.getDoc().getElementsByClass("entry-meta");
-		if (es.size()==0) {
+		Element metadataElement = getFirstElementByClass(post.getDoc(), "entry-meta", "post-meta");		
+		if (metadataElement==null) {
 			Log.d(LOGTAG, "No entry-meta elements");
 			return;
-		}
-		Element metadataElement = es.get(0);		
-		Element dateElement = metadataElement.getElementsByClass("entry-date").get(0);
+		}		
+		Element dateElement = getFirstElementByClass(metadataElement, "entry-date", "post-date");
 		
 		Calendar calendar = null;
 		try {
@@ -200,6 +194,20 @@ public class WordPressJuicer extends AJuicer {
 	
 	/**
 	 * 
+	 * @param element
+	 * @param cssClasses
+	 * @return An element matching one of the csssClasses, or null 
+	 */
+	private Element getFirstElementByClass(Element element, String... cssClasses) {
+		for (String c : cssClasses) {
+			Elements es = element.getElementsByClass(c);
+			if (es.size() != 0) return es.get(0);
+		}		
+		return null;
+	}
+
+	/**
+	 * 
 	 * Extracting title from the following markup:
 	 * <h1 class="entry-title">SoDash nominated for Best Advertising or Marketing Tech Startup Award</h1>
 	 * 
@@ -207,7 +215,7 @@ public class WordPressJuicer extends AJuicer {
 	private void extractTitle(Item post) {
 		// Dan: WordPress tags aren't enforced -- we have to handle the "no such tag" case
 		// TODO use a more defensive approach throughout.
-		Element entryTitleTag = one(post.getDoc().getElementsByClass("entry-title"));
+		Element entryTitleTag = getFirstElementByClass(post.getDoc(), "entry-title","post-title");
 		if (entryTitleTag==null) return;
 		String title = entryTitleTag.text();
 		
