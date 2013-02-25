@@ -87,42 +87,52 @@ public class MetaDataJuicer extends AJuicer {
 				break;
 			}
 		}
-		
-		// No Author info? Let's grab some website info
-		if (item.getAuthor()==null) {
-			// Website domain
-			String url = item.get(AJuicer.URL);
-			if (url == null) url = document.getURL();
-			String domain = null;
-			if (url != null) {
-				domain = WebUtils.getDomain(url);
-			}			
-			if (domain==null) domain = "web";
-
-			// Author tag?
-			// e.g. <meta name=author content=eliphas>
-			for (Element metaTag : metaTags) {
-				if ("author".equals(metaTag.attr("name"))) {
-					String author = metaTag.attr("content");
-					if ( ! winterwell.utils.Utils.isBlank(author)) {
-						String xid = author+"@"+domain;
-						item.put(anno(AJuicer.AUTHOR_XID, xid, metaTag));		
-						break;	
-					}
-				}
-			}			
-			// Fallback: Domain as author 
-			item.putIfAbsent(anno(AJuicer.AUTHOR_XID, ANON+"@"+domain, null));
-		    			
-			// Icon
-			Elements es = document.getDoc().getElementsByAttributeValue("rel", "shortcut icon");
-			if ( ! es.isEmpty()) {
-				String iconUrl = es.get(0).attr("href");
-				item.putIfAbsent(anno(AJuicer.AUTHOR_IMG, iconUrl, es.get(0)));
-			}
-		}
+				
+		juice2_author(document, item, metaTags);
 		
 		return false;
+	}
+
+	/**
+	 * @param document
+	 * @param item
+	 * @param metaTags
+	 */
+	private void juice2_author(JuiceMe document, Item item, Elements metaTags) {
+		String oxid = item.get(AUTHOR_XID);
+		if (oxid != null) return;
+				
+		// Website domain
+		String url = item.get(AJuicer.URL);
+		if (url == null) url = document.getURL();
+		String domain = null;
+		if (url != null) {
+			domain = WebUtils.getDomain(url);
+		}			
+		if (domain==null) domain = "web";
+
+		// Author tag?
+		// e.g. <meta name=author content=eliphas>
+		for (Element metaTag : metaTags) {
+			if ("author".equals(metaTag.attr("name"))) {
+				String author = metaTag.attr("content");
+				if ( ! winterwell.utils.Utils.isBlank(author)) {
+					String xid = author+"@"+domain;
+					item.put(anno(AJuicer.AUTHOR_XID, xid, metaTag));		
+					break;	
+				}
+			}
+		}			
+		
+		// Fallback: Domain as author 
+		item.putIfAbsent(anno(AJuicer.AUTHOR_XID, ANON+"@"+domain, null));
+	    			
+		// Icon
+		Elements es = document.getDoc().getElementsByAttributeValue("rel", "shortcut icon");
+		if ( ! es.isEmpty()) {
+			String iconUrl = es.get(0).attr("href");
+			item.putIfAbsent(anno(AJuicer.AUTHOR_IMG, iconUrl, es.get(0)));
+		}	
 	}	
 
 	/** Extract Open Graph metadata from meta tag */

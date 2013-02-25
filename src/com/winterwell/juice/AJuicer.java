@@ -56,6 +56,11 @@ public abstract class AJuicer {
 	public static final Key<String> AUTHOR_XID = new Key("oxid");
 	
 	/**
+	 * Url for the author's profile page, if there is one.
+	 */
+	public static final Key<String> AUTHOR_URL = new Key("author.url");
+	
+	/**
 	 * Facebook ID, if this page has one.
 	 */
 	public static final Key<Time> FACEBOOK_ID = new Key("fbid");

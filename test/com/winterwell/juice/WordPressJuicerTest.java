@@ -22,6 +22,38 @@ import winterwell.utils.time.Time;
 
 public class WordPressJuicerTest {
 
+
+	@Test
+	public void testPoorExtractionBuddhistGeeks() {
+		{	// home page -- Note there is an article here which has 2 authors!
+			String url = "http://www.buddhistgeeks.com/";
+			File f = TestUtils.getTestFile("wordpress", url);
+	
+			String html = FileUtils.read(f);
+			
+			JuiceMe document = new JuiceMe(url, html);		
+			
+			WordPressJuicer wpj = new WordPressJuicer();
+			boolean done = wpj.juice(document);
+			
+			System.out.println(document);
+		}
+		{	// article page
+			String url = "http://www.buddhistgeeks.com/2013/02/we-need-more-buddhist-startups/";
+			File f = TestUtils.getTestFile("wordpress", url);
+	
+			String html = FileUtils.read(f);
+			
+			JuiceMe document = new JuiceMe(url, html);		
+			
+			WordPressJuicer wpj = new WordPressJuicer();
+			boolean done = wpj.juice(document);
+			
+			System.out.println(document);
+		}
+	}
+		
+	
 	@Test
 	public void testBugFeb2013() {
 		String url = "http://carlwanders.wordpress.com/2010/07/06/skyscanner-net-features-and-review/";

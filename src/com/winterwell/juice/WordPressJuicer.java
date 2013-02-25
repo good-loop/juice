@@ -14,6 +14,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
+import winterwell.utils.NotUniqueException;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 
@@ -149,47 +150,60 @@ public class WordPressJuicer extends AJuicer {
 			return;
 		}		
 		Element dateElement = getFirstElementByClass(metadataElement, "entry-date", "post-date");
-		
-		Calendar calendar = null;
-		try {
-			// Extract posting date
-			
-			String dateText = dateElement.text();
-			Date date = dateFormat.parse(dateText);
-			
-			calendar = new GregorianCalendar(1900 + date.getYear(), date.getMonth(), date.getDate());
-			
-			// Extract posting time
-			Element timeA = dateElement.parent();
-			String timeText = timeA.attr("title");
-			Date time = timeFormat.parse(timeText);
-			
-			calendar.set(1900 + date.getYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes());
-			
-		} catch (ParseException pe) {
-			// We catched this exception if we failed to parse date of
-			// if we failed to parse time. If we failed to parse date 'calendar'
-			// object is null and will not be stored, if we failed to parse time
-			// calendar object will contain correct date with time equals to 00:00
-		}
-		
-		if (calendar != null) {
-			// We cannot extracting this and zeroizing them makes testing easier
-			calendar.set(Calendar.SECOND, 0);
-			calendar.set(Calendar.MILLISECOND, 0);
-			
-			Time publicationTime = new Time(calendar);
-			post.put(anno(AJuicer.PUB_TIME, publicationTime, dateElement));
+		if (dateElement!=null) {
+			try {
+				// Extract posting date				
+				String dateText = dateElement.text();
+				Date date = dateFormat.parse(dateText);						
+				GregorianCalendar calendar = new GregorianCalendar(1900 + date.getYear(), date.getMonth(), date.getDate());
+				
+				// Extract posting time
+				try {
+					Element timeA = dateElement.parent();
+					String timeText = timeA.attr("title");				
+					Date time = timeFormat.parse(timeText);
+					calendar.set(1900 + date.getYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes());
+				} catch(ParseException ex) {
+					// oh well -- we have the date
+				}
+
+				// We cannot extracting this and zeroizing them makes testing easier
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				
+				Time publicationTime = new Time(calendar);
+				post.put(anno(AJuicer.PUB_TIME, publicationTime, dateElement));
+	
+			} catch (ParseException pe) {
+				// We caught this exception if we failed to parse date or
+				// if we failed to parse time. If we failed to parse date 'calendar'
+				// object is null and will not be stored, if we failed to parse time
+				// calendar object will contain correct date with time equals to 00:00
+			}			
 		}
 		
 		// Extract author's name
 		Elements authorSpanElements = Selector.select("span.author.vcard", metadataElement);
-		if (!authorSpanElements.isEmpty()) {
+		if ( ! authorSpanElements.isEmpty()) {
 			Element authorSpan = authorSpanElements.get(0);
 			String authorName = authorSpan.text();
 			post.put(anno(AJuicer.AUTHOR_NAME, authorName, authorSpan));
-		}		
+			// TODO XId?? img??
+			return;
+		}
 		
+		Elements authorLink = post.getDoc().getElementsByAttributeValue("rel", "author");
+		Element author = one(authorLink, false); // If a post is by 2 authors -- valid but rare -- this will only get one!!
+		if (author!=null) {				
+			post.put(anno(AJuicer.AUTHOR_NAME, author.text(), author));
+			if ("a".equals(author.tagName())) {
+				String url = author.attr("href");
+				if ( ! url.isEmpty()) {
+					post.put(anno(AJuicer.AUTHOR_XID, url, author));
+					post.put(anno(AJuicer.AUTHOR_URL, url, author));
+				}
+			}
+		}		
 	}
 	
 	/**
