@@ -170,5 +170,19 @@ public abstract class AJuicer {
 		return elements.get(0);
 	}
 
+	/**
+	 * 
+	 * @param element
+	 * @param cssClasses
+	 * @return An element matching one of the csssClasses, or null 
+	 */
+	protected Element getFirstElementByClass(Element element, String... cssClasses) {
+		for (String c : cssClasses) {
+			Elements es = element.getElementsByClass(c);
+			if (es.size() != 0) return es.get(0);
+		}		
+		return null;
+	}
+
 
 }

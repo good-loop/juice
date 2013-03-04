@@ -206,20 +206,7 @@ public class WordPressJuicer extends AJuicer {
 		}		
 	}
 	
-	/**
-	 * 
-	 * @param element
-	 * @param cssClasses
-	 * @return An element matching one of the csssClasses, or null 
-	 */
-	private Element getFirstElementByClass(Element element, String... cssClasses) {
-		for (String c : cssClasses) {
-			Elements es = element.getElementsByClass(c);
-			if (es.size() != 0) return es.get(0);
-		}		
-		return null;
-	}
-
+	
 	/**
 	 * 
 	 * Extracting title from the following markup:

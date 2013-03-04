@@ -118,29 +118,28 @@ public class WordPressCommentsJuicer extends AJuicer {
 	 * 
 	 */
 	private void extractPostMetadata(Item comment) {
-		Elements commentMetaElements = comment.getDoc().getElementsByClass("comment-meta");
-		
-		if (commentMetaElements.isEmpty()) {
+		Element commentMetaElement = getFirstElementByClass(comment.getDoc(), "comment-meta");		
+		if (commentMetaElement== null) {
 			return;
 		}
 		
-		Element commentMetaElement = commentMetaElements.first();
-		
-		Element commentURL = commentMetaElement.getElementsByTag("a").first();		
+		Element commentURL = one(commentMetaElement.getElementsByTag("a"), false);
+		if (commentURL==null) {
+			Log.e(LOGTAG, "No comment url in "+commentMetaElement.html());
+			return;
+		}
 		String commentURLStr = commentURL.attr("href");
 		comment.put(anno(AJuicer.URL, commentURLStr, commentURL));
-		
-		try {
-		
+	
+		try {		
 			String timeText = commentURL.text();
 			Date parsedDate = dateFormat.parse(timeText);
 			Time time = new Time(parsedDate);
-			comment.put(anno(AJuicer.PUB_TIME, time, commentURL));
-			
-		} catch (ParseException pe) {
+			comment.put(anno(AJuicer.PUB_TIME, time, commentURL));			
+		} catch (Exception pe) {
 			// We failed to parse date, so simply ignore it
-		}
-		
+			Log.e(LOGTAG, pe);
+		}			
 	}
 
 }
