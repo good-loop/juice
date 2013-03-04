@@ -111,5 +111,10 @@ public class Item {
 		Anno<X> a = type2annotation.get(key);
 		return a==null? null : a.value;
 	}
+
+	public String getXId() {
+		Anno a = type2annotation.get(AJuicer.XID);
+		return a == null ? null : (String) a.value;
+	}
 	
 }

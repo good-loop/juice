@@ -31,7 +31,7 @@ import winterwell.utils.time.Time;
  */
 public class WordPressJuicer extends AJuicer {
 
-	private static final String LOGTAG = "WordPressJuicer";
+	static final String LOGTAG = "WordPressJuicer";
 
 	@Override
 	boolean juice(JuiceMe document) {
@@ -324,11 +324,14 @@ public class WordPressJuicer extends AJuicer {
 	}
 	
 	private void savePrevRelations(Map<Item, Item> prevMap) {
+		assert prevMap != null;
 		for (Item comment : prevMap.keySet()) {
 			Item prevComment = prevMap.get(comment);
-			
-			String prevCommentURL = prevComment.getAnnotation(AJuicer.URL).value;
-			comment.put(anno(AJuicer.PREVIOUS, prevCommentURL, prevComment.doc.parent()));
+			if (prevComment.getXId()==null) {
+				Log.e(LOGTAG, "No xid for previous "+prevComment.getHTML());
+				continue;
+			}
+			comment.put(anno(AJuicer.PREVIOUS, prevComment.getXId(), prevComment.doc));
 		}
 		
 	}

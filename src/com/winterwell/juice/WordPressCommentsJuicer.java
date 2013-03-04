@@ -22,7 +22,7 @@ import winterwell.utils.web.WebUtils2;
  */
 public class WordPressCommentsJuicer extends AJuicer {
 
-	private static final String LOGTAG = "WordPressCommentsJuicer";
+	private static final String LOGTAG = WordPressJuicer.LOGTAG;
 
 	@Override
 	boolean juice(JuiceMe commentDoc) {
