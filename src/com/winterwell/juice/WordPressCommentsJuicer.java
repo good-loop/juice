@@ -53,8 +53,8 @@ public class WordPressCommentsJuicer extends AJuicer {
 		String commentText = commentElement.text();
 		comment.put(anno(AJuicer.POST_BODY, commentText, commentElement));
 		
-		Element firstParagraphElement = Utils.getFirstParagraphElement(commentElement);
-		String firstParagraph = Utils.extractFirstParagraph(firstParagraphElement);
+		Element firstParagraphElement = JuiceUtils.getFirstParagraphElement(commentElement);
+		String firstParagraph = JuiceUtils.extractFirstParagraph(firstParagraphElement);
 		comment.put(anno(AJuicer.POST_BODY_PART, firstParagraph, firstParagraphElement));
 		
 	}

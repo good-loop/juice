@@ -15,8 +15,11 @@ import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
 import winterwell.utils.NotUniqueException;
+import winterwell.utils.StrUtils;
+import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
+import winterwell.utils.web.WebUtils;
 
 /**
  * Class for extracting metadata from WordPress posts. It can extract post's tags,
@@ -51,11 +54,27 @@ public class WordPressJuicer extends AJuicer {
 			extractRating(postItem);
 			extractPostBody(postItem);
 			extractMetadata(postItem);
-			extractTitle(postItem);
+			extractTitle(postItem);			
+			
+			// Setup XId??
+			
+			// check we got something
+			if (Utils.isBlank(postItem.getText())) {
+				// TODO catch website crud which can slip in here
+				String stripped = WebUtils.stripTags(postItem.getHTML());
+				if (Utils.isBlank(stripped)) {
+					// skip this??
+					Log.w(LOGTAG, "Skipping blank item "+postItem.getXId()+" "+postItem.getHTML());
+					continue;
+				} else {
+					Log.w(LOGTAG, "Keeping poss blank item "+postItem.getXId()+" "+StrUtils.compactWhitespace(stripped));
+				}
+			}
 			
 			document.addItem(postItem);
 		}
 		
+		// Comments
 		Elements commentElements = getCommentElements(document.getDoc());
 		
 		if (commentElements != null) {
@@ -67,7 +86,9 @@ public class WordPressJuicer extends AJuicer {
 			commentsJuicer.juice(document);
 			savePrevRelations(prevMap);
 		}
-		return true;
+		
+		// Did we find a post?
+		return ! document.getExtractedItems().isEmpty();
 	}
 	
 	private void extractTags(Item post) {
@@ -103,8 +124,8 @@ public class WordPressJuicer extends AJuicer {
 		
 		post.put(anno(AJuicer.POST_BODY, text, rootDiv));
 		
-		Element firstParagraphElement = Utils.getFirstParagraphElement(rootDiv);
-		String firstParagraph = Utils.extractFirstParagraph(firstParagraphElement);
+		Element firstParagraphElement = JuiceUtils.getFirstParagraphElement(rootDiv);
+		String firstParagraph = JuiceUtils.extractFirstParagraph(firstParagraphElement);
 		post.put(anno(AJuicer.POST_BODY_PART, firstParagraph, firstParagraphElement));
 	}
 
@@ -147,40 +168,12 @@ public class WordPressJuicer extends AJuicer {
 		Element metadataElement = getFirstElementByClass(post.getDoc(), "entry-meta", "post-meta");		
 		if (metadataElement==null) {
 			Log.d(LOGTAG, "No entry-meta elements");
+			Element dateElement = getFirstElementByClass(post.getDoc(), "entry-date", "post-date", "postdate");
+			extractMetadata2_date(post, dateElement);
 			return;
 		}		
-		Element dateElement = getFirstElementByClass(metadataElement, "entry-date", "post-date");
-		if (dateElement!=null) {
-			try {
-				// Extract posting date				
-				String dateText = dateElement.text();
-				Date date = dateFormat.parse(dateText);						
-				GregorianCalendar calendar = new GregorianCalendar(1900 + date.getYear(), date.getMonth(), date.getDate());
-				
-				// Extract posting time
-				try {
-					Element timeA = dateElement.parent();
-					String timeText = timeA.attr("title");				
-					Date time = timeFormat.parse(timeText);
-					calendar.set(1900 + date.getYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes());
-				} catch(ParseException ex) {
-					// oh well -- we have the date
-				}
-
-				// We cannot extracting this and zeroizing them makes testing easier
-				calendar.set(Calendar.SECOND, 0);
-				calendar.set(Calendar.MILLISECOND, 0);
-				
-				Time publicationTime = new Time(calendar);
-				post.put(anno(AJuicer.PUB_TIME, publicationTime, dateElement));
-	
-			} catch (ParseException pe) {
-				// We caught this exception if we failed to parse date or
-				// if we failed to parse time. If we failed to parse date 'calendar'
-				// object is null and will not be stored, if we failed to parse time
-				// calendar object will contain correct date with time equals to 00:00
-			}			
-		}
+		Element dateElement = getFirstElementByClass(metadataElement, "entry-date", "post-date", "postdate");
+		extractMetadata2_date(post, dateElement);
 		
 		// Extract author's name
 		Elements authorSpanElements = Selector.select("span.author.vcard", metadataElement);
@@ -207,6 +200,41 @@ public class WordPressJuicer extends AJuicer {
 	}
 	
 	
+	private boolean extractMetadata2_date(Item post, Element dateElement) {
+		if (dateElement==null) return false;
+		try {
+			// Extract posting date				
+			String dateText = dateElement.text();
+			Date date = dateFormat.parse(dateText);						
+			GregorianCalendar calendar = new GregorianCalendar(1900 + date.getYear(), date.getMonth(), date.getDate());
+			
+			// Extract posting time
+			try {
+				Element timeA = dateElement.parent();
+				String timeText = timeA.attr("title");				
+				Date time = timeFormat.parse(timeText);
+				calendar.set(1900 + date.getYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes());
+			} catch(ParseException ex) {
+				// oh well -- we have the date
+			}
+
+			// We cannot extracting this and zeroizing them makes testing easier
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			
+			Time publicationTime = new Time(calendar);
+			post.put(anno(AJuicer.PUB_TIME, publicationTime, dateElement));
+			return true;
+			
+		} catch (ParseException pe) {
+			// We caught this exception if we failed to parse date or
+			// if we failed to parse time. If we failed to parse date 'calendar'
+			// object is null and will not be stored, if we failed to parse time
+			// calendar object will contain correct date with time equals to 00:00
+			return false;
+		}			
+	}
+
 	/**
 	 * 
 	 * Extracting title from the following markup:

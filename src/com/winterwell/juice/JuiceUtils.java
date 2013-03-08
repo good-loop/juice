@@ -10,9 +10,9 @@ import org.jsoup.nodes.TextNode;
  * @author ivan
  *
  */
-public class Utils {
+public class JuiceUtils {
 	
-	private Utils() {}
+	private JuiceUtils() {}
 	
 	/**
 	 * Extract first paragraph from a text

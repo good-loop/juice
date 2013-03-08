@@ -4,6 +4,7 @@
 package com.winterwell.juice;
 
 import java.io.File;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -24,6 +25,18 @@ public class JuiceTest {
 //	@Test
 	public void testWinterwellCom() {
 		
+	}
+	
+	@Test
+	public void testNoUrl() {
+		String url = "http://familyfriendly.wordpress.com/2011/10/20/dot-fines-orbitz-for-violating-airline-price-advertising-rules/";
+		File file = TestUtils.getTestFile("wordpress", url);
+		Juice j = new Juice();
+		JuiceMe juiced = j.juice(url, FileUtils.read(file));
+		List<Item> items = juiced.getExtractedItems();
+		for (Item item : items) {
+			System.out.println(item.getXId()+"\t"+item.getTitle()+"\t"+item.get(AJuicer.URL));
+		}
 	}
 	
 //	@Test

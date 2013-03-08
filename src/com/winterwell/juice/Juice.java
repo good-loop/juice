@@ -48,10 +48,9 @@ public class Juice {
 		JuiceMe doc = new JuiceMe(url, html);
 		for(AJuicer juicer : juicers) {
 			boolean done = juicer.juice(doc);
-			// TODO stop early -- When are we done??
+			// Stop early?? No -- the juicer's judgement isn't reliable
 			if (done) {
-				Log.d(LOGTAG, "Stop juicing "+url+" at "+juicer);
-				break;
+				Log.d(LOGTAG, juicer.getClass().getSimpleName()+" says done for "+doc.getURL());
 			}
 		}		
 		return doc;
