@@ -124,9 +124,7 @@ public class WordPressJuicer extends AJuicer {
 		
 		post.put(anno(AJuicer.POST_BODY, text, rootDiv));
 		
-		Element firstParagraphElement = JuiceUtils.getFirstParagraphElement(rootDiv);
-		String firstParagraph = JuiceUtils.extractFirstParagraph(firstParagraphElement);
-		post.put(anno(AJuicer.POST_BODY_PART, firstParagraph, firstParagraphElement));
+		setPostBodyPartFromFirstParagraph(post, rootDiv);
 	}
 
 	String[] endings = new String[] {"About these ads", "Rate this"};

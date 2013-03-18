@@ -184,5 +184,20 @@ public abstract class AJuicer {
 		return null;
 	}
 
+	/**
+	 * Set the AJuicer.POST_BODY_PART annotation from the 1st paragraph in commentElement.
+	 * @param comment
+	 * @param commentElement
+	 * @return 1st paragraph, or null if not identified
+	 */
+	String setPostBodyPartFromFirstParagraph(Item comment, Element commentElement) {
+		AJuicer juicer = this;
+		Elements ps = commentElement.getElementsByTag("p");
+		Element firstParagraphElement = juicer.one(ps, false);
+		if (firstParagraphElement==null) return null;
+		String firstParagraph = JuiceUtils.extractFirstParagraph(firstParagraphElement);
+		comment.put(juicer.anno(AJuicer.POST_BODY_PART, firstParagraph, firstParagraphElement));
+		return firstParagraph;
+	}
 
 }

@@ -3,6 +3,7 @@ package com.winterwell.juice;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
+import org.jsoup.select.Elements;
 
 /**
  * Common methods for several juicers.
@@ -21,10 +22,7 @@ public class JuiceUtils {
 	 * @return First paragraph of a text.
 	 */
 	public static String extractFirstParagraph(Element pElement) {
-		
-		
-		StringBuilder sb = new StringBuilder();
-		
+		StringBuilder sb = new StringBuilder();		
 		for (Node child : pElement.childNodes()) {
 			// Stop at line break tag
 			if (child.nodeName().equals("br")) {
@@ -34,20 +32,10 @@ public class JuiceUtils {
 			if (child instanceof TextNode) {
 				sb.append(((TextNode) child).text());
 				sb.append(" ");
-			}
-			
+			}			
 		}
 		
 		return sb.toString();
 	}
 
-	/**
-	 * Get element with a first paragraph 
-	 * 
-	 * @param element - root of a tree where search is conducted
-	 * @return <p> element with a first paragraph
-	 */
-	public static Element getFirstParagraphElement(Element element) {
-		return element.getElementsByTag("p").first();
-	}
 }
