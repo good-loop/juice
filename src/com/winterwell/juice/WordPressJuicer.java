@@ -339,9 +339,10 @@ public class WordPressJuicer extends AJuicer {
 	 * @return
 	 */
 	private boolean hasReply(Element commentElement) {
+		if (commentElement==null) return false;
 		Elements commentReplyElements = commentElement.getElementsByClass("children");
 		
-		return (! commentReplyElements.isEmpty());
+		return ! commentReplyElements.isEmpty();
 	}
 	
 	private Elements getReplyCommentElement(Element commentElement) {
@@ -353,6 +354,9 @@ public class WordPressJuicer extends AJuicer {
 		assert prevMap != null;
 		for (Item comment : prevMap.keySet()) {
 			Item prevComment = prevMap.get(comment);
+			if (prevComment==null) {
+				continue;
+			}
 			if (prevComment.getXId()==null) {
 				Log.e(LOGTAG, "No xid for previous "+prevComment.getHTML());
 				continue;
