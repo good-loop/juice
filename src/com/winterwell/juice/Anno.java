@@ -32,6 +32,11 @@ public final class Anno<X> implements Serializable {
 		this.name = type;
 		this.value = value;
 		this.src = src;
+		// HACK debugging -- web XIds must have an @domain part, or be a url
+		if (type==AJuicer.AUTHOR_XID) {
+			String v = value.toString();
+			assert v.contains("@") || v.contains("://") : v;
+		}
 	}
 	
 	// Dan: toString methods are nice for debugging
