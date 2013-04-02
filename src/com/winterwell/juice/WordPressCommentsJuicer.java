@@ -38,14 +38,9 @@ public class WordPressCommentsJuicer extends AJuicer {
 	}
 
 	
-	private void extractText(Item comment) {
-		Elements commentContentElements = comment.getDoc().getElementsByClass("comment-body");
-		
-		if (commentContentElements.isEmpty()) {
-			commentContentElements = comment.getDoc().getElementsByClass("comment-content");
-		}
-		
-		Element commentElement = commentContentElements.first();
+	private void extractText(Item comment) {		
+		Element commentElement = getFirstElementByClass(comment.getDoc(), "comment-body", "comment_body",
+				"comment-content", "comment_content");
 		if (commentElement==null) {
 			Log.w(LOGTAG, "No comment element for "+comment);
 			return;
@@ -80,7 +75,8 @@ public class WordPressCommentsJuicer extends AJuicer {
 	 * @param comment
 	 */
 	private void extractAuthorMetadata(Item comment) {		
-		Element authorElement = getFirstElementByClass(comment.getDoc(), "comment-author", "comment_author", "vcard");		
+		Element authorElement = getFirstElementByClass(comment.getDoc(), 
+				"comment-author", "comment_author", "vcard");		
 		if (authorElement==null) {
 			return;
 		}
@@ -113,7 +109,7 @@ public class WordPressCommentsJuicer extends AJuicer {
 	 * 
 	 */
 	private void extractPostMetadata(Item comment) {
-		Element commentMetaElement = getFirstElementByClass(comment.getDoc(), "comment-meta");		
+		Element commentMetaElement = getFirstElementByClass(comment.getDoc(), "comment-meta", "comment_meta");		
 		if (commentMetaElement== null) {
 			return;
 		}
