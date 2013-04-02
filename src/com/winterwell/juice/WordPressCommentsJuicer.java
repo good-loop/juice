@@ -79,12 +79,8 @@ public class WordPressCommentsJuicer extends AJuicer {
 	 * 
 	 * @param comment
 	 */
-	private void extractAuthorMetadata(Item comment) {
-		Elements commentAuthorElements = comment.getDoc().getElementsByClass("comment-author");		
-		if (commentAuthorElements.isEmpty()) {
-			return;
-		}		
-		Element authorElement = commentAuthorElements.first();
+	private void extractAuthorMetadata(Item comment) {		
+		Element authorElement = getFirstElementByClass(comment.getDoc(), "comment-author", "comment_author", "vcard");		
 		if (authorElement==null) {
 			return;
 		}
