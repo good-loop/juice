@@ -1,6 +1,5 @@
 package com.winterwell.juice;
 
-import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -18,7 +16,6 @@ import org.jsoup.select.Elements;
 import winterwell.utils.Key;
 import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils;
-import winterwell.utils.web.WebUtils2;
 
 
 /**

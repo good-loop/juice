@@ -8,6 +8,7 @@ import org.jsoup.select.Elements;
 import winterwell.utils.Key;
 import winterwell.utils.NotUniqueException;
 import winterwell.utils.time.Time;
+import creole.data.XId;
 
 /**
  * Base for building juicers. Also defines the standard annotations. 

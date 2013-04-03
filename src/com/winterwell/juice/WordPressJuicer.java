@@ -14,7 +14,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
-import winterwell.utils.NotUniqueException;
 import winterwell.utils.StrUtils;
 import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;

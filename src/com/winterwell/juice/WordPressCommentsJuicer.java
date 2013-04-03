@@ -1,17 +1,13 @@
 package com.winterwell.juice;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
-import winterwell.utils.web.WebUtils;
-import winterwell.utils.web.WebUtils2;
 
 
 /**
