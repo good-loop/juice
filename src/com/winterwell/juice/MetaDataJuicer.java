@@ -101,13 +101,16 @@ public class MetaDataJuicer extends AJuicer {
 				
 		// Website domain
 		String url = item.get(AJuicer.URL);
-		if (url == null) url = document.getURL();
 		String domain = null;
 		if (url != null) {
 			domain = WebUtils.getDomain(url);
-		}			
+		}
+		if (domain==null) {
+			String du = document.getURL();
+			domain = WebUtils.getDomain(du);
+		}
 		if (domain==null) domain = "web";
-
+	
 		// Author tag?
 		// e.g. <meta name=author content=eliphas>
 		for (Element metaTag : metaTags) {
