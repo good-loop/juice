@@ -28,6 +28,20 @@ public class JuiceTest {
 	}
 	
 	@Test
+	public void testMiscBlogEngine() {
+		String url = "http://www.runnersworld.co.uk/gear/gear-pick-merrell-barefoot-road-glove-dash-2/9500.html";
+		File file = TestUtils.getTestFile("misc", url);
+		Juice j = new Juice();
+		String html = FileUtils.read(file);
+		JuiceMe juiced = j.juice(url, html);
+		List<Item> items = juiced.getExtractedItems();
+		for (Item item : items) {
+			System.out.println(item.getXId()+"\t"+item.getTitle()+"\t"+item.get(AJuicer.URL));
+		}
+	}
+
+	
+	@Test
 	public void testNoUrl() {
 		String url = "http://familyfriendly.wordpress.com/2011/10/20/dot-fines-orbitz-for-violating-airline-price-advertising-rules/";
 		File file = TestUtils.getTestFile("wordpress", url);

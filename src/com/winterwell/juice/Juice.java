@@ -39,8 +39,9 @@ public class Juice {
 		juicers = new AJuicer[]{				
 			new WordPressJuicer(),
 			new PinterestJuicer(),
-			new MetaDataJuicer()
+			new MetaDataJuicer(),
 //			new GenericJuicer()	
+			new CommonNamesJuicer()
 		};
 	}
 	

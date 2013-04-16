@@ -165,11 +165,11 @@ public class WordPressJuicer extends AJuicer {
 		Element metadataElement = getFirstElementByClass(post.getDoc(), "entry-meta", "post-meta");		
 		if (metadataElement==null) {
 			Log.d(LOGTAG, "No entry-meta elements");
-			Element dateElement = getFirstElementByClass(post.getDoc(), "entry-date", "post-date", "postdate");
+			Element dateElement = getFirstElementByClass(post.getDoc(), "entry-date", "post-date");
 			extractMetadata2_date(post, dateElement);
 			return;
 		}		
-		Element dateElement = getFirstElementByClass(metadataElement, "entry-date", "post-date", "postdate");
+		Element dateElement = getFirstElementByClass(metadataElement, "entry-date", "post-date");
 		extractMetadata2_date(post, dateElement);
 		
 		// Extract author's name

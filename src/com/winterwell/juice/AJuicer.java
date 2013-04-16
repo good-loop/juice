@@ -173,13 +173,24 @@ public abstract class AJuicer {
 	/**
 	 * 
 	 * @param element
-	 * @param cssClasses
+	 * @param cssClasses This will also try variants by removing - and _
 	 * @return An element matching one of the csssClasses, or null 
 	 */
 	protected Element getFirstElementByClass(Element element, String... cssClasses) {
 		for (String c : cssClasses) {
 			Elements es = element.getElementsByClass(c);
 			if (es.size() != 0) return es.get(0);
+			// Try variants
+			if (c.contains("-")) {
+				c = c.replace("-", "_");
+				es = element.getElementsByClass(c);
+				if (es.size() != 0) return es.get(0);
+			}
+			if (c.contains("_")) {
+				c = c.replace("_", "");
+				es = element.getElementsByClass(c);
+				if (es.size() != 0) return es.get(0);
+			}
 		}		
 		return null;
 	}

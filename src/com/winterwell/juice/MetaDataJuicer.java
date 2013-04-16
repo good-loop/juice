@@ -26,7 +26,7 @@ import winterwell.utils.web.WebUtils;
  */
 public class MetaDataJuicer extends AJuicer {
 
-	private static final String ANON = "anon";
+	static final String ANON = "anon";
 
 	// Map from name of property to 
 	private final Map<String, Key> propertyKeyMap = new HashMap<String, Key>() {{
@@ -143,7 +143,12 @@ public class MetaDataJuicer extends AJuicer {
 	
 	private SimpleDateFormat dataFormater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
+	/**
+	 * 
+	 */
 	private void saveValue(Item item, Key key, String contentStr, Element srcTag) {
+		assert item != null && key != null : contentStr;
+		assert contentStr!=null : item+" "+key;
 		Object value = null;
 		
 		// We store all tags at once
@@ -178,6 +183,12 @@ public class MetaDataJuicer extends AJuicer {
 			} 
 		} else if (key == AJuicer.AUTHOR_XID) {
 			value = contentStr += "@web";
+		} else if (key == AJuicer.URL || key==AJuicer.AUTHOR_URL) {
+			value = contentStr;
+//			if ( ! contentStr.startsWith("http")) {
+			// TODO resolve the URI with the base url to get an absolute one
+//				WebUtils.resolveUri(base, extension);
+//			}
 		} else {
 			value = contentStr;
 		}
