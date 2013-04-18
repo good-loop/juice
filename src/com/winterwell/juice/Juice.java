@@ -51,6 +51,8 @@ public class Juice {
 			boolean done = juicer.juice(doc);
 			// Stop early?? No -- the juicer's judgement isn't reliable
 			if (done) {
+				// yes for some
+				if (juicer instanceof PinterestJuicer) return doc;
 				Log.d(LOGTAG, juicer.getClass().getSimpleName()+" says done for "+doc.getURL());
 			}
 		}		

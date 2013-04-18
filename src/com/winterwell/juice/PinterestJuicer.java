@@ -46,7 +46,7 @@ public class PinterestJuicer extends AJuicer {
 			if (propertyVal.startsWith("pinterestapp:source")) {
 				String src = metaTag.attr("content");
 				if (src==null || src.isEmpty()) continue;
-				item.put(anno(POST_BODY, src, metaTag)); // ?? Where to store the source link?
+				item.put(anno(POST_BODY, src, metaTag)); // TODO ?? Where to store the source link?
 				continue;
 			}
 			if (propertyVal.startsWith("pinterestapp:pinboard")) {
