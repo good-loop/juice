@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import winterwell.utils.Utils;
+
 /**
  * Leaves most of the work to the {@link MetaDataJuicer}
  * @testedby {@link PinterestJuicerTest}
@@ -46,7 +48,7 @@ public class PinterestJuicer extends AJuicer {
 			if (propertyVal.startsWith("pinterestapp:source")) {
 				String src = metaTag.attr("content");
 				if (src==null || src.isEmpty()) continue;
-				item.put(anno(POST_BODY, src, metaTag)); // TODO ?? Where to store the source link?
+				item.put(anno(LINK, src, metaTag)); // TODO ?? Where to store the source link?
 				continue;
 			}
 			if (propertyVal.startsWith("pinterestapp:pinboard")) {
@@ -71,8 +73,20 @@ public class PinterestJuicer extends AJuicer {
 			item.put(anno(TITLE, title, null));
 		}
 		
+		// XID = pin number if we can
+		String _url = Utils.or(item.get(AJuicer.URL), doc.url);
+		if (_url!=null) {
+			Matcher m = PIN_NUMBER.matcher(_url);
+			if (m.find()) {
+				String pin = m.group(1);
+				item.put(anno(AJuicer.XID, pin+"@pinterest", null));
+			}
+		}
+		
 		return true;
 	}
+	
+	static Pattern PIN_NUMBER = Pattern.compile("pin/(\\d+)");
 	
 	
 

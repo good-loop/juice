@@ -105,6 +105,12 @@ public abstract class AJuicer {
 	 * The "best" image to show as an illustration for this post.
 	 */
 	public static final Key<String> IMAGE_URL = new Key("img");
+	
+	/**
+	 * If this is a link somewhere, where does it go?
+	 */
+	public static final Key<String> LINK = new Key("link");
+	
 	/**
 	 * A short summary description of the post.
 	 */

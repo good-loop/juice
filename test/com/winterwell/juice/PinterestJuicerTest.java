@@ -19,14 +19,17 @@ public class PinterestJuicerTest {
 		boolean ok = pj.juice(doc);
 		Item item = doc.getMainItem();
 		System.out.println(item.getTitle());
+		System.out.println(item.getXId());
 		System.out.println(item.getText());
 //		System.out.println(item.getHTML());	
 		System.out.println(item.get(AJuicer.IMAGE_URL));
+		System.out.println(item.get(AJuicer.LINK));
 		
+		// This should be the same
 		JuiceMe juiced = new Juice().juice(url, html);
 		Item item2 = juiced.getMainItem();
 		System.out.println(item2.getTitle());
-		System.out.println(item2.getText());	
+//		System.out.println(item2.getText());	
 		System.out.println(item2.get(AJuicer.IMAGE_URL));
 		
 	}
