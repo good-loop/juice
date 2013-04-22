@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.jsoup.nodes.Element;
 
 import winterwell.utils.Key;
+import winterwell.utils.reporting.Log;
 
 /**
  * Annotate a region of a document.
@@ -35,7 +36,9 @@ public final class Anno<X> implements Serializable {
 		// HACK debugging -- web XIds must have an @domain part, or be a url
 		if (type==AJuicer.AUTHOR_XID) {
 			String v = value.toString();
-			assert v.contains("@") || v.contains("://") : v;
+			if ( ! v.contains("@") && ! v.contains("://")) {
+				Log.e("Juicer.Anno.fail", "Bogus oxid: "+v);
+			}
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 /**
  * Class for extracting metadata from WordPress posts. It can extract post's tags,
@@ -52,7 +54,7 @@ public class WordPressJuicer extends AJuicer {
 			extractTags(postItem);
 			extractRating(postItem);
 			extractPostBody(postItem);
-			extractMetadata(postItem);
+			extractMetadata(postItem, document);
 			extractTitle(postItem);			
 			
 			// Setup XId??
@@ -160,8 +162,9 @@ public class WordPressJuicer extends AJuicer {
 	 *            title="View all posts by winterstein">winterstein
 	 *         </a>
 	 *     </span>
+	 * @param document 
 	 */
-	private void extractMetadata(Item post) {
+	private void extractMetadata(Item post, JuiceMe document) {
 		Element metadataElement = getFirstElementByClass(post.getDoc(), "entry-meta", "post-meta");		
 		if (metadataElement==null) {
 			Log.d(LOGTAG, "No entry-meta elements");
@@ -184,16 +187,29 @@ public class WordPressJuicer extends AJuicer {
 		
 		Elements authorLink = post.getDoc().getElementsByAttributeValue("rel", "author");
 		Element author = one(authorLink, false); // If a post is by 2 authors -- valid but rare -- this will only get one!!
-		if (author!=null) {				
-			post.put(anno(AJuicer.AUTHOR_NAME, author.text(), author));
-			if ("a".equals(author.tagName())) {
-				String url = author.attr("href");
-				if ( ! url.isEmpty()) {
-					post.put(anno(AJuicer.AUTHOR_XID, url, author));
-					post.put(anno(AJuicer.AUTHOR_URL, url, author));
-				}
+		if (author==null) return;				
+		post.put(anno(AJuicer.AUTHOR_NAME, author.text(), author));
+		if ("a".equals(author.tagName())) {
+			String url = author.attr("href");
+			if (url==null || url.length()<2) return;
+			String docUrl = document.getURL();
+			if (docUrl!=null) {
+				url = WebUtils2.resolveUri(docUrl, url).toString();
 			}
-		}		
+			post.put(anno(AJuicer.AUTHOR_URL, url, author));
+			// Pull out the last bit for the XID
+			if (url.charAt(url.length()-1)=='/') {
+				url = url.substring(0, url.length()-1);
+			}
+			int i = url.lastIndexOf('/');
+			if (i==-1 || i==url.length()-1 || document.getDomain()==null) {
+				post.put(anno(AJuicer.AUTHOR_XID, url, author));
+				return;
+			}			
+			String xid = url.substring(i+1)+"@"+document.getDomain();
+			post.put(anno(AJuicer.AUTHOR_XID, xid, author));
+			return;
+		}			
 	}
 	
 	

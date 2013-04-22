@@ -8,6 +8,7 @@ import org.jsoup.nodes.Element;
 
 import winterwell.utils.StrUtils;
 import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 /**
  * Internal container for document.
@@ -39,7 +40,9 @@ public class JuiceMe
 	String url;
 	Element doc;
 	
-	private final List<Item> extractedItems = new ArrayList<Item>();	
+	private final List<Item> extractedItems = new ArrayList<Item>();
+
+	private String domain;	
 	
 	public JuiceMe(String url, String html) {
 		assert html != null : url;
@@ -125,6 +128,17 @@ public class JuiceMe
 			addItem(item);
 		}
 		return extractedItems.get(0);
+	}
+
+	/**
+	 * @return e.g. google.com. Can be null if the url is relative.
+	 */
+	public String getDomain() {
+		if (domain==null) {
+			if (getURL()==null) return null;
+			domain = WebUtils.getDomain(getURL());
+		}
+		return domain;			
 	}
 	
 }
