@@ -9,13 +9,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import winterwell.utils.Key;
+import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 
 /**
@@ -27,6 +30,8 @@ import winterwell.utils.web.WebUtils;
 public class MetaDataJuicer extends AJuicer {
 
 	static final String ANON = "anon";
+
+	private static final String LOGTAG = "MetaDataJuicer";
 
 	// Map from name of property to 
 	private final Map<String, Key> propertyKeyMap = new HashMap<String, Key>() {{
@@ -63,7 +68,7 @@ public class MetaDataJuicer extends AJuicer {
 			// Check if it is metadata if Open Graph format
 			String propertyVal = metaTag.attr("property");			
 			if ( ! propertyVal.isEmpty()) {
-				extractOG(item, propertyVal, metaTag);
+				extractOG(item, propertyVal, metaTag, document);
 				continue;
 			}
 			String nameValue = metaTag.attr("name");
@@ -135,21 +140,23 @@ public class MetaDataJuicer extends AJuicer {
 		}	
 	}	
 
-	/** Extract Open Graph metadata from meta tag */
-	private void extractOG(Item doc, String propertyVal, Element metaTag) {
+	/** Extract Open Graph metadata from meta tag 
+	 * @param document */
+	private void extractOG(Item doc, String propertyVal, Element metaTag, JuiceMe document) {
 		String contentVal = metaTag.attr("content");
 		Key key = propertyKeyMap.get(propertyVal);		
 		if (key != null) {
-			saveValue(doc, key, contentVal, metaTag);
+			extractOG2_saveValue(doc, key, contentVal, metaTag, document);
 		}		
 	}
 	
 	private SimpleDateFormat dataFormater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 	/**
+	 * @param document 
 	 * 
 	 */
-	private void saveValue(Item item, Key key, String contentStr, Element srcTag) {
+	private void extractOG2_saveValue(Item item, Key key, String contentStr, Element srcTag, JuiceMe document) {
 		assert item != null && key != null : contentStr;
 		assert contentStr!=null : item+" "+key;
 		Object value = null;
@@ -187,11 +194,30 @@ public class MetaDataJuicer extends AJuicer {
 		} else if (key == AJuicer.AUTHOR_XID) {
 			value = contentStr += "@web";
 		} else if (key == AJuicer.URL || key==AJuicer.AUTHOR_URL) {
+			// Bug #2997: Some muppet put an a tag into their metadata instead of a url
+			if (contentStr.startsWith("<a")) {				
+				Matcher m = WebUtils2.pHref.matcher(contentStr);
+				boolean ok = m.find();
+				if (ok) {
+					contentStr = m.group(1);
+				} else {
+					Log.w(LOGTAG, "Bogus url: "+contentStr);
+					return;
+				}
+			}
+			// Resolve relative urls
+			if ( ! contentStr.startsWith("http") && document!=null && document.getURL()!=null) {
+				String base = document.getURL();
+				// Resolve the URI with the base url to get an absolute one
+				try {
+					contentStr = WebUtils.resolveUri(base, contentStr).toString();
+				} catch(Exception ex) {
+					Log.w(LOGTAG, "Bogus url: "+contentStr+" in doc "+base+": "+ex);
+					return;
+				}
+			}
+			// OK
 			value = contentStr;
-//			if ( ! contentStr.startsWith("http")) {
-			// TODO resolve the URI with the base url to get an absolute one
-//				WebUtils.resolveUri(base, extension);
-//			}
 		} else {
 			value = contentStr;
 		}

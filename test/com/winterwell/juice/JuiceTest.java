@@ -28,6 +28,21 @@ public class JuiceTest {
 	}
 	
 	@Test
+	public void testBug2997() {
+		String url = "http://www.solunet-infomex.com/mexbdir/company.cfm?company=1545622_Telmex_Guadalajara_Jalisco";
+		File file = TestUtils.getTestFile("misc", url);
+		Juice j = new Juice();
+		String html = FileUtils.read(file);
+		JuiceMe juiced = j.juice(url, html);
+		List<Item> items = juiced.getExtractedItems();
+		for (Item item : items) {
+			String iurl = item.get(AJuicer.URL);
+			assert iurl==null || iurl.startsWith("http") : iurl;
+			System.out.println(item.getXId()+"\t"+item.getTitle()+"\t"+iurl);
+		}
+	}
+	
+	@Test
 	public void testMiscBlogEngine() {
 		String url = "http://www.runnersworld.co.uk/gear/gear-pick-merrell-barefoot-road-glove-dash-2/9500.html";
 		File file = TestUtils.getTestFile("misc", url);
