@@ -18,10 +18,41 @@ import org.junit.Test;
 
 import winterwell.utils.Key;
 import winterwell.utils.io.FileUtils;
+import winterwell.utils.time.TUnit;
 import winterwell.utils.time.Time;
 
 public class WordPressJuicerTest {
 
+
+	/**
+	 * c.f. duplicate web results in Everest
+	 */
+	@Test
+	public void testIssue3136() {
+		String url = "http://appletreemarketing.wordpress.com/2011/06/20/do-you-really-fit-the-best-with-everest/";
+		File file = TestUtils.getTestFile("misc", url);
+		String html = FileUtils.read(file);
+		JuiceMe document = new JuiceMe(url, html);
+		
+		WordPressJuicer wpj = new WordPressJuicer();
+		
+		boolean done = wpj.juice(document);
+		
+		System.out.println(done);		
+		List<Item> items = document.getExtractedItems();		
+		for (Item item : items) {
+			String iurl = item.get(AJuicer.URL);
+			assert iurl==null || iurl.startsWith("http") : iurl;
+			System.out.println(item.getXId()+"\t"+item.getTitle()+"\t"+iurl);
+		}
+		
+		Item main = document.getMainItem();
+		assert main.getPublishedTime() != null;
+		//Monday 20 June, 2011 
+		assert Math.abs(new Time("20 June 2011").diff(
+						main.getPublishedTime())) < TUnit.WEEK.millisecs : main.getPublishedTime(); 
+	}
+	
 
 	@Test
 	public void testPoorExtractionBuddhistGeeks() {

@@ -21,6 +21,7 @@ import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils;
 import winterwell.utils.web.WebUtils2;
+import winterwell.web.fields.DateField;
 
 /**
  * Class for extracting metadata from WordPress posts. It can extract post's tags,
@@ -170,6 +171,7 @@ public class WordPressJuicer extends AJuicer {
 			Log.d(LOGTAG, "No entry-meta elements");
 			Element dateElement = getFirstElementByClass(post.getDoc(), "entry-date", "post-date");
 			extractMetadata2_date(post, dateElement);
+			// author??
 			return;
 		}		
 		Element dateElement = getFirstElementByClass(metadataElement, "entry-date", "post-date");
@@ -215,9 +217,14 @@ public class WordPressJuicer extends AJuicer {
 	
 	private boolean extractMetadata2_date(Item post, Element dateElement) {
 		if (dateElement==null) return false;
+		String dateText = dateElement.text();
+		if (Utils.isBlank(dateText)) return false;
+		
+		// TODO replace with DateField code??
+		
+		// TODO is this code needed??
 		try {
 			// Extract posting date				
-			String dateText = dateElement.text();
 			Date date = dateFormat.parse(dateText);						
 			GregorianCalendar calendar = new GregorianCalendar(1900 + date.getYear(), date.getMonth(), date.getDate());
 			
@@ -244,8 +251,17 @@ public class WordPressJuicer extends AJuicer {
 			// if we failed to parse time. If we failed to parse date 'calendar'
 			// object is null and will not be stored, if we failed to parse time
 			// calendar object will contain correct date with time equals to 00:00
-			return false;
 		}			
+		
+		// Use WW code
+		try {
+			Time date = DateField.parse(dateText);
+			post.put(anno(AJuicer.PUB_TIME, date, dateElement));
+			return true;
+		} catch(Exception ex) {
+			// oh well
+			return false;
+		}
 	}
 
 	/**
