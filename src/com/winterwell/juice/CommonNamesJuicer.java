@@ -4,6 +4,9 @@
 package com.winterwell.juice;
 
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import winterwell.utils.Utils;
 
 /**
  * Crude hack! Guess stuff from commonly used css class names.
@@ -21,6 +24,10 @@ public class CommonNamesJuicer extends AJuicer {
 		String body = item.get(POST_BODY);
 		if (body==null) {
 			juice2_body(doc);
+		}
+		// Title?
+		if (Utils.isBlank(item.getTitle())) {
+			juice2_title(doc);
 		}
 		// Author?
 		String oxid = item.get(AUTHOR_XID);
@@ -40,6 +47,19 @@ public class CommonNamesJuicer extends AJuicer {
 		}
 	}
 
+	private void juice2_title(JuiceMe doc) {
+		Elements ts = doc.getDoc().getElementsByTag("title");
+		if (ts==null || ts.isEmpty()) return;
+		Element te = ts.get(0);
+		Item item = doc.getMainItem();
+		String text = te.text();
+		// TODO should we throw away the blog/site identifier? E.g. stuff before/after a |??
+		if ( ! Utils.isBlank(text)) {
+			item.putIfAbsent(anno(TITLE, text, te));
+		}
+	}
+
+	
 	private void juice2_author(JuiceMe doc) {
 		if (true) return; // TODO more work
 		// TODO we'd be better scanning every div, p and span for author class
