@@ -7,6 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import winterwell.utils.Utils;
+import winterwell.utils.reporting.Log;
 
 /**
  * Crude hack! Guess stuff from commonly used css class names.
@@ -61,7 +62,6 @@ public class CommonNamesJuicer extends AJuicer {
 
 	
 	private void juice2_author(JuiceMe doc) {
-		if (true) return; // TODO more work
 		// TODO we'd be better scanning every div, p and span for author class
 		Element e = getFirstElementByClass(doc.getDoc(), 
 				"author-details", "author", "post-author-details", "article-author-details");
@@ -69,6 +69,9 @@ public class CommonNamesJuicer extends AJuicer {
 			Item item = doc.getMainItem();
 			String text = e.text();
 			// TODO
+			if ( ! Utils.isBlank(text)) {
+				Log.d(LOGTAG, "TODO oxid from "+text);
+			}
 			//item.putIfAbsent(anno(AUTHOR_XID, text, e));
 		}
 	}
