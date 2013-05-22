@@ -3,6 +3,8 @@ package com.winterwell.juice;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Element;
 
@@ -27,7 +29,7 @@ public class WordPressCommentsJuicer extends AJuicer {
 		for (Item commentItem : commentItems) {		
 			extractText(commentItem);
 			extractAuthorMetadata(commentItem);
-			extractPostMetadata(commentItem);
+			extractPostMetadata(commentItem, commentDoc);
 		}
 		
 		return true;
@@ -103,10 +105,36 @@ public class WordPressCommentsJuicer extends AJuicer {
 	 * 		June 12, 2012 at 11:36 am
 	 * </a>	
 	 * 
+	 * TODO Handle threaded comments -- as seen here: 
+	 * http://canadiansportsfan.wordpress.com/2012/07/29/olympic-broadcast-schedule-day-2-sunday-july-29/
+	 * 
+	 * Seen from 
+	 * @param parentDoc 
 	 */
-	private void extractPostMetadata(Item comment) {
+	private void extractPostMetadata(Item comment, JuiceMe parentDoc) {
 		Element commentMetaElement = getFirstElementByClass(comment.getDoc(), "comment-meta");		
 		if (commentMetaElement== null) {
+			// Make an XId from the id number
+			Element container = getFirstElementByClass(comment.getDoc(), "comment");
+			String id = container.attr("id");
+			if (id==null) {
+				return;				
+			}
+			Pattern idnum = Pattern.compile(".*comment[-_]?(\\d+)");
+			Matcher m = idnum.matcher(id);
+			if (m.matches()) {
+				String num = m.group(1);
+				String url = parentDoc.getURL();
+				// TODO Is this ever different??
+				String mu = parentDoc.getMainItem().get(AJuicer.URL);
+				if (url==null) url = mu;
+				if (url==null) return;
+				if (mu !=null && ! url.equals(mu)) {
+					Log.e(LOGTAG, "Doc url: "+url+" != main-item-url: "+mu);
+				}
+				String xid = url+"#comment-"+idnum;
+				comment.put(anno(AJuicer.XID, xid, container));
+			}
 			return;
 		}
 		
