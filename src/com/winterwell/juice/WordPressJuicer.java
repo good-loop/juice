@@ -115,7 +115,8 @@ public class WordPressJuicer extends AJuicer {
 	/** Extract text body of a post */
 	private void extractPostBody(Item post) {
 		// Get element with article's text
-		Element rootDiv = getFirstElementByClass(post.getDoc(), "entry-content", "post-content", "entry", "post-entry");
+		Element rootDiv = getFirstElementByClass(post.getDoc(), 
+				"entry-content", "post-content", "entry", "post-entry", "post-text", "entry-text");
 		if (rootDiv==null) {
 			Log.e(LOGTAG, "No post body? "+post.getHTML());
 			return;
