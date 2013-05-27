@@ -116,6 +116,9 @@ public class WordPressCommentsJuicer extends AJuicer {
 		if (commentMetaElement== null) {
 			// Make an XId from the id number
 			Element container = getFirstElementByClass(comment.getDoc(), "comment");
+			if (container==null) {
+				return;
+			}
 			String id = container.attr("id");
 			if (id==null) {
 				return;				
