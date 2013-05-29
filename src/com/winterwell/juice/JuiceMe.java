@@ -17,19 +17,12 @@ import winterwell.utils.web.WebUtils2;
  * for a specific part of a document an Item with extracted metadata should
  * be added to an object of this class.
  * 
- * @author ivan
+ * @author ivan 
  */
 public class JuiceMe 
 
-// extends Item 
-// Dan: I think this is a mistake, because it is unclear whether to look at the top-level JuiceMe
-// object (as MetaDataJuicer does), or the contained items (as WordPressJuicer does).
-// Also, it is 1 level (but no deeper) of a tree structure, which is a bit odd.
-// We are doing tree-structure instead via the PREVIOUS annotation (because it allows for cross-page threading).
-
 {
 
-	// Dan: toString methods are nice for debugging
 	public String toString() {
 		if (url!=null) return "JuiceMe["+url+"]"; 
 		if (html!=null) return "JuiceMe["+StrUtils.ellipsize(WebUtils.stripTags(html), 140)+"]";

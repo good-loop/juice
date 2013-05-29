@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import winterwell.utils.StrUtils;
 import winterwell.utils.Utils;
 import winterwell.utils.io.FileUtils;
 import winterwell.utils.time.TUnit;
@@ -27,6 +28,22 @@ public class JuiceTest {
 		
 	}
 	
+	/**
+	 * c.f. bug #3646
+	 */
+	@Test
+	public void testRefLoop() {
+		String url = "http://news.google.com/news/url?sa=t&fd=R&usg=AFQjCNFdiIbKyKJ0bp2bQgdXxUDX3xsZeQ&url=http://metro.co.uk/2013/05/28/gordon-brown-is-parliaments-highest-earning-mp-but-he-donates-it-all-to-charity-3810963/";
+		File file = TestUtils.getTestFile("misc", url);
+		Juice j = new Juice();
+		String html = FileUtils.read(file);
+		JuiceMe juiced = j.juice(url, html);
+		List<Item> items = juiced.getExtractedItems();
+		for (Item item : items) {
+			String iurl = item.get(AJuicer.URL);
+			System.out.println(item.getXId()+"\t"+item.getTitle()+"\t"+iurl+"\t"+StrUtils.ellipsize(item.getText(), 100));
+		}
+	}
 	
 	@Test
 	public void testBadParse() {
