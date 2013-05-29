@@ -5,11 +5,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -17,6 +19,7 @@ import org.jsoup.select.Selector;
 
 import winterwell.utils.StrUtils;
 import winterwell.utils.Utils;
+import winterwell.utils.containers.ArraySet;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils;
@@ -46,9 +49,12 @@ public class WordPressJuicer extends AJuicer {
 			return false;
 		}
 		
-		Elements postElements = document.getDoc().getElementsByClass("post");
-		
+		Elements postElements = document.getDoc().getElementsByClass("post");		
 		for (Element postElement : postElements) {
+			// Ignore related posts (c.f. bug #3747)
+			if (juice2_ignorePost(postElement)) {
+				continue;
+			}
 			Item postItem = new Item(postElement);
 			postItem.put(anno(AJuicer.MSG_TYPE, KMsgType.POST, postElement));
 			
@@ -93,6 +99,30 @@ public class WordPressJuicer extends AJuicer {
 		return ! document.getExtractedItems().isEmpty();
 	}
 	
+	/**
+	 * @param postElement
+	 * @return true to ignore this post!
+	 */
+	private boolean juice2_ignorePost(Element postElement) {
+		// Recurse up the DOM looking for containers such as "related-posts" which indicate this
+		// item isn't "on" this page
+		Element parent = postElement;
+		while(true) {
+			if (parent==null) {
+				// end of recursion
+				return false;
+			}
+			Set<String> classes = parent.classNames();
+			if ( ! Collections.disjoint(classes, IGNORED_DIV_CLASSES)) {
+				Log.d(LOGTAG, "Skipping post-to-ignore-here ("+classes+")	"+StrUtils.ellipsize(postElement.text(), 140));
+				return true;
+			}		
+			parent = parent.parent();
+		}
+	}
+	
+	static Set<String> IGNORED_DIV_CLASSES = new ArraySet("related-posts", "sidebar");
+
 	private void extractTags(Item post) {
 		Elements tagElements = post.getDoc().getElementsByAttributeValueEnding("rel",
 				"tag");
