@@ -11,12 +11,16 @@ import winterwell.utils.web.WebUtils;
 import winterwell.utils.web.WebUtils2;
 
 /**
- * Internal container for document.
- * 
- * It extends Item, to store document-level metadata. To store metadata
+ * Internal container for document. Uses JSoup as a lenient parser.
+ * <p>
+ * To store metadata
  * for a specific part of a document an Item with extracted metadata should
  * be added to an object of this class.
  * 
+ * <p>
+ *  JSoup provides some handy selection methods via .select():
+ *  http://jsoup.org/cookbook/extracting-data/selector-syntax
+ *  
  * @author ivan 
  */
 public class JuiceMe 
@@ -82,7 +86,7 @@ public class JuiceMe
 	 * Add item extracted from a document
 	 * @param item
 	 */
-	void addItem(Item item) {
+	public void addItem(Item item) {
 		extractedItems.add(item);		
 	}
 

@@ -59,7 +59,7 @@ public class MetaDataJuicer extends AJuicer {
 	}};
 	
 	@Override
-	boolean juice(JuiceMe document) {		
+	public boolean juice(JuiceMe document) {		
 		Item item = document.getMainItem();
 		
 		Elements metaTags = document.getDoc().getElementsByTag("meta");

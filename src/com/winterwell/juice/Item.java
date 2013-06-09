@@ -28,11 +28,11 @@ public class Item {
 	
 	Element doc;
 		
-	<X> void put(Anno<X> anno) {
+	public <X> void put(Anno<X> anno) {
 		type2annotation.put(anno.name, anno);
 	}
 	
-	<X> void putIfAbsent(Anno<X> value) {
+	public <X> void putIfAbsent(Anno<X> value) {
 		if (value==null) return;
 		if (type2annotation.containsKey(value.name)) return;
 		

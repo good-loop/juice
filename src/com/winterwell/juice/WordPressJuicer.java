@@ -42,7 +42,7 @@ public class WordPressJuicer extends AJuicer {
 	static final String LOGTAG = "WordPressJuicer";
 
 	@Override
-	boolean juice(JuiceMe document) {
+	public boolean juice(JuiceMe document) {
 		// Fail fast for non-WordPress
 		String blog = new BlogSniffer().sniff(document.getHTML());
 		if ( ! BlogSniffer.WORDPRESS.equals(blog)) {

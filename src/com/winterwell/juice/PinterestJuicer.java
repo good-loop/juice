@@ -19,7 +19,7 @@ public class PinterestJuicer extends AJuicer {
 	MetaDataJuicer mdj = new MetaDataJuicer();
 	
 	@Override
-	boolean juice(JuiceMe doc) {
+	public boolean juice(JuiceMe doc) {
 		if (doc.url==null || ! doc.url.contains("pinterest.com/pin/")) {
 			return false;
 		}

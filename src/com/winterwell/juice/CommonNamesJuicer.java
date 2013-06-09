@@ -19,7 +19,7 @@ public class CommonNamesJuicer extends AJuicer {
 	static final String LOGTAG = "CommonNamesJuicer";
 
 	@Override
-	boolean juice(JuiceMe doc) {
+	public boolean juice(JuiceMe doc) {
 		// Main body?
 		Item item = doc.getMainItem();
 		String body = item.get(POST_BODY);

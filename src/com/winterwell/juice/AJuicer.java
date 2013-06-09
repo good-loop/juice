@@ -2,15 +2,22 @@ package com.winterwell.juice;
 
 import java.util.List;
 
+import javax.xml.xpath.XPath;
+
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import winterwell.utils.Key;
 import winterwell.utils.NotUniqueException;
 import winterwell.utils.time.Time;
+import winterwell.utils.web.WebUtils2;
 
 /**
- * Base for building juicers. Also defines the standard annotations. 
+ * Base for building juicers. Also defines the standard annotations.
+ * <p>
+ *  JSoup provides some handy selection methods via .select():
+ *  http://jsoup.org/cookbook/extracting-data/selector-syntax
+ *  
  * @author Daniel, Ivan
  *
  */
@@ -140,7 +147,7 @@ public abstract class AJuicer {
 	 * @param pages The extractions made by this juicer.
 	 * @param true if this juicer considers the job to be done
 	 */
-	abstract boolean juice(JuiceMe doc);
+	protected abstract boolean juice(JuiceMe doc);
 
 	/**
 	 * Convenience method for new Anno (this will infer the generic parameter for you).
@@ -175,7 +182,8 @@ public abstract class AJuicer {
 		if (strict && elements.size() > 1) throw new NotUniqueException(elements.outerHtml());
 		return elements.get(0);
 	}
-
+	
+	
 	/**
 	 * 
 	 * @param element

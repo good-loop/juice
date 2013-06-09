@@ -5,7 +5,7 @@ class GenericJuicer extends AJuicer {
 
 
 	@Override
-	boolean juice(JuiceMe doc) {
+	public boolean juice(JuiceMe doc) {
 		// TODO Auto-generated method stub
 		return false;
 	}

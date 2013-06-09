@@ -23,7 +23,7 @@ public class WordPressCommentsJuicer extends AJuicer {
 	private static final String LOGTAG = WordPressJuicer.LOGTAG;
 
 	@Override
-	boolean juice(JuiceMe commentDoc) {
+	public boolean juice(JuiceMe commentDoc) {
 		Collection<Item> commentItems = commentDoc.getItemsOfType(KMsgType.COMMENT);
 		
 		for (Item commentItem : commentItems) {		
