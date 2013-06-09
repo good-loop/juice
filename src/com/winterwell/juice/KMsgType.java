@@ -13,5 +13,10 @@ public enum KMsgType {
 	VIDEO,
 	IMAGE,
 	EVENT,
-	MISC 
+	MISC,
+	
+	/** Not really a msg type! */
+	PERSON,
+	PLACE,
+	COMPANY
 }
