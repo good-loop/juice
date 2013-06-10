@@ -1,7 +1,9 @@
 package com.winterwell.juice;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jsoup.nodes.Element;
@@ -11,6 +13,9 @@ import winterwell.utils.time.Time;
 
 /**
  * Item extracted from a web-page.
+ * 
+ * The data is all stored in a map of {@link Anno}s. This class provides convenience
+ * methods for getting & setting common properties.
  * 
  * @author ivan
  * 
@@ -79,6 +84,10 @@ public class Item {
 		return a == null ? null : (KMsgType) a.value;
 	}
 	
+	public void setType(KMsgType type) {
+		put(new Anno(AJuicer.MSG_TYPE, type, null));
+	}
+	
 	/**
 	 * Get all extracted annotaions.
 	 * @return collection of all extracted annotation for this item. If no annotations
@@ -115,6 +124,19 @@ public class Item {
 	public String getXId() {
 		Anno a = type2annotation.get(AJuicer.XID);
 		return a == null ? null : (String) a.value;
+	}
+
+	/**
+	 * Convenience for adding a tag to the {@link AJuicer#TAGS} list.
+	 * @param tag
+	 */
+	public void addTag(String tag) {
+		Anno<List<String>> tags = type2annotation.get(AJuicer.TAGS);
+		if (tags==null) {
+			tags = new Anno<List<String>>(AJuicer.TAGS, new ArrayList(), null);
+			put(tags);
+		}
+		tags.value.add(tag);
 	}
 	
 }

@@ -41,6 +41,7 @@ public abstract class AJuicer {
 	public static final Key<String> POST_BODY_PART = new Key("postBodyPart");
 	
 	public static final Key<String> TITLE = new Key("title");
+	public static final Key<String> SUB_HEADER = new Key("subHeader");
 	public static final Key<String> AUTHOR_NAME = new Key("author.name");
 	/**
 	 * Avatar image for the author.
