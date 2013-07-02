@@ -138,6 +138,8 @@ public abstract class AJuicer {
 	 * generate the same XId. I suggest using:<br>
 	 *  domain + published-time + md5hash-of-text.
 	 *   
+	 * NOTE: This does NOT include the "@web" which SoDash's WebPlugin / PageText class will append!
+	 *   
 	 * @see XId in Creole
 	 */
 	public static final Key<String> XID = new Key("xid");
