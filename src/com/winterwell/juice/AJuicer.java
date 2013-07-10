@@ -43,10 +43,12 @@ public abstract class AJuicer {
 	public static final Key<String> TITLE = new Key("title");
 	public static final Key<String> SUB_HEADER = new Key("subHeader");
 	public static final Key<String> AUTHOR_NAME = new Key("author.name");
+	public static final Key<String> AUTHOR_LOCN = new Key("author.locn");
 	/**
 	 * Avatar image for the author.
 	 */
 	public static final Key<String> AUTHOR_IMG = new Key("author.img");
+	public static final Key<String> AUTHOR_DESC = new Key("author.desc");
 	
 	/**
 	 * Author id. You might find... email, twitter, facebook, youtube, phone-number.
