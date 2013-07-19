@@ -28,6 +28,28 @@ public class JuiceTest {
 		
 	}
 	
+	@Test
+	public void testDate() {
+		String url = "http://www.worldsultimate.net/plan-a-royal-vacation-to-edinburgh-scotland.htm";
+		File file = TestUtils.getTestFile("misc", url);
+		Juice j = new Juice();
+		String html = FileUtils.read(file);
+		
+		DateFinder df = new DateFinder();
+		JuiceMe doc = new JuiceMe(url, html);
+		df.juice(doc);
+		List<Item> items0 = doc.getExtractedItems();
+		System.out.println(items0);
+		
+		JuiceMe juiced = j.juice(url, html);
+		List<Item> items = juiced.getExtractedItems();
+		for (Item item : items) {
+			String iurl = item.get(AJuicer.URL);
+			System.out.println(item.getPublishedTime()+"\t"+item.getXId()+"\t"+item.getTitle()+"\t"+iurl+"\t"+StrUtils.ellipsize(item.getText(), 100));
+			assert item.getPublishedTime() != null;
+		}
+	}
+	
 	/**
 	 * c.f. bug #3646
 	 */
