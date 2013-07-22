@@ -41,7 +41,8 @@ public class Juice {
 			new PinterestJuicer(),
 			new MetaDataJuicer(),
 //			new GenericJuicer()	
-			new CommonNamesJuicer()
+			new CommonNamesJuicer(),
+			new DateFinder()
 		};
 	}
 	

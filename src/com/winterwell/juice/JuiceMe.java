@@ -68,9 +68,12 @@ public class JuiceMe
 
 	/**
 	 * 
-	 * @return the items found in this page
+	 * @return the items found in this page. Never empty (a blank item will be created via {@link #getMainItem()} if need be)
 	 */
 	public List<Item> getExtractedItems() {
+		if (extractedItems.isEmpty()) {
+			getMainItem();
+		}
 		return extractedItems;
 	}
 	
