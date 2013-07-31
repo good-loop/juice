@@ -18,51 +18,13 @@ import com.winterwell.utils.threads.ATask;
 
 public class Spiderlet extends ATask<Item> {
 
-	
-	
-	@Override
-	public String toString() {
-		return "Spiderlet [depth=" + depth + ", url=" + url + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((spider == null) ? 0 : spider.hashCode());
-		result = prime * result + ((url == null) ? 0 : url.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Spiderlet other = (Spiderlet) obj;
-		if (spider == null) {
-			if (other.spider != null)
-				return false;
-		} else if (!spider.equals(other.spider))
-			return false;
-		if (url == null) {
-			if (other.url != null)
-				return false;
-		} else if (!url.equals(other.url))
-			return false;
-		return true;
-	}
-
 	int depth; 	
 	String url;
 
 	SiteSpider spider;
 	List<String> links;
 	
-	public Spiderlet(SiteSpider spider, String url, int depth) {
+	protected Spiderlet(SiteSpider spider, String url, int depth) {
 		this.spider = spider;
 		this.url = url;
 		this.depth = depth;
@@ -89,7 +51,7 @@ public class Spiderlet extends ATask<Item> {
 	/**
 	 * Analyse the page. Over-ride to actually do anything.
 	 * @param html
-	 * @return
+	 * @return Can return null for "boring"
 	 */
 	protected Item analyse(String html) {
 		Item dummy = new Item(null, url);

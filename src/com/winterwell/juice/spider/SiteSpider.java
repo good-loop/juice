@@ -23,6 +23,7 @@ import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 /**
  * Spider a single website. Holds everything in memory!
@@ -32,6 +33,10 @@ import winterwell.utils.web.WebUtils;
  */
 public class SiteSpider extends ATask<DiGraph<Item>> {
 
+	public void setMaxDepth(int maxDepth) {
+		this.maxDepth = maxDepth;
+	}
+	
 	public void setUrlFilter(IFilter<String> urlFilter) {
 		this.urlFilter = urlFilter;
 	}
@@ -68,6 +73,7 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 			}
 			// Filter?
 			if ( ! urlFilter.accept(u)) {
+				Log.d(LOGTAG, "	filter out "+u);
 				continue; // ignore
 			}		
 			DiNode<Item> e = getCreateNode(u);
@@ -75,10 +81,12 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 			// Recurse...
 			if (depth < maxDepth) {
 				DiNode<Item> nu = url2node.get(u);
-				// ignore if already doing
+				// ignore if already done
 				if (nu.getValue()==null || nu.getValue() instanceof DummyItem) {				
-					Spiderlet spiderlet = new Spiderlet(this, u, maxDepth+1);					
+					Spiderlet spiderlet = newSpiderlet(u, maxDepth+1);					
 					runner.submitIfAbsent(spiderlet);
+				} else {
+					Log.d(LOGTAG, "	skip "+u+" "+nu);
 				}
 			}
 		}
@@ -101,11 +109,15 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 
 	IFilter<String> urlFilter;
 	
-	TaskRunner runner = new TaskRunner(10);
+	TaskRunner runner = new TaskRunner(10) {
+		public void report(Object runnableOrCallable, Throwable e) {
+			super.report(runnableOrCallable, e);
+		};
+	};
 
 	@Override
 	public DiGraph<Item> run() {
-		Spiderlet starter = new Spiderlet(this, startUrl, 0);
+		Spiderlet starter = newSpiderlet(startUrl, 0);
 		DiNode<Item> root = getCreateNode(startUrl);
 		runner.submit(starter);
 		while(runner.getQueueSize() != 0) {
@@ -115,7 +127,17 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		return web;
 	}
 
+	protected Spiderlet newSpiderlet(String url, int depth) {
+		return new Spiderlet(this, url, depth);
+	}
+
+	/**
+	 * @param url
+	 * @param item Can be null
+	 */
 	void reportAnalysis(String url, Item item) {
+		assert url != null;
+		if (item==null) item = new DummyItem(url); // store a dummy
 		DiNode<Item> n = url2node.get(url);
 		assert n != null : url;
 		n.setValue(item);
@@ -125,21 +147,32 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		return startUrl;
 	}
 	
+		
 	
 }
 
 class InSiteFilter implements IFilter<String> {
 
+	private static final String[] BLAH = ".css,.doc,.js,.json,.pdf,.png,.gif,.jpg,.rss".split(",");
 	private String domain;
 	private Pattern domainP;
 
 	public InSiteFilter(String startUrl) {
 		this.domain = WebUtils.getDomain(startUrl);
-		domainP = Pattern.compile("^https?://\\w*"+Pattern.quote(domain));
+		domainP = Pattern.compile("^https?://(\\w+\\.)?"+Pattern.quote(domain));
 	}
 
 	@Override
 	public boolean accept(String url) {
+		// exclude non-page file types
+		String type = WebUtils.getType(url);
+		if (type!=null) {
+			type = type.toLowerCase();
+			for(String blah : BLAH) {
+				if (type.equals(blah)) return false;
+			}
+		}
+		
 		return domainP.matcher(url).find();
 	}
 	
