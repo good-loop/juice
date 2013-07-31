@@ -11,6 +11,10 @@ public class JuicingSiteSpider extends SiteSpider {
 
 	Juice juicer;
 
+	public void setJuicer(Juice juicer) {
+		this.juicer = juicer;
+	}
+	
 	public JuicingSiteSpider(String startUrl) {
 		super(startUrl);
 		juicer = new Juice();
