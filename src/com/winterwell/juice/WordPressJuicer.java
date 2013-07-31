@@ -55,7 +55,7 @@ public class WordPressJuicer extends AJuicer {
 			if (juice2_ignorePost(postElement)) {
 				continue;
 			}
-			Item postItem = new Item(postElement);
+			Item postItem = new Item(postElement, document.getURL());
 			postItem.put(anno(AJuicer.MSG_TYPE, KMsgType.POST, postElement));
 			
 			extractTags(postItem);
@@ -339,7 +339,7 @@ public class WordPressJuicer extends AJuicer {
 			
 		for (Element commentElement : commentElements) {
 			
-			Item comment = new Item(commentElement);
+			Item comment = new Item(commentElement, document.getURL());
 			comment.put(anno(AJuicer.MSG_TYPE, KMsgType.COMMENT, commentElement));
 			document.addItem(comment);							
 			

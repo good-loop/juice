@@ -23,13 +23,34 @@ import winterwell.utils.time.Time;
 public class Item {
 
 	protected final Map<Key, Anno> type2annotation = new HashMap<Key, Anno>();
+	/**
+	 * What is the url that this Item was fetched from?
+	 * This may not be permanent -- e.g. homepage contents change, as do "the comments on page 2"
+	 * It should never be null.
+	 */
+	private String urlNow;
 
-	protected Item() {}
+	private Item() {}
 	
-	public Item(Element doc) {
+	public Item(Element doc, String urlNow) {
 		this.doc = doc;
+		this.urlNow = urlNow;
 	}
 	
+	/**	 
+	 * What is the url that this Item was fetched from?
+	 * This may not be permanent -- e.g. homepage contents change, as do "the comments on page 2"
+	 * It should never be null.
+	 * <p>
+	 * See <code>get(AJuicer.URL)</code> (which is used, if set).
+	 */
+	public String getUrl() {
+		Anno a = type2annotation.get(AJuicer.URL);
+		if (a==null) {
+			return urlNow;
+		}
+		return (String) a.value;
+	}
 	
 	Element doc;
 		

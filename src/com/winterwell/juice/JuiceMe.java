@@ -124,7 +124,7 @@ public class JuiceMe
 	 */
 	public Item getMainItem() {
 		if (extractedItems.isEmpty()) {
-			Item item = new Item(getDoc());		
+			Item item = new Item(getDoc(), url);		
 			addItem(item);
 		}
 		return extractedItems.get(0);
