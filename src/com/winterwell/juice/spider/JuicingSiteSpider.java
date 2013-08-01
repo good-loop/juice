@@ -7,6 +7,13 @@ import com.winterwell.juice.Item;
 import com.winterwell.juice.Juice;
 import com.winterwell.juice.JuiceMe;
 
+/**
+ * Spider a site, piping the pages through Juice.
+ * 
+ * @testedby {@link JuicingSiteSpiderTest}
+ * @author daniel
+ *
+ */
 public class JuicingSiteSpider extends SiteSpider {
 
 	Juice juicer;

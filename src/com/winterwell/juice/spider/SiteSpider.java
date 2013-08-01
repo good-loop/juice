@@ -169,7 +169,9 @@ class InSiteFilter implements IFilter<String> {
 		if (type!=null) {
 			type = type.toLowerCase();
 			for(String blah : BLAH) {
-				if (type.equals(blah)) return false;
+				if (type.equals(blah)) {
+					return false;
+				}
 			}
 		}
 		

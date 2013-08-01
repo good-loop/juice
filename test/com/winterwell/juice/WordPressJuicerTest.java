@@ -23,6 +23,30 @@ import winterwell.utils.time.Time;
 
 public class WordPressJuicerTest {
 
+	@Test
+	public void testSodashBlog() {
+		String url = "http://www.soda.sh/static/blog/?cat=1";
+		File file = TestUtils.getTestFile("wordpress", url);
+		String html = FileUtils.read(file);
+		JuiceMe document = new JuiceMe(url, html);
+		
+		WordPressJuicer wpj = new WordPressJuicer();
+		
+		boolean done = wpj.juice(document);
+		
+		System.out.println(done);		
+		List<Item> items = document.getExtractedItems();		
+		for (Item item : items) {
+			String iurl = item.get(AJuicer.URL);
+			assert iurl==null || iurl.startsWith("http") : iurl;
+			System.out.println(item.getXId()+"\t"+item.getTitle()+"\t"+iurl);
+		}
+		
+		Item main = document.getMainItem();
+		assert main.getPublishedTime() != null;
+		assert main.getUrl() != null;
+		assert ! main.getAuthor().startsWith("anon");
+	}
 
 	/**
 	 * c.f. duplicate web results in Everest
