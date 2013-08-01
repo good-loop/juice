@@ -7,6 +7,8 @@ import javax.xml.xpath.XPath;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import creole.data.XId;
+
 import winterwell.utils.Key;
 import winterwell.utils.NotUniqueException;
 import winterwell.utils.time.Time;
@@ -92,6 +94,12 @@ public abstract class AJuicer {
 	 * to the top level post -- this can be used as the default guess).
 	 */
 	public static final Key<String> PREVIOUS = new Key("prev");
+	
+	/**
+	 * The XId of the target that this post refers to. 
+	 * E.g. a hotel in tripadvisor if this is a review.
+	 */
+	public static final Key<XId> TARGET = new Key("target");
 	
 	/**
 	 * What type of post is this?	<br>
