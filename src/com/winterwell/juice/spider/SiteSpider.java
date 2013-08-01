@@ -47,6 +47,8 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 	
 	private static final String LOGTAG = "spider";
 
+	private int maxPages = 1000;
+	
 	private int maxDepth = 5;
 
 	final ConcurrentHashMap<String, DiNode<Item>> url2node = new ConcurrentHashMap();
