@@ -57,6 +57,13 @@ public class WordPressJuicer extends AJuicer {
 			}
 			Item postItem = new Item(postElement, document.getURL());
 			postItem.put(anno(AJuicer.MSG_TYPE, KMsgType.POST, postElement));
+			// A canonical url?
+			Elements aPermalinks = postElement.select("a[rel=bookmark");
+			if ( ! aPermalinks.isEmpty()) {
+				Element link = aPermalinks.first();
+				String url = link.attr("href");
+				postItem.put(anno(AJuicer.URL, url, link));
+			}
 			
 			extractTags(postItem);
 			extractRating(postItem);
