@@ -34,4 +34,22 @@ public class PinterestJuicerTest {
 		
 	}
 
+	@Test
+	public void testJuice2() {
+		String url = "http://pinterest.com/pin/262827328226226623";
+		File local = TestUtils.getTestFile("pinterest", url);
+		PinterestJuicer pj = new PinterestJuicer();
+		String html = FileUtils.read(local);
+		JuiceMe doc = new JuiceMe(url, html);
+		pj.juice(doc);
+		
+		Item item = doc.getMainItem();
+		System.out.println(item.getAuthor());
+		System.out.println(item.get(AJuicer.AUTHOR_XID));
+		
+		
+		item.put(new Anno(AJuicer.AUTHOR_XID, "anon@pinterest", null));
+		String oxid = item.get(AJuicer.AUTHOR_XID);
+		assert oxid.matches("\\w+@pinterest");
+	}
 }
