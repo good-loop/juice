@@ -102,6 +102,11 @@ public abstract class AJuicer {
 	public static final Key<XId> TARGET = new Key("target");
 	
 	/**
+	 * The location of a post/place
+	 */
+	public static final Key<String> LOCATION = new Key("location");
+	
+	/**
 	 * What type of post is this?	<br>
 	 * Valid values are: post, comment, page, video, image, event, misc 
 	 */
