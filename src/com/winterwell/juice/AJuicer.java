@@ -102,6 +102,11 @@ public abstract class AJuicer {
 	public static final Key<XId> TARGET = new Key("target");
 	
 	/**
+	 * The display name of the target that this post refers to.
+	 */
+	public static final Key<String> TARGET_NAME = new Key("target.name");
+	
+	/**
 	 * The location of a post/place
 	 */
 	public static final Key<String> LOCATION = new Key("location");
