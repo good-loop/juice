@@ -85,6 +85,8 @@ public class MetaDataJuicer extends AJuicer {
 			Elements canons = document.getDoc().getElementsByAttributeValue("rel", "canonical");
 			for (Element element : canons) {
 				String urlValue = element.attr("href");
+				// Bit of a hack, we can generate invalid URLs from here.
+				urlValue.replace(" ", "%20");
 				item.put(anno(AJuicer.URL, urlValue, element));
 				break;
 			}
