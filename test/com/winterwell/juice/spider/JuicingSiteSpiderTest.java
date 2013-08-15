@@ -18,26 +18,32 @@ import winterwell.utils.io.FileUtils;
 
 import com.winterwell.juice.Item;
 
+import creole.data.IDoCanonical;
+import creole.data.XId;
+
 public class JuicingSiteSpiderTest {
 
 	
 
 	@Test
 	public void testPagesTouched() throws IOException {
+		// init XId
+		XId.setService2canonical(IDoCanonical.DUMMY_CANONICALISER);
+		
 		String site = "http://www.bikeradar.com/forums";
 		final JuicingSiteSpider jss = new JuicingSiteSpider(site);
-		jss.buildWeb = true;
+//		jss.buildWeb = true;
 		jss.setMaxDepth(3);
 		DiGraph<Item> web = jss.run();
 		Set<Item> items = jss.getItems();
 		
 		int i=0;
-		Set<String> uniq = new HashSet();
+		Set uniq = new HashSet();
 		for (Item item : items) {
 			i++;
-			System.out.println(i+". "+item.getTitle()+"\t"+item.getUrl());
-			assert ! uniq.contains(item.getUrl()) : item.getUrl();
-			uniq.add(item.getUrl());
+			System.out.println(i+". "+item.getTitle()+"\t"+item.getUrl()+"\t"+item.getXId2());
+			assert ! uniq.contains(item.getXId2()) : item.getXId2();
+			uniq.add(item.getXId2());
 		}
 				
 		Printer.out(web);		
@@ -46,7 +52,7 @@ public class JuicingSiteSpiderTest {
 	@Test
 	public void testGetItems() throws IOException {
 		final JuicingSiteSpider jss = new JuicingSiteSpider("http://www.soda.sh/static/blog");
-		jss.buildWeb = true;
+//		jss.buildWeb = true;
 		jss.setMaxDepth(3);
 		DiGraph<Item> web = jss.run();
 		Set<Item> items = jss.getItems();

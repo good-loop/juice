@@ -14,6 +14,7 @@ import com.winterwell.juice.Item;
 import com.winterwell.utils.threads.ATask;
 import com.winterwell.utils.threads.TaskRunner;
 
+import creole.data.XId;
 import winterwell.maths.graph.DiEdge;
 import winterwell.maths.graph.DiGraph;
 import winterwell.maths.graph.DiNode;
@@ -50,11 +51,13 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 
 	private static final Object REDIRECT = "redirect";
 
+	public static final String SERVICE_WEB = "web";
+
 	private int maxPages = 1000;
 	
 	private int maxDepth = 5;
 
-	final ConcurrentHashMap<String, DiNode<Item>> url2node = new ConcurrentHashMap();
+	final ConcurrentHashMap<XId, DiNode<Item>> xid2node = new ConcurrentHashMap();
 //	
 //	final ConcurrentLinkedQueue<String> urls = new ConcurrentLinkedQueue<String>();
 
@@ -79,13 +82,13 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		 urlFilter = new InSiteFilter(startUrl);
 	}
 	
-	void reportLinks(String url, List<String> links, int depth) {
+	void reportLinks(XId xid, List<String> links, int depth) {
 		// Update the web
-		DiNode<Item> s = url2node.get(url);
-		assert s != null : url;
+		DiNode<Item> s = xid2node.get(xid);
+		assert s != null : xid;
 		List<String> recurse = new ArrayList(links.size());
 		for(String u : links) {
-			if (url.equals(u)) {
+			if (xid.getName().equals(u)) {
 				continue; // ignore self links
 			}
 			// Filter?
@@ -93,7 +96,7 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 //				Log.d(LOGTAG, "	filter out "+u);
 				continue; // ignore (and don't recurse on this)
 			}		
-			DiNode<Item> e = getCreateNode(u);
+			DiNode<Item> e = getCreateNode(url2xid(u));
 			getCreateEdge(s,e);
 			recurse.add(u);
 		}
@@ -122,8 +125,13 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 	 * @return true if u has already been spidered
 	 */
 	private boolean isDoneAlready(String u) {
-		DiNode<Item> nu = getCreateNode(u);
-		return nu.getValue()!=null && ( ! (nu.getValue() instanceof DummyItem));				
+		DiNode<Item> nu = getCreateNode(url2xid(u));
+		Item nuv = nu.getValue();
+		if (nuv==null) return false;
+		if (nuv instanceof DummyItem) {
+			// detect that another spiderlet is on it??
+		}
+		return false;				
 	}
 
 	synchronized DiEdge getCreateEdge(DiNode<Item> s, DiNode<Item> e) {
@@ -133,12 +141,17 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		return edge;
 	}
 
-	private synchronized DiNode<Item> getCreateNode(String u) {
-		DiNode<Item> n = url2node.get(u);
+	private synchronized DiNode<Item> getCreateNode(XId xid) {
+		assert xid != null;
+		DiNode<Item> n = xid2node.get(xid);
 		if (n != null) return n;
-		n = web.addNode(new DummyItem(u));	
-		url2node.put(u, n);
-		return n;
+		n = web.addNode(new DummyItem(xid));	
+		DiNode<Item> n2 = xid2node.putIfAbsent(xid, n);
+		if (n2==null) return n;
+		// We lost a race
+		assert n2 != n : xid;
+		web.removeNode(n);
+		return n2;
 	}
 
 	IFilter<String> urlFilter;
@@ -156,8 +169,9 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 
 	@Override
 	public DiGraph<Item> run() {
+		assert startUrl!=null;
 		Spiderlet starter = newSpiderlet(startUrl, 0);
-		DiNode<Item> root = getCreateNode(startUrl);
+		DiNode<Item> root = getCreateNode(url2xid(startUrl));
 		runner.submit(starter);
 		while(runner.getQueueSize() != 0) {
 			Log.d(LOGTAG, "Queue: "+runner.getQueueSize());
@@ -171,14 +185,14 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 	}
 
 	/**
-	 * @param url
+	 * @param url Cannot be null
 	 * @param item Can be null
 	 */
-	void reportAnalysis(String url, Item item) {
-		assert url != null;
-		if (item==null) item = new DummyItem(url); // store a dummy
-		DiNode<Item> n = url2node.get(url);
-		assert n != null : url;
+	void reportAnalysis(XId xid, Item item) {
+		assert xid != null;
+		if (item==null) item = new DummyItem(xid); // store a dummy
+		DiNode<Item> n = getCreateNode(xid);
+		assert n != null : xid;
 		n.setValue(item);
 	}
 
@@ -200,13 +214,17 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 			return false;
 		}
 		// Update the web
-		DiNode<Item> s = url2node.get(fromUrl);
-		DiNode<Item> e = getCreateNode(toUrl);
+		DiNode<Item> s = xid2node.get(url2xid(fromUrl));
+		DiNode<Item> e = getCreateNode(url2xid(toUrl));
 		DiEdge edge = getCreateEdge(s,e);
 		edge.setValue(REDIRECT);
 		// Is toUrl known?
 		return ! isDoneAlready(toUrl);
 		
+	}
+
+	protected XId url2xid(String url) {
+		return new XId(url, SiteSpider.SERVICE_WEB);
 	}
 	
 		
@@ -247,10 +265,14 @@ final class InSiteFilter implements IFilter<String> {
 	
 }
 
+/**
+ * Holds space while we fetch the page...
+ */
 class DummyItem extends Item {
 
-	public DummyItem(String url) {
-		super(null, url);
+	Spiderlet spiderlet;
+	public DummyItem(XId url) {
+		super(null, url.getName());
 	}
 	
 }

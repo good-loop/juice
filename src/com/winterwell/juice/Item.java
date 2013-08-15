@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.jsoup.nodes.Element;
 
+import creole.data.XId;
 import winterwell.utils.Key;
 import winterwell.utils.containers.SetMap;
 import winterwell.utils.time.Time;
@@ -156,6 +157,10 @@ public class Item {
 		return a==null? null : a.value;
 	}
 
+	/**
+	 * The XId annotation
+	 * @return Can be null!
+	 */
 	public String getXId() {
 		Anno a = type2annotation.get(AJuicer.XID);
 		return a == null ? null : (String) a.value;
@@ -172,6 +177,15 @@ public class Item {
 			put(tags);
 		}
 		tags.value.add(tag);
+	}
+
+	/**
+	 * @return {@link #getXId()}@web BUT falls back to using the url!
+	 */
+	public XId getXId2() {
+		String xid = getXId();
+		if (xid==null) xid = getUrl();
+		return new XId(xid, "web");
 	}
 	
 }

@@ -22,6 +22,8 @@ import com.winterwell.juice.Item;
 import com.winterwell.juice.KMsgType;
 import com.winterwell.utils.threads.ATask;
 
+import creole.data.XId;
+
 public class Spiderlet extends ATask<Item> {
 
 	@Override
@@ -29,10 +31,45 @@ public class Spiderlet extends ATask<Item> {
 		return getClass().getSimpleName()+"["+url+"]";
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + depth;
+		result = prime * result + ((spider == null) ? 0 : spider.hashCode());
+		result = prime * result + ((url == null) ? 0 : url.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Spiderlet other = (Spiderlet) obj;
+		if (depth != other.depth)
+			return false;
+		if (spider == null) {
+			if (other.spider != null)
+				return false;
+		} else if (!spider.equals(other.spider))
+			return false;
+		if (url == null) {
+			if (other.url != null)
+				return false;
+		} else if (!url.equals(other.url))
+			return false;
+		return true;
+	}
+
 	int depth; 	
 	String url;
 
 	SiteSpider spider;
+	
 	List<String> links;
 	
 	protected Spiderlet(SiteSpider spider, String url, int depth) {
@@ -60,10 +97,10 @@ public class Spiderlet extends ATask<Item> {
 		if (html==null) return null;
 		// analyse it
 		Item item = analyse(html);
-		spider.reportAnalysis(url, item);
+		spider.reportAnalysis(new XId(url, "web"), item);
 		// Extract links in the web
 		links = extractLinks(html, item);
-		spider.reportLinks(url, links, depth);
+		spider.reportLinks(new XId(url, "web"), links, depth);
 		return item;
 	}
 
@@ -91,8 +128,6 @@ public class Spiderlet extends ATask<Item> {
 			link = WebUtils2.htmlDecode(link);
 			try {
 				URI link2 = WebUtils2.resolveUri(url, link);
-				assert ! link2.toString().contains("www.bikeradar.com/viewforum.php") 
-					: link2+" from "+url+" + "+link+" in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30));
 				// TODO: SHould we strip out "known boring" parameters? E.g. google tracking codes? referrer?
 				// Or common session-id markers, like "sid"?? 
 				links.add(link2.toString());
@@ -127,7 +162,7 @@ public class Spiderlet extends ATask<Item> {
 
 	protected void handleError(String url2, WebEx ex) {
 		Item item = new Item(ex, null, url2);		
-		spider.reportAnalysis(url, item);
+		spider.reportAnalysis(item.getXId2(), item);
 	}
 	
 	
