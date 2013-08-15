@@ -187,5 +187,14 @@ public class Item {
 		if (xid==null) xid = getUrl();
 		return new XId(xid, "web");
 	}
+
+	/**
+	 * Convenience for {@link #putIfAbsent(Anno)} with element=null
+	 * @param key
+	 * @param value
+	 */
+	public <X> void putIfAbsent(Key<X> key, X value) {
+		putIfAbsent(new Anno(key, value, null));		
+	}
 	
 }
