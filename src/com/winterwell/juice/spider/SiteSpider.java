@@ -48,6 +48,8 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 	
 	static final String LOGTAG = "spider";
 
+	private static final Object REDIRECT = "redirect";
+
 	private int maxPages = 1000;
 	
 	private int maxDepth = 5;
@@ -81,40 +83,49 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		// Update the web
 		DiNode<Item> s = url2node.get(url);
 		assert s != null : url;
+		List<String> recurse = new ArrayList(links.size());
 		for(String u : links) {
 			if (url.equals(u)) {
 				continue; // ignore self links
 			}
 			// Filter?
 			if ( ! urlFilter.accept(u)) {
-				Log.d(LOGTAG, "	filter out "+u);
-				continue; // ignore
+//				Log.d(LOGTAG, "	filter out "+u);
+				continue; // ignore (and don't recurse on this)
 			}		
 			DiNode<Item> e = getCreateNode(u);
 			getCreateEdge(s,e);
+			recurse.add(u);
 		}
 		if (depth >= maxDepth) {
 			return; // stop here
 		}
 		// Recurse...
 		// TODO pick rnadom/best links from within a page??
-		for(String u : links) {			
+		for(String u : recurse) {			
 			// Random stop?
 			if (Utils.getRandomChoice(randomSkip)) {
 				Log.d(LOGTAG, "	random skip "+u);
 				continue;
 			}
-			DiNode<Item> nu = getCreateNode(u);
 			// ignore if already done
-			if (nu.getValue()==null || nu.getValue() instanceof DummyItem) {				
-				Spiderlet spiderlet = newSpiderlet(u, maxDepth+1);					
-				runner.submitIfAbsent(spiderlet);
-			} else {
-				Log.d(LOGTAG, "	skip "+u+" "+nu);
+			if (isDoneAlready(u)) {
+				continue;
 			}
+			Spiderlet spiderlet = newSpiderlet(u, maxDepth+1);					
+			runner.submitIfAbsent(spiderlet);
 		}		
 	}
 	
+	/**
+	 * @param u
+	 * @return true if u has already been spidered
+	 */
+	private boolean isDoneAlready(String u) {
+		DiNode<Item> nu = getCreateNode(u);
+		return nu.getValue()!=null && ( ! (nu.getValue() instanceof DummyItem));				
+	}
+
 	synchronized DiEdge getCreateEdge(DiNode<Item> s, DiNode<Item> e) {
 		DiEdge edge = web.getEdge(s, e);
 		if (edge!=null) return edge;
@@ -137,6 +148,11 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 			super.report(runnableOrCallable, e);
 		};
 	};
+	 
+	/**
+	 * Delay to put in between requests. This is used as a uniform delay range (so the average delay is half this).
+	 */
+	int delay = 50;
 
 	@Override
 	public DiGraph<Item> run() {
@@ -169,16 +185,43 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 	public String getStartUrl() {
 		return startUrl;
 	}
+
+	/**
+	 * 
+	 * @param fromUrl
+	 * @param toUrl
+	 * @return true if the spiderlet should carry on to toUrl.
+	 * false => toUrl is excluded by the filter, or already spidered. 
+	 */
+	boolean reportRedirect(String fromUrl, String toUrl) {
+		assert ! fromUrl.equals(toUrl);
+		assert toUrl != null : fromUrl;
+		if (urlFilter!=null && ! urlFilter.accept(toUrl)) {
+			return false;
+		}
+		// Update the web
+		DiNode<Item> s = url2node.get(fromUrl);
+		DiNode<Item> e = getCreateNode(toUrl);
+		DiEdge edge = getCreateEdge(s,e);
+		edge.setValue(REDIRECT);
+		// Is toUrl known?
+		return ! isDoneAlready(toUrl);
+		
+	}
 	
 		
 	
 }
 
-class InSiteFilter implements IFilter<String> {
+final class InSiteFilter implements IFilter<String> {
 
 	private static final String[] BLAH = ".css,.doc,.js,.json,.pdf,.png,.gif,.jpg,.rss".split(",");
 	private String domain;
 	private Pattern domainP;
+	
+	public String toString() {
+		return "InSiteFilter["+domain+"]";
+	}
 
 	public InSiteFilter(String startUrl) {
 		this.domain = WebUtils.getDomain(startUrl);
@@ -198,7 +241,8 @@ class InSiteFilter implements IFilter<String> {
 			}
 		}
 		
-		return domainP.matcher(url).find();
+		boolean ok = domainP.matcher(url).find();
+		return ok;
 	}
 	
 }

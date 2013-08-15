@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
@@ -31,9 +32,12 @@ public class JuicingSiteSpiderTest {
 		Set<Item> items = jss.getItems();
 		
 		int i=0;
+		Set<String> uniq = new HashSet();
 		for (Item item : items) {
 			i++;
-			System.out.println(i+". "+item.getTitle()+"\t"+item.getUrl());	
+			System.out.println(i+". "+item.getTitle()+"\t"+item.getUrl());
+			assert ! uniq.contains(item.getUrl()) : item.getUrl();
+			uniq.add(item.getUrl());
 		}
 				
 		Printer.out(web);		

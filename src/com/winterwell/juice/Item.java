@@ -9,7 +9,9 @@ import java.util.Map;
 import org.jsoup.nodes.Element;
 
 import winterwell.utils.Key;
+import winterwell.utils.containers.SetMap;
 import winterwell.utils.time.Time;
+import winterwell.web.WebEx;
 
 /**
  * Item extracted from a web-page.
@@ -37,6 +39,18 @@ public class Item {
 		this.urlNow = urlNow;
 	}
 	
+	/**
+	 * For logging errors
+	 * @param ex
+	 * @param urlNow
+	 */
+	public Item(Exception ex, Element doc, String urlNow) {
+		this(doc, urlNow);
+		setType(KMsgType.ERROR);
+		put(new Anno(AJuicer.TITLE, ex.getClass().getName(), null));
+		put(new Anno(AJuicer.POST_BODY, ex.getMessage(), null));
+	}
+
 	/**	 
 	 * What is the url that this Item was fetched from?
 	 * This may not be permanent -- e.g. homepage contents change, as do "the comments on page 2"

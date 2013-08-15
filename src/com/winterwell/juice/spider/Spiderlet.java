@@ -8,14 +8,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import winterwell.utils.StrUtils;
+import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Dt;
 import winterwell.utils.time.TUnit;
 import winterwell.utils.web.WebUtils;
 import winterwell.utils.web.WebUtils2;
 import winterwell.web.FakeBrowser;
+import winterwell.web.WebEx;
 
+import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
+import com.winterwell.juice.KMsgType;
 import com.winterwell.utils.threads.ATask;
 
 public class Spiderlet extends ATask<Item> {
@@ -41,11 +45,19 @@ public class Spiderlet extends ATask<Item> {
 	
 	static Pattern aLink = Pattern.compile("href=['\"]?([^ '\">]+)['\"]?");
 	
+	/**
+	 * @return Just for debugging!
+	 */
 	@Override
 	protected Item run() throws Exception {
+		if (spider.delay > 0) {
+			Utils.sleep(Utils.getRandom().nextInt(spider.delay));
+		}
 		Log.d("spider", "\tFetching "+url+"...");
 		// Fetch
 		String html = fetchPage();
+		// ...failed? e.g. a 404
+		if (html==null) return null;
 		// analyse it
 		Item item = analyse(html);
 		spider.reportAnalysis(url, item);
@@ -69,27 +81,53 @@ public class Spiderlet extends ATask<Item> {
 		Matcher m = aLink.matcher(html);
 		List<String> links = new ArrayList(); 
 		while(m.find()) {
-			String link = m.group(1);
+			String link = m.group(1);			
 			if (link.isEmpty() || link.startsWith("\\")) {
 				// Possibly a javascript embed, e.g. s += '<a href=\"' + google_info.feedback_url + '\" ...				continue;
 				Log.d(SiteSpider.LOGTAG, "Empty href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
 				continue;
 			}
+			// In case some numpty has &amp; in their url (it seems to be a common enough mistake).
+			link = WebUtils2.htmlDecode(link);
 			try {
 				URI link2 = WebUtils2.resolveUri(url, link);
-				// TODO: SHould we strip out "known boring" parameters? E.g. google tracking codes?
+				assert ! link2.toString().contains("www.bikeradar.com/viewforum.php") 
+					: link2+" from "+url+" + "+link+" in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30));
+				// TODO: SHould we strip out "known boring" parameters? E.g. google tracking codes? referrer?
+				// Or common session-id markers, like "sid"?? 
 				links.add(link2.toString());
 			} catch(Exception ex) { 
-				// Bad URI syntax :( 
-				Log.w(SiteSpider.LOGTAG, "Bad href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
+				// Bad URI syntax :( It happens. We could try to correct -- but sod it. 
+				Log.d(SiteSpider.LOGTAG, "Bad href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
 			}
 		}
 		return links;
 	}
 
 	protected String fetchPage() {
-		FakeBrowser fb = new FakeBrowser();
-		return fb.getPage(url);
+		try {
+			FakeBrowser fb = new FakeBrowser();			
+			String page = fb.getPage(url);
+			// Was there a redirect?
+			String locn = fb.getLocation();
+			if ( ! url.equals(locn)) {
+				boolean ok = spider.reportRedirect(url, locn);
+				this.url = locn;
+				if ( ! ok) {
+					return null; // _this_ url has already been handled
+				}
+			}
+			return page;
+		} catch(WebEx ex) {
+			// oh well
+			handleError(url, ex);
+			return null;
+		}
+	}
+
+	protected void handleError(String url2, WebEx ex) {
+		Item item = new Item(ex, null, url2);		
+		spider.reportAnalysis(url, item);
 	}
 	
 	

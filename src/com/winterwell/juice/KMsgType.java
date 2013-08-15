@@ -18,5 +18,6 @@ public enum KMsgType {
 	/** Not really a msg type! */
 	PERSON,
 	LOCATION,
-	COMPANY
+	COMPANY, 
+	ERROR
 }
