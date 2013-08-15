@@ -18,6 +18,7 @@ import winterwell.maths.graph.DiEdge;
 import winterwell.maths.graph.DiGraph;
 import winterwell.maths.graph.DiNode;
 import winterwell.utils.IFilter;
+import winterwell.utils.MathUtils;
 import winterwell.utils.Printer;
 import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
@@ -45,7 +46,7 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		return urlFilter;
 	}
 	
-	private static final String LOGTAG = "spider";
+	static final String LOGTAG = "spider";
 
 	private int maxPages = 1000;
 	
@@ -58,6 +59,17 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 	DiGraph<Item> web = new DiGraph<Item>();
 
 	private String startUrl;
+
+	private double randomSkip;
+	
+	/**
+	 * 0 by default. Sets a probability that a link will _not_ be followed.
+	 * @param randomSkip [0,1]
+	 */
+	public void setRandomSkip(double randomSkip) {
+		this.randomSkip = randomSkip;
+		assert MathUtils.isProb(randomSkip);
+	}
 
 	
 	public SiteSpider(String startUrl) {
@@ -80,18 +92,27 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 			}		
 			DiNode<Item> e = getCreateNode(u);
 			getCreateEdge(s,e);
-			// Recurse...
-			if (depth < maxDepth) {
-				DiNode<Item> nu = url2node.get(u);
-				// ignore if already done
-				if (nu.getValue()==null || nu.getValue() instanceof DummyItem) {				
-					Spiderlet spiderlet = newSpiderlet(u, maxDepth+1);					
-					runner.submitIfAbsent(spiderlet);
-				} else {
-					Log.d(LOGTAG, "	skip "+u+" "+nu);
-				}
-			}
 		}
+		if (depth >= maxDepth) {
+			return; // stop here
+		}
+		// Recurse...
+		// TODO pick rnadom/best links from within a page??
+		for(String u : links) {			
+			// Random stop?
+			if (Utils.getRandomChoice(randomSkip)) {
+				Log.d(LOGTAG, "	random skip "+u);
+				continue;
+			}
+			DiNode<Item> nu = getCreateNode(u);
+			// ignore if already done
+			if (nu.getValue()==null || nu.getValue() instanceof DummyItem) {				
+				Spiderlet spiderlet = newSpiderlet(u, maxDepth+1);					
+				runner.submitIfAbsent(spiderlet);
+			} else {
+				Log.d(LOGTAG, "	skip "+u+" "+nu);
+			}
+		}		
 	}
 	
 	synchronized DiEdge getCreateEdge(DiNode<Item> s, DiNode<Item> e) {

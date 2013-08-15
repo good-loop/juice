@@ -1,11 +1,13 @@
 package com.winterwell.juice.spider;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import winterwell.utils.StrUtils;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Dt;
 import winterwell.utils.time.TUnit;
@@ -18,6 +20,11 @@ import com.winterwell.utils.threads.ATask;
 
 public class Spiderlet extends ATask<Item> {
 
+	@Override
+	public String toString() {	
+		return getClass().getSimpleName()+"["+url+"]";
+	}
+	
 	int depth; 	
 	String url;
 
@@ -58,13 +65,24 @@ public class Spiderlet extends ATask<Item> {
 		return dummy;
 	}
 
-	protected List<String> extractLinks(String html, Item item) {
+	protected List<String> extractLinks(String html, Item itemIsIgnored) {
 		Matcher m = aLink.matcher(html);
 		List<String> links = new ArrayList(); 
 		while(m.find()) {
 			String link = m.group(1);
-			URI link2 = WebUtils2.resolveUri(url, link);
-			links.add(link2.toString());
+			if (link.isEmpty() || link.startsWith("\\")) {
+				// Possibly a javascript embed, e.g. s += '<a href=\"' + google_info.feedback_url + '\" ...				continue;
+				Log.d(SiteSpider.LOGTAG, "Empty href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
+				continue;
+			}
+			try {
+				URI link2 = WebUtils2.resolveUri(url, link);
+				// TODO: SHould we strip out "known boring" parameters? E.g. google tracking codes?
+				links.add(link2.toString());
+			} catch(Exception ex) { 
+				// Bad URI syntax :( 
+				Log.w(SiteSpider.LOGTAG, "Bad href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
+			}
 		}
 		return links;
 	}

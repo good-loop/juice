@@ -19,6 +19,26 @@ import com.winterwell.juice.Item;
 
 public class JuicingSiteSpiderTest {
 
+	
+
+	@Test
+	public void testPagesTouched() throws IOException {
+		String site = "http://www.bikeradar.com/forums";
+		final JuicingSiteSpider jss = new JuicingSiteSpider(site);
+		jss.buildWeb = true;
+		jss.setMaxDepth(3);
+		DiGraph<Item> web = jss.run();
+		Set<Item> items = jss.getItems();
+		
+		int i=0;
+		for (Item item : items) {
+			i++;
+			System.out.println(i+". "+item.getTitle()+"\t"+item.getUrl());	
+		}
+				
+		Printer.out(web);		
+	}
+	
 	@Test
 	public void testGetItems() throws IOException {
 		final JuicingSiteSpider jss = new JuicingSiteSpider("http://www.soda.sh/static/blog");
