@@ -32,7 +32,7 @@ public class SiteSpiderTest {
 		System.out.println(snippet);
 		
 		Spiderlet spiderlet = new Spiderlet(null, url, 0);
-		List<String> links = spiderlet.extractLinks(html, null);
+		List<String> links = spiderlet.extractLinks(html);
 		System.out.println(links);
 		
 	}

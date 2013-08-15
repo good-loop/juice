@@ -99,7 +99,7 @@ public class Spiderlet extends ATask<Item> {
 		Item item = analyse(html);
 		spider.reportAnalysis(new XId(url, "web"), item);
 		// Extract links in the web
-		links = extractLinks(html, item);
+		links = extractLinks(html);
 		spider.reportLinks(new XId(url, "web"), links, depth);
 		return item;
 	}
@@ -114,14 +114,14 @@ public class Spiderlet extends ATask<Item> {
 		return dummy;
 	}
 
-	protected List<String> extractLinks(String html, Item itemIsIgnored) {
+	protected List<String> extractLinks(String html) {
 		Matcher m = aLink.matcher(html);
 		List<String> links = new ArrayList(); 
 		while(m.find()) {
 			String link = m.group(1);			
 			if (link.isEmpty() || link.startsWith("\\")) {
 				// Possibly a javascript embed, e.g. s += '<a href=\"' + google_info.feedback_url + '\" ...				continue;
-				Log.d(SiteSpider.LOGTAG, "Empty href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
+//				Log.d(SiteSpider.LOGTAG, "Empty href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
 				continue;
 			}
 			// In case some numpty has &amp; in their url (it seems to be a common enough mistake).
@@ -133,24 +133,25 @@ public class Spiderlet extends ATask<Item> {
 				links.add(link2.toString());
 			} catch(Exception ex) { 
 				// Bad URI syntax :( It happens. We could try to correct -- but sod it. 
-				Log.d(SiteSpider.LOGTAG, "Bad href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
+//				Log.d(SiteSpider.LOGTAG, "Bad href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
 			}
 		}
 		return links;
 	}
 
 	protected String fetchPage() {
+		assert spider.url2spiderlet.get(url) == this : spider.url2spiderlet.get(url)+" vs "+this;
 		try {
 			FakeBrowser fb = new FakeBrowser();			
 			String page = fb.getPage(url);
 			// Was there a redirect?
 			String locn = fb.getLocation();
 			if ( ! url.equals(locn)) {
-				boolean ok = spider.reportRedirect(url, locn);
+				boolean ok = spider.reportRedirect(url, locn, this);
 				this.url = locn;
 				if ( ! ok) {
 					return null; // _this_ url has already been handled
-				}
+				}				
 			}
 			return page;
 		} catch(WebEx ex) {

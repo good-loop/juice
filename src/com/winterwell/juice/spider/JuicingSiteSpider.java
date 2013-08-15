@@ -41,7 +41,7 @@ public class JuicingSiteSpider extends SiteSpider {
 //	ConcurrentHashMap<Item,Object> items = new ConcurrentHashMap();
 	
 	public Set<Item> getItems() {
-		Collection<DiNode<Item>> nodes = web.getNodes();
+		Collection<DiNode<Item>> nodes = _web.getNodes();
 		Set<Item> items = new HashSet();
 		for (DiNode<Item> diNode : nodes) {
 			if (diNode.getValue() instanceof DummyItem) {
@@ -54,16 +54,9 @@ public class JuicingSiteSpider extends SiteSpider {
 	
 	@Override
 	void reportAnalysis(XId xid, Item item) {
-//		if (item != null) {
-//			items.put(item, "X");
-//		}
-//		
-//		if (buildWeb) {
 		super.reportAnalysis(xid, item);			
-//		}
 	}
 	
-//	boolean buildWeb;
 }
 
 class JuiceSpiderlet extends Spiderlet {

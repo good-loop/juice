@@ -3,9 +3,13 @@ package com.winterwell.juice.spider;
 import java.net.URI;
 import java.nio.file.DirectoryNotEmptyException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,11 +61,12 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 	
 	private int maxDepth = 5;
 
-	final ConcurrentHashMap<XId, DiNode<Item>> xid2node = new ConcurrentHashMap();
-//	
-//	final ConcurrentLinkedQueue<String> urls = new ConcurrentLinkedQueue<String>();
+	ConcurrentHashMap<XId,DiNode<Item>> xid2node = new ConcurrentHashMap();
+	
+	ConcurrentHashMap<String,Spiderlet> url2spiderlet = new ConcurrentHashMap();
+	
 
-	DiGraph<Item> web = new DiGraph<Item>();
+	DiGraph<Item> _web = new DiGraph<Item>();
 
 	private String startUrl;
 
@@ -110,34 +115,20 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 			if (Utils.getRandomChoice(randomSkip)) {
 				Log.d(LOGTAG, "	random skip "+u);
 				continue;
+			}			
+			Spiderlet spiderlet = newSpiderlet(u, maxDepth+1);
+			Spiderlet old = url2spiderlet.putIfAbsent(u, spiderlet);
+			if (old==null) _runner.submitIfAbsent(spiderlet);
+			else {
+				// already in hand
 			}
-			// ignore if already done
-			if (isDoneAlready(u)) {
-				continue;
-			}
-			Spiderlet spiderlet = newSpiderlet(u, maxDepth+1);					
-			runner.submitIfAbsent(spiderlet);
 		}		
-	}
-	
-	/**
-	 * @param u
-	 * @return true if u has already been spidered
-	 */
-	private boolean isDoneAlready(String u) {
-		DiNode<Item> nu = getCreateNode(url2xid(u));
-		Item nuv = nu.getValue();
-		if (nuv==null) return false;
-		if (nuv instanceof DummyItem) {
-			// detect that another spiderlet is on it??
-		}
-		return false;				
 	}
 
 	synchronized DiEdge getCreateEdge(DiNode<Item> s, DiNode<Item> e) {
-		DiEdge edge = web.getEdge(s, e);
+		DiEdge edge = _web.getEdge(s, e);
 		if (edge!=null) return edge;
-		edge = web.addEdge(s, e, null); //??store time of finding?
+		edge = _web.addEdge(s, e, null); //??store time of finding?
 		return edge;
 	}
 
@@ -145,18 +136,18 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		assert xid != null;
 		DiNode<Item> n = xid2node.get(xid);
 		if (n != null) return n;
-		n = web.addNode(new DummyItem(xid));	
+		n = _web.addNode(new DummyItem(xid));	
 		DiNode<Item> n2 = xid2node.putIfAbsent(xid, n);
 		if (n2==null) return n;
 		// We lost a race
 		assert n2 != n : xid;
-		web.removeNode(n);
+		_web.removeNode(n);
 		return n2;
 	}
 
 	IFilter<String> urlFilter;
 	
-	TaskRunner runner = new TaskRunner(10) {
+	TaskRunner _runner = new TaskRunner(10) {
 		public void report(Object runnableOrCallable, Throwable e) {
 			super.report(runnableOrCallable, e);
 		};
@@ -172,12 +163,14 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		assert startUrl!=null;
 		Spiderlet starter = newSpiderlet(startUrl, 0);
 		DiNode<Item> root = getCreateNode(url2xid(startUrl));
-		runner.submit(starter);
-		while(runner.getQueueSize() != 0) {
-			Log.d(LOGTAG, "Queue: "+runner.getQueueSize());
-			Utils.sleep(200);			
+		url2spiderlet.put(startUrl, starter);
+		_runner.submit(starter);
+		
+		while(_runner.getQueueSize() != 0) {
+			Log.d(LOGTAG, "Queue: "+_runner.getQueueSize());
+			Utils.sleep(100);			
 		}
-		return web;
+		return _web;
 	}
 
 	protected Spiderlet newSpiderlet(String url, int depth) {
@@ -189,10 +182,16 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 	 * @param item Can be null
 	 */
 	void reportAnalysis(XId xid, Item item) {
-		assert xid != null;
-		if (item==null) item = new DummyItem(xid); // store a dummy
+		assert xid != null;		
 		DiNode<Item> n = getCreateNode(xid);
 		assert n != null : xid;
+		if (item==null) {
+			if (n.getValue() != null) {
+				return; // already done
+			}			
+			// store a dummy
+			item = new DummyItem(xid); 
+		}		
 		n.setValue(item);
 	}
 
@@ -207,7 +206,7 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 	 * @return true if the spiderlet should carry on to toUrl.
 	 * false => toUrl is excluded by the filter, or already spidered. 
 	 */
-	boolean reportRedirect(String fromUrl, String toUrl) {
+	boolean reportRedirect(String fromUrl, String toUrl, Spiderlet spiderlet) {
 		assert ! fromUrl.equals(toUrl);
 		assert toUrl != null : fromUrl;
 		if (urlFilter!=null && ! urlFilter.accept(toUrl)) {
@@ -219,7 +218,8 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		DiEdge edge = getCreateEdge(s,e);
 		edge.setValue(REDIRECT);
 		// Is toUrl known?
-		return ! isDoneAlready(toUrl);
+		Spiderlet old = url2spiderlet.putIfAbsent(toUrl, spiderlet);
+		return old==null;
 		
 	}
 
