@@ -32,9 +32,16 @@ public class DateFinder extends AJuicer {
 			if (item.get(PUB_TIME)!=null) continue;
 			List<Anno> dates = findDates(item.getDoc());
 			if (dates.isEmpty()) continue;
-			// HACK: Pick the first & hope!
-			Anno date = dates.get(0);
-			item.put(date);			
+			// HACK: Pick the first & hope! 
+			// If the first is in the future, try the next etc. We can't have future publication dates.
+			Time now = new Time();
+			Anno date = null;
+			for (int i=0; i<dates.size(); i++) {
+				date = dates.get(i);
+				Time t = (Time) date.value;
+				if (t.isAfter(now)) continue;
+			}
+			if (date != null) item.put(date);			
 		}
 		return false;
 	}
