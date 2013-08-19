@@ -4,7 +4,7 @@ package com.winterwell.juice;
  * TODO a juicer for phpBB bulletin boards.
  * E.g. bikeradar.com/forums
  * @author daniel
- *
+ * @testedby {@link PhpBBJuicerTest}
  */
 public class PhpBBJuicer extends AJuicer {
 
