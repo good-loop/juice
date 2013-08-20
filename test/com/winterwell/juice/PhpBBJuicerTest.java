@@ -28,7 +28,7 @@ public class PhpBBJuicerTest {
 
 	@Test
 	public void testJuiceBikeRadarMemberPage() {
-		String url = ;
+		String url = null;
 				
 		File file = TestUtils.getTestFile("phpbb", url);
 		String html = FileUtils.read(file);
@@ -45,7 +45,7 @@ public class PhpBBJuicerTest {
 
 	@Test
 	public void testJuiceBikeRadar1Topic() {
-		String url = ;
+		String url = null;
 				
 		File file = TestUtils.getTestFile("phpbb", url);
 		String html = FileUtils.read(file);
@@ -61,7 +61,7 @@ public class PhpBBJuicerTest {
 
 	@Test
 	public void testJuiceBikeRadarThread() {
-		String url =; 
+		String url = null; 
 				
 		File file = TestUtils.getTestFile("phpbb", url);
 		String html = FileUtils.read(file);
