@@ -6,6 +6,7 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
+import winterwell.utils.Key;
 import winterwell.utils.StrUtils;
 import winterwell.utils.web.WebUtils;
 import winterwell.utils.web.WebUtils2;
@@ -139,6 +140,18 @@ public class JuiceMe
 			domain = WebUtils.getDomain(getURL());
 		}
 		return domain;			
+	}
+
+	public <V> List<Item> getItemsMatching(Key<V> key, V value) {
+		List<Item> items = getExtractedItems();
+		List<Item> matched = new ArrayList(4);
+		for (Item item : items) {
+			V v = item.get(key);
+			if (value.equals(v)) {
+				matched.add(item);
+			}
+		}
+		return matched;
 	}
 	
 }

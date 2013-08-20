@@ -34,7 +34,12 @@ public class Item {
 	private String urlNow;
 
 	private Item() {}
-	
+
+	/**
+	 * @param urlNow What is the url that this Item was fetched from?
+	 * This may not be permanent -- e.g. homepage contents change, as do "the comments on page 2"
+	 * It should never be null.
+	 */
 	public Item(Element doc, String urlNow) {
 		this.doc = doc;
 		this.urlNow = urlNow;
@@ -68,6 +73,19 @@ public class Item {
 	}
 	
 	Element doc;
+	
+	/**
+	 * true => This item is created from a search or index listing -- not from the actual item.
+	 */
+	boolean stub;
+	
+	public boolean isStub() {
+		return stub;
+	}
+	
+	public void setStub(boolean stub) {
+		this.stub = stub;
+	}
 		
 	public <X> void put(Anno<X> anno) {
 		type2annotation.put(anno.name, anno);

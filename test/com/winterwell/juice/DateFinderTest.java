@@ -11,9 +11,21 @@ import org.junit.Test;
 
 import winterwell.utils.StrUtils;
 import winterwell.utils.io.FileUtils;
+import winterwell.utils.time.Time;
 
 public class DateFinderTest {
 
+	@Test
+	public void testABitOff() {
+		 String text = "<html><p>&raquo; Mon Aug 19, 2013 8:55 am </p></html>";
+		 JuiceMe jm = new JuiceMe(text);
+		 DateFinder df = new DateFinder();
+		 List<Anno> dates = df.findDates(jm.getDoc());
+		 System.out.println(dates);
+		 assert dates.size() == 1;
+		 Time date = (Time) dates.get(0).value;
+		 assert date.equals(new Time(2013, 8, 19, 8, 55, 0)) : date;
+	}
 
 	@Test
 	public void testRegex() {

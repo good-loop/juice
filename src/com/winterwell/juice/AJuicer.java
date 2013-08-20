@@ -31,7 +31,7 @@ public abstract class AJuicer {
 	 */
 	public static final Key<String> POST = new Key("post");
 	/**
-	 * The text of an article.
+	 * The text of an article. Can include html tags, such as &lt;p&gt; and &lt;br&gt;
 	 */
 	public static final Key<String> POST_BODY = new Key("postBody");
 	

@@ -63,6 +63,9 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 
 	ConcurrentHashMap<XId,DiNode<Item>> xid2node = new ConcurrentHashMap();
 	
+	/**
+	 * Note: Olde Spiderlets are NOT removed
+	 */
 	ConcurrentHashMap<String,Spiderlet> url2spiderlet = new ConcurrentHashMap();
 	
 
@@ -109,7 +112,7 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 			return; // stop here
 		}
 		// Recurse...
-		// TODO pick rnadom/best links from within a page??
+		// TODO pick random/best links from within a page??
 		for(String u : recurse) {			
 			// Random stop?
 			if (Utils.getRandomChoice(randomSkip)) {

@@ -1,6 +1,7 @@
 package com.winterwell.juice;
 
 
+
 class GenericJuicer extends AJuicer {
 
 

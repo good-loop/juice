@@ -54,6 +54,8 @@ public class DateFinder extends AJuicer {
 	
 	/**
 	 * Does NOT add the dates to an item
+	 * 
+	 * TODO time as well as date!
 	 * @param doc
 	 * @return
 	 */
@@ -64,6 +66,9 @@ public class DateFinder extends AJuicer {
 		if (text.length() > 10000) {
 			text = text.substring(0,10000);
 		}
+		
+		// TODO time!
+		
 		List<Anno> list = findDates2(text, ENGLISH_DATE);
 		if ( ! list.isEmpty()) {
 			return list;
