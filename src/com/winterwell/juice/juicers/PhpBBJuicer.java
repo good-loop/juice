@@ -62,8 +62,8 @@ public class PhpBBJuicer extends AJuicer {
 		String domain = WebUtils2.getDomain(doc.getURL());
 		for (Element post : posts) {
 			String id = post.attr("id");
-			Item ref = new Item(post, doc.getURL());
-//			ref.put(anno(URL, href, post)); TODO #id
+			String url = url(doc.getURL(), doc);
+			Item ref = new Item(post, url);			
 			ref.put(anno(XID, id+"@"+domain, post));
 			Element content = getFirstElementByClass(post, "content");
 			if (content==null) {
@@ -75,7 +75,17 @@ public class PhpBBJuicer extends AJuicer {
 			// Title
 			Elements h3 = post.getElementsByTag("h3");
 			if ( ! h3.isEmpty()) {
-				ref.put(anno(TITLE, h3.get(0).text(), h3.get(0)));
+				Element h30 = h3.get(0);
+				ref.put(anno(TITLE, h30.text(), h30));
+				// the url?
+				Elements a = h30.getElementsByTag("a");
+				String h3_href = a.attr("href");
+				if ( ! Utils.isBlank(h3_href)) {
+					ref.put(anno(URL, url(h3_href, doc), post));
+				}
+			}
+			if(ref.get(URL)==null) { 
+				// ref.put(anno(URL, href, post));
 			}
 			
 			// Pub-date
@@ -170,10 +180,13 @@ public class PhpBBJuicer extends AJuicer {
 	 * @param doc
 	 * @return
 	 */
-	private String url(String href, JuiceMe doc) {
+	private String url(final String _href, JuiceMe doc) {
+		String href = _href;
+		String docu = doc.getURL();
+		href = WebUtils2.resolveUri(docu, href).toString();
+		// remove sid
 		href = WebUtils2.removeQueryParameter(href, "sid");
 		assert ! href.contains("sid=") : href;
-		href = WebUtils2.resolveUri(doc.getURL(), href).toString();
 		return href;
 	}
 
