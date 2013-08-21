@@ -31,10 +31,9 @@ public class PhpBBJuicerTest {
 
 	
 
-	@Test
+//	@Test Needs login on bike radar
 	public void testJuiceBikeRadarMemberPage() {
-		String url = "";
-				
+		String url = "";				
 		File file = TestUtils.getTestFile("phpbb", url);
 		String html = FileUtils.read(file);
 		PhpBBJuicer juicer = new PhpBBJuicer();
