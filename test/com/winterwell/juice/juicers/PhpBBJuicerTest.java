@@ -31,6 +31,23 @@ public class PhpBBJuicerTest {
 		
 		List<Item> items = doc.getExtractedItems();
 		System.out.println(items);
+		assert items.size() > 1;
+	}
+
+	
+	@Test
+	public void testJuiceBikeRadarSearch() {
+		String url = "http://www.bikeradar.com/forums/search.php?keywords=gatorade";
+		File file = TestUtils.getTestFile("phpbb", url);
+		String html = FileUtils.read(file);
+		PhpBBJuicer juicer = new PhpBBJuicer();
+		JuiceMe doc = new JuiceMe(url, html);
+		
+		boolean hm = juicer.juice(doc);
+		
+		List<Item> items = doc.getExtractedItems();
+		System.out.println(items);
+		assert items.size() > 1;
 	}
 
 	
