@@ -150,7 +150,7 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 
 	IFilter<String> urlFilter;
 	
-	TaskRunner _runner = new TaskRunner(10) {
+	static final TaskRunner _runner = new TaskRunner(15) {
 		public void report(Object runnableOrCallable, Throwable e) {
 			super.report(runnableOrCallable, e);
 		};

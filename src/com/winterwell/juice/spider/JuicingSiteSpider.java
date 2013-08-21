@@ -23,7 +23,7 @@ import creole.data.XId;
  */
 public class JuicingSiteSpider extends SiteSpider {
 
-	Juice juicer;
+	transient Juice juicer;
 	
 	public void setOnlyFollowStubs(boolean onlyFollowStubs) {
 		this.onlyFollowStubs = onlyFollowStubs;
@@ -36,18 +36,14 @@ public class JuicingSiteSpider extends SiteSpider {
 	 * TODO true seems to be buggy!
 	 */
 	boolean onlyFollowStubs;
-
-	public void setJuicer(Juice juicer) {
-		this.juicer = juicer;
-	}
 	
 	public JuicingSiteSpider(String startUrl) {
-		super(startUrl);
-		juicer = new Juice();
+		super(startUrl);		
 	}
 
 	@Override
 	protected Spiderlet newSpiderlet(String url, int depth) {	
+		if (juicer==null) juicer = new Juice();
 		return new JuiceSpiderlet(this, url, depth);
 	}
 	
@@ -74,12 +70,10 @@ public class JuicingSiteSpider extends SiteSpider {
 
 class JuiceSpiderlet extends Spiderlet {
 
-	private Juice juicer;
 
 	public JuiceSpiderlet(JuicingSiteSpider juicingSiteSpider, String url, int depth) 
 	{
 		super(juicingSiteSpider, url, depth);
-		this.juicer = juicingSiteSpider.juicer;
 	}
 	
 	
@@ -105,7 +99,7 @@ class JuiceSpiderlet extends Spiderlet {
 	
 	@Override
 	protected List<Item> analyse(String html) {
-		JuiceMe juiced = juicer.juice(url, html);
+		JuiceMe juiced = ((JuicingSiteSpider)spider).juicer.juice(url, html);
 		List<Item> items = juiced.getExtractedItems();
 		return items;
 	}
