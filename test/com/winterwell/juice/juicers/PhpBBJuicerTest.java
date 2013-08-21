@@ -46,7 +46,9 @@ public class PhpBBJuicerTest {
 		boolean hm = juicer.juice(doc);
 		
 		List<Item> items = doc.getExtractedItems();
-		System.out.println(items);
+		for (Item item : items) {
+			System.out.println(item.getUrl()+"\t"+item.isStub()+"\t"+item.getTitle());
+		}
 		assert items.size() > 1;
 	}
 

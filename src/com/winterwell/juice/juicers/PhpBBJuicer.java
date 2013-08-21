@@ -30,6 +30,8 @@ import creole.data.XId;
 public class PhpBBJuicer extends AJuicer {
 
 	private static final String LOGTAG = "PhpBBJuicer";
+	
+	private static final Key<Integer> VIEW_COUNT = new Key("metrics.viewCnt");
 
 	@Override
 	protected boolean juice(JuiceMe doc) {
@@ -141,6 +143,8 @@ public class PhpBBJuicer extends AJuicer {
 					ref.put(anno(new Key("posts"), Integer.valueOf(v), pp));
 				} else if ("joined".equals(k)) {
 //					?? ref.put(anno(AUTHOR_REGISTERED_DATA, Integer.valueOf(v), pp));
+				} else if ("views".equals(k)) {
+					ref.put(anno(VIEW_COUNT, Integer.valueOf(v), pp));
 				}
 			}
 		}
@@ -186,6 +190,7 @@ public class PhpBBJuicer extends AJuicer {
 		href = WebUtils2.resolveUri(docu, href).toString();
 		// remove sid
 		href = WebUtils2.removeQueryParameter(href, "sid");
+		href = WebUtils2.removeQueryParameter(href, "hilit");
 		assert ! href.contains("sid=") : href;
 		return href;
 	}

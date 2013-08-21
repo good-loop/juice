@@ -232,6 +232,8 @@ public class Item {
 				putIfAbsent(anno.name, anno.value);
 			}
 		}
+		// non-stub fills out stub
+		this.stub = this.stub && item.stub;
 	}
 	
 }
