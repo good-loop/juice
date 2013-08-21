@@ -23,7 +23,7 @@ import winterwell.utils.web.WebUtils2;
 
 /**
  * Juicer for extracting metadata in Facebook Open Graph (c.f. http://ogp.me/)
- * Or common <meta> tags. 
+ * Or common &lt;meta&gt; tags.
  * @author daniel
  *
  */

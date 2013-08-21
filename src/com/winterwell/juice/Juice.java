@@ -1,5 +1,7 @@
 package com.winterwell.juice;
 
+import com.winterwell.juice.juicers.PhpBBJuicer;
+
 import winterwell.utils.reporting.Log;
 import winterwell.web.FakeBrowser;
 
@@ -37,8 +39,9 @@ public class Juice {
 	
 	public Juice() {
 		juicers = new AJuicer[]{				
-			new WordPressJuicer(),
+			new WordPressJuicer(),			
 			new PinterestJuicer(),
+			new PhpBBJuicer(),
 			new MetaDataJuicer(),
 //			new GenericJuicer()	
 			new CommonNamesJuicer(),

@@ -2,6 +2,7 @@ package com.winterwell.juice.spider;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,6 +24,12 @@ import creole.data.XId;
 public class JuicingSiteSpider extends SiteSpider {
 
 	Juice juicer;
+	
+	/**
+	 * If true, only follow urls from stub Items.
+	 * Use-case: start with a search page, and follow the results.
+	 */
+	boolean onlyFollowStubs;
 
 	public void setJuicer(Juice juicer) {
 		this.juicer = juicer;
@@ -69,13 +76,34 @@ class JuiceSpiderlet extends Spiderlet {
 		this.juicer = juicingSiteSpider.juicer;
 	}
 	
+	
 	@Override
-	protected Item analyse(String html) {
-		JuiceMe juiced = juicer.juice(url, html);
-		for(Item item : juiced.getExtractedItems()) {
-			spider.reportAnalysis(item.getXId2(), item);
+	protected void extractLinks(Item item, List<String> links) {
+		if (((JuicingSiteSpider)spider).onlyFollowStubs) {
+			if (item.isStub()) {
+				links.add(item.getUrl());
+			}
+		} else {
+			super.extractLinks(item, links);
 		}
-		return null;
 	}
+	
+	@Override
+	protected void extractLinks(String html, List<String> links) {
+		if (((JuicingSiteSpider)spider).onlyFollowStubs) {
+			return; // The Item based method gets them!
+		} else {
+			super.extractLinks(html, links);
+		}
+	}
+	
+	@Override
+	protected List<Item> analyse(String html) {
+		JuiceMe juiced = juicer.juice(url, html);
+		List<Item> items = juiced.getExtractedItems();
+		return items;
+	}
+	
+	
 	
 }

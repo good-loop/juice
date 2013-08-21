@@ -88,14 +88,15 @@ public class Item {
 	}
 		
 	public <X> void put(Anno<X> anno) {
-		type2annotation.put(anno.name, anno);
+		type2annotation.put(anno.name, anno);		
 	}
 	
-	public <X> void putIfAbsent(Anno<X> value) {
-		if (value==null) return;
-		if (type2annotation.containsKey(value.name)) return;
+	public <X> boolean putIfAbsent(Anno<X> value) {
+		if (value==null) return false;
+		if (type2annotation.containsKey(value.name)) return false;
 		
 		put(value);
+		return true;
 	}
 	
 	
@@ -152,6 +153,7 @@ public class Item {
 	}
 
 	public String getHTML() {
+		assert doc!=null : this;
 		return doc.html();
 	}
 
@@ -210,9 +212,26 @@ public class Item {
 	 * Convenience for {@link #putIfAbsent(Anno)} with element=null
 	 * @param key
 	 * @param value
+	 * @return true if put
 	 */
-	public <X> void putIfAbsent(Key<X> key, X value) {
-		putIfAbsent(new Anno(key, value, null));		
+	public <X> boolean putIfAbsent(Key<X> key, X value) {
+		return putIfAbsent(new Anno(key, value, null));		
+	}
+
+	/**
+	 * Add all of item's properties to this -- as un-anchored annotations!
+	 * @param item
+	 */
+	public void extend(Item item) {
+		boolean anchor = item.doc.equals(doc);
+		Collection<Anno> annos = item.getAnnotations();
+		for (Anno anno : annos) {
+			if (anchor) {
+				putIfAbsent(anno);
+			} else {
+				putIfAbsent(anno.name, anno.value);
+			}
+		}
 	}
 	
 }

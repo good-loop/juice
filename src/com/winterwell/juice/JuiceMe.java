@@ -153,5 +153,9 @@ public class JuiceMe
 		}
 		return matched;
 	}
+
+	public boolean removeItem(Item item) {
+		return extractedItems.remove(item);
+	}
 	
 }

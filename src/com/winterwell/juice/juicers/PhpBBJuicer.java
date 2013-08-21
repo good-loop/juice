@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 
 import winterwell.utils.Key;
 import winterwell.utils.Utils;
+import winterwell.utils.reporting.Log;
 import winterwell.utils.web.WebUtils;
 import winterwell.utils.web.WebUtils2;
 
@@ -28,17 +29,30 @@ import creole.data.XId;
  */
 public class PhpBBJuicer extends AJuicer {
 
+	private static final String LOGTAG = "PhpBBJuicer";
+
 	@Override
 	protected boolean juice(JuiceMe doc) {
 		if ( ! doc.getHTML().contains("phpBB")) {
 			return false;
-		}
+		}	
 		
 		// Is it an index page?? Get the linked-to forums
 		juiceIndexPage(doc);
 		
 		// A thread??
 		juiceThread(doc);
+		
+		// Clean-up: remove a blank main-item?
+		List<Item> items = doc.getExtractedItems();
+		if (items.size() < 2) return false;
+		
+		Item main = doc.getMainItem();
+		if (main.getAnnotations().isEmpty()) {
+			Log.d("Removing blank main: "+main);
+			doc.removeItem(main);
+		}
+		
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -101,6 +115,7 @@ public class PhpBBJuicer extends AJuicer {
 				}
 				break;
 			}
+			
 			// Extra info
 			String ppt = WebUtils.stripTags(pp.html());			
 //			Posts: 3840
@@ -130,6 +145,7 @@ public class PhpBBJuicer extends AJuicer {
 			if (href==null) continue;
 //			<a href="./viewforum.php?f=40041" class="subforum read" title="No unread posts">Amateur Race</a>
 			if (href.contains("viewforum.php?") || element.hasClass("subforum") || element.hasClass("forumtitle")) {
+				List<Item> _items = doc.getItemsMatching(URL, href);
 				// Strip session ID, if present
 				href = url(href, doc);				
 				// Already stored??

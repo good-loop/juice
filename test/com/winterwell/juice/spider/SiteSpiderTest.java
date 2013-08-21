@@ -3,6 +3,7 @@ package com.winterwell.juice.spider;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -32,7 +33,8 @@ public class SiteSpiderTest {
 		System.out.println(snippet);
 		
 		Spiderlet spiderlet = new Spiderlet(null, url, 0);
-		List<String> links = spiderlet.extractLinks(html);
+		List<String> links = new ArrayList();
+		spiderlet.extractLinks(html, links);
 		System.out.println(links);
 		
 	}
