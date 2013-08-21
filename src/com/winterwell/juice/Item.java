@@ -152,9 +152,11 @@ public class Item {
 		return type2annotation.values();
 	}
 
+	/**
+	 * @return Can be null (though rare) if doc is null.
+	 */
 	public String getHTML() {
-		assert doc!=null : this;
-		return doc.html();
+		return doc==null? null : doc.html();
 	}
 
 	/**
@@ -232,6 +234,8 @@ public class Item {
 				putIfAbsent(anno.name, anno.value);
 			}
 		}
+		// doc (usually already set)
+		if (doc==null) doc = item.doc;
 		// non-stub fills out stub
 		this.stub = this.stub && item.stub;
 	}

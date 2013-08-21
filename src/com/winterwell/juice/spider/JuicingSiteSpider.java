@@ -25,9 +25,15 @@ public class JuicingSiteSpider extends SiteSpider {
 
 	Juice juicer;
 	
+	public void setOnlyFollowStubs(boolean onlyFollowStubs) {
+		this.onlyFollowStubs = onlyFollowStubs;
+	}
+	
 	/**
 	 * If true, only follow urls from stub Items.
 	 * Use-case: start with a search page, and follow the results.
+	 * 
+	 * TODO true seems to be buggy!
 	 */
 	boolean onlyFollowStubs;
 
