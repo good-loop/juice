@@ -2,6 +2,7 @@ package com.winterwell.juice.spider;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,19 +23,27 @@ import creole.data.XId;
  */
 public class JuicingSiteSpider extends SiteSpider {
 
-	Juice juicer;
-
-	public void setJuicer(Juice juicer) {
-		this.juicer = juicer;
+	transient Juice juicer;
+	
+	public void setOnlyFollowStubs(boolean onlyFollowStubs) {
+		this.onlyFollowStubs = onlyFollowStubs;
 	}
 	
+	/**
+	 * If true, only follow urls from stub Items.
+	 * Use-case: start with a search page, and follow the results.
+	 * 
+	 * TODO true seems to be buggy!
+	 */
+	boolean onlyFollowStubs;
+	
 	public JuicingSiteSpider(String startUrl) {
-		super(startUrl);
-		juicer = new Juice();
+		super(startUrl);		
 	}
 
 	@Override
 	protected Spiderlet newSpiderlet(String url, int depth) {	
+		if (juicer==null) juicer = new Juice();
 		return new JuiceSpiderlet(this, url, depth);
 	}
 	
@@ -61,21 +70,40 @@ public class JuicingSiteSpider extends SiteSpider {
 
 class JuiceSpiderlet extends Spiderlet {
 
-	private Juice juicer;
 
 	public JuiceSpiderlet(JuicingSiteSpider juicingSiteSpider, String url, int depth) 
 	{
 		super(juicingSiteSpider, url, depth);
-		this.juicer = juicingSiteSpider.juicer;
+	}
+	
+	
+	@Override
+	protected void extractLinks(Item item, List<String> links) {
+		if (((JuicingSiteSpider)spider).onlyFollowStubs) {
+			if (item.isStub()) {
+				links.add(item.getUrl());
+			}
+		} else {
+			super.extractLinks(item, links);
+		}
 	}
 	
 	@Override
-	protected Item analyse(String html) {
-		JuiceMe juiced = juicer.juice(url, html);
-		for(Item item : juiced.getExtractedItems()) {
-			spider.reportAnalysis(item.getXId2(), item);
+	protected void extractLinks(String html, List<String> links) {
+		if (((JuicingSiteSpider)spider).onlyFollowStubs) {
+			return; // The Item based method gets them!
+		} else {
+			super.extractLinks(html, links);
 		}
-		return null;
 	}
+	
+	@Override
+	protected List<Item> analyse(String html) {
+		JuiceMe juiced = ((JuicingSiteSpider)spider).juicer.juice(url, html);
+		List<Item> items = juiced.getExtractedItems();
+		return items;
+	}
+	
+	
 	
 }

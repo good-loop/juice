@@ -13,8 +13,10 @@ import winterwell.maths.graph.DiGraph;
 import winterwell.maths.graph.DiNode;
 import winterwell.maths.graph.DotPrinter;
 import winterwell.utils.Printer;
+import winterwell.utils.StrUtils;
 import winterwell.utils.gui.GuiUtils;
 import winterwell.utils.io.FileUtils;
+import winterwell.utils.web.XStreamUtils;
 
 import com.winterwell.juice.Item;
 
@@ -23,6 +25,17 @@ import creole.data.XId;
 
 public class JuicingSiteSpiderTest {
 
+	
+
+	@Test
+	public void testXStream() throws IOException {
+
+		String site = "http://www.bikeradar.com/forums";
+		final JuicingSiteSpider jss = new JuicingSiteSpider(site);
+		
+		String xml = XStreamUtils.serialiseToXml(jss);
+		System.out.println(xml.length()+" "+StrUtils.ellipsize(xml, 400));
+	}
 	
 
 	@Test

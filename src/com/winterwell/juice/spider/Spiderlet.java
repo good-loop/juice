@@ -3,6 +3,7 @@ package com.winterwell.juice.spider;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +25,7 @@ import com.winterwell.utils.threads.ATask;
 
 import creole.data.XId;
 
-public class Spiderlet extends ATask<Item> {
+public class Spiderlet extends ATask<List<Item>> {
 
 	@Override
 	public String toString() {	
@@ -70,7 +71,7 @@ public class Spiderlet extends ATask<Item> {
 
 	SiteSpider spider;
 	
-	List<String> links;
+	final List<String> links = new ArrayList();
 	
 	protected Spiderlet(SiteSpider spider, String url, int depth) {
 		this.spider = spider;
@@ -86,7 +87,7 @@ public class Spiderlet extends ATask<Item> {
 	 * @return Just for debugging!
 	 */
 	@Override
-	protected Item run() throws Exception {
+	protected List<Item> run() throws Exception {
 		if (spider.delay > 0) {
 			Utils.sleep(Utils.getRandom().nextInt(spider.delay));
 		}
@@ -96,12 +97,25 @@ public class Spiderlet extends ATask<Item> {
 		// ...failed? e.g. a 404
 		if (html==null) return null;
 		// analyse it
-		Item item = analyse(html);
-		spider.reportAnalysis(new XId(url, "web"), item);
+		List<Item> items = analyse(html);
+		for (Item item : items) {
+			spider.reportAnalysis(item.getXId2(), item);
+			extractLinks(item, links);
+		}		
 		// Extract links in the web
-		links = extractLinks(html);
+		extractLinks(html, links);
 		spider.reportLinks(new XId(url, "web"), links, depth);
-		return item;
+		return items;
+	}
+
+	/**
+	 * Extract links from this item. Does nothing by default, as {@link #extractLinks(String, List)}
+	 * will get the lot from html.
+	 * @param item
+	 * @param links
+	 */
+	protected void extractLinks(Item item, List<String> links) {
+		// do nothing
 	}
 
 	/**
@@ -109,14 +123,13 @@ public class Spiderlet extends ATask<Item> {
 	 * @param html
 	 * @return Can return null for "boring"
 	 */
-	protected Item analyse(String html) {
+	protected List<Item> analyse(String html) {
 		Item dummy = new Item(null, url);
-		return dummy;
+		return Collections.singletonList(dummy);
 	}
 
-	protected List<String> extractLinks(String html) {
+	protected void extractLinks(String html, List<String> links) {
 		Matcher m = aLink.matcher(html);
-		List<String> links = new ArrayList(); 
 		while(m.find()) {
 			String link = m.group(1);			
 			if (link.isEmpty() || link.startsWith("\\")) {
@@ -136,7 +149,6 @@ public class Spiderlet extends ATask<Item> {
 //				Log.d(SiteSpider.LOGTAG, "Bad href in "+url+": '"+link+"' in "+StrUtils.compactWhitespace(StrUtils.substring(html, m.start()-20, m.end()+30)));
 			}
 		}
-		return links;
 	}
 
 	protected String fetchPage() {

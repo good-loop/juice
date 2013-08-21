@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 
 import winterwell.utils.Key;
 import winterwell.utils.Utils;
+import winterwell.utils.reporting.Log;
 import winterwell.utils.web.WebUtils;
 import winterwell.utils.web.WebUtils2;
 
@@ -28,17 +29,32 @@ import creole.data.XId;
  */
 public class PhpBBJuicer extends AJuicer {
 
+	private static final String LOGTAG = "PhpBBJuicer";
+	
+	private static final Key<Integer> VIEW_COUNT = new Key("metrics.viewCnt");
+
 	@Override
 	protected boolean juice(JuiceMe doc) {
 		if ( ! doc.getHTML().contains("phpBB")) {
 			return false;
-		}
+		}	
 		
 		// Is it an index page?? Get the linked-to forums
 		juiceIndexPage(doc);
 		
 		// A thread??
 		juiceThread(doc);
+		
+		// Clean-up: remove a blank main-item?
+		List<Item> items = doc.getExtractedItems();
+		if (items.size() < 2) return false;
+		
+		Item main = doc.getMainItem();
+		if (main.getAnnotations().isEmpty()) {
+			Log.d("Removing blank main: "+main);
+			doc.removeItem(main);
+		}
+		
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -48,8 +64,8 @@ public class PhpBBJuicer extends AJuicer {
 		String domain = WebUtils2.getDomain(doc.getURL());
 		for (Element post : posts) {
 			String id = post.attr("id");
-			Item ref = new Item(post, doc.getURL());
-//			ref.put(anno(URL, href, post)); TODO #id
+			String url = url(doc.getURL(), doc);
+			Item ref = new Item(post, url);			
 			ref.put(anno(XID, id+"@"+domain, post));
 			Element content = getFirstElementByClass(post, "content");
 			if (content==null) {
@@ -61,7 +77,17 @@ public class PhpBBJuicer extends AJuicer {
 			// Title
 			Elements h3 = post.getElementsByTag("h3");
 			if ( ! h3.isEmpty()) {
-				ref.put(anno(TITLE, h3.get(0).text(), h3.get(0)));
+				Element h30 = h3.get(0);
+				ref.put(anno(TITLE, h30.text(), h30));
+				// the url?
+				Elements a = h30.getElementsByTag("a");
+				String h3_href = a.attr("href");
+				if ( ! Utils.isBlank(h3_href)) {
+					ref.put(anno(URL, url(h3_href, doc), post));
+				}
+			}
+			if(ref.get(URL)==null) { 
+				// ref.put(anno(URL, href, post));
 			}
 			
 			// Pub-date
@@ -101,6 +127,7 @@ public class PhpBBJuicer extends AJuicer {
 				}
 				break;
 			}
+			
 			// Extra info
 			String ppt = WebUtils.stripTags(pp.html());			
 //			Posts: 3840
@@ -116,6 +143,8 @@ public class PhpBBJuicer extends AJuicer {
 					ref.put(anno(new Key("posts"), Integer.valueOf(v), pp));
 				} else if ("joined".equals(k)) {
 //					?? ref.put(anno(AUTHOR_REGISTERED_DATA, Integer.valueOf(v), pp));
+				} else if ("views".equals(k)) {
+					ref.put(anno(VIEW_COUNT, Integer.valueOf(v), pp));
 				}
 			}
 		}
@@ -130,6 +159,7 @@ public class PhpBBJuicer extends AJuicer {
 			if (href==null) continue;
 //			<a href="./viewforum.php?f=40041" class="subforum read" title="No unread posts">Amateur Race</a>
 			if (href.contains("viewforum.php?") || element.hasClass("subforum") || element.hasClass("forumtitle")) {
+				List<Item> _items = doc.getItemsMatching(URL, href);
 				// Strip session ID, if present
 				href = url(href, doc);				
 				// Already stored??
@@ -154,10 +184,14 @@ public class PhpBBJuicer extends AJuicer {
 	 * @param doc
 	 * @return
 	 */
-	private String url(String href, JuiceMe doc) {
+	private String url(final String _href, JuiceMe doc) {
+		String href = _href;
+		String docu = doc.getURL();
+		href = WebUtils2.resolveUri(docu, href).toString();
+		// remove sid
 		href = WebUtils2.removeQueryParameter(href, "sid");
+		href = WebUtils2.removeQueryParameter(href, "hilit");
 		assert ! href.contains("sid=") : href;
-		href = WebUtils2.resolveUri(doc.getURL(), href).toString();
 		return href;
 	}
 

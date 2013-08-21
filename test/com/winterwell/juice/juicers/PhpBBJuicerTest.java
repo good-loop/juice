@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -11,7 +12,10 @@ import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
 import com.winterwell.juice.juicers.PhpBBJuicer;
+import com.winterwell.juice.spider.JuicingSiteSpider;
 
+import creole.data.IDoCanonical;
+import creole.data.XId;
 import winterwell.utils.io.FileUtils;
 
 public class PhpBBJuicerTest {
@@ -27,8 +31,64 @@ public class PhpBBJuicerTest {
 		
 		List<Item> items = doc.getExtractedItems();
 		System.out.println(items);
+		assert items.size() > 1;
 	}
 
+	
+	@Test
+	public void testJuiceBikeRadarSearch() {
+		String url = "http://www.bikeradar.com/forums/search.php?keywords=gatorade";
+		File file = TestUtils.getTestFile("phpbb", url);
+		String html = FileUtils.read(file);
+		PhpBBJuicer juicer = new PhpBBJuicer();
+		JuiceMe doc = new JuiceMe(url, html);
+		
+		boolean hm = juicer.juice(doc);
+		
+		List<Item> items = doc.getExtractedItems();
+		for (Item item : items) {
+			System.out.println(item.getUrl()+"\t"+item.isStub()+"\t"+item.getTitle());
+		}
+		assert items.size() > 1;
+	}
+
+	
+	@Test
+	public void testWithSpider() {
+		XId.setService2canonical(IDoCanonical.DUMMY_CANONICALISER);
+		
+		String site = "http://www.bikeradar.com/forums";
+		JuicingSiteSpider jss = new JuicingSiteSpider(site);
+		
+		jss.run();
+		
+		Set<Item> items = jss.getItems();
+		System.out.println(items);
+		assert items.size() > 0;
+			
+		for (Item item : items) {
+			if (item.getUrl().contains("sid=")) {
+				// WTF?
+				System.err.println(item.getUrl()+" "+item.getXId2()+" "+item);
+			}
+		}	
+	}
+	
+	@Test public void testTopicScrapeWithUrlCleanup() {
+		String url = "http://www.bikeradar.com/forums/viewtopic.php?f=40012&p=18499001&sid=6f0f537bbd3e60c552de35be372abf9c#p18499001";
+		File html = TestUtils.getTestFile("phpbb", url);
+		JuiceMe doc = new JuiceMe(url, FileUtils.read(html));
+		
+		PhpBBJuicer j = new PhpBBJuicer();
+		
+		boolean ok = j.juice(doc);
+		
+		List<Item> items = doc.getExtractedItems();
+		assert ! items.isEmpty();
+		for (Item item : items) {
+			assert ! item.getUrl().contains("sid=") : item.getUrl()+" "+item;
+		}
+	}
 	
 
 //	@Test Needs login on bike radar

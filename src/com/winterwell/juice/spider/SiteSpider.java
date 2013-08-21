@@ -150,7 +150,7 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 
 	IFilter<String> urlFilter;
 	
-	TaskRunner _runner = new TaskRunner(10) {
+	static final TaskRunner _runner = new TaskRunner(15) {
 		public void report(Object runnableOrCallable, Throwable e) {
 			super.report(runnableOrCallable, e);
 		};
@@ -194,7 +194,21 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 			}			
 			// store a dummy
 			item = new DummyItem(xid); 
-		}		
+		} else if (n.getValue() !=null) { 
+			// Merge with existing item??
+			Item v = n.getValue();
+			if (v instanceof DummyItem || v.isStub()) {
+				// carry on and over-write v
+				if (v.isStub()) {
+					Log.d(LOGTAG, "replace stub for "+xid);
+				}
+			} else {
+				Log.d(LOGTAG, "Merge items for "+xid);
+				v.extend(item);
+				return;
+			}
+		}
+		
 		n.setValue(item);
 	}
 
