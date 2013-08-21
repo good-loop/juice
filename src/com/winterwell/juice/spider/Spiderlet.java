@@ -154,8 +154,10 @@ public class Spiderlet extends ATask<List<Item>> {
 	protected String fetchPage() {
 		assert spider.url2spiderlet.get(url) == this : spider.url2spiderlet.get(url)+" vs "+this;
 		try {
-			FakeBrowser fb = new FakeBrowser();			
+			FakeBrowser fb = new FakeBrowser();
+			fb.setTimeOut(spider.PAGE_FETCH_TIMEOUT);
 			String page = fb.getPage(url);
+
 			// Was there a redirect?
 			String locn = fb.getLocation();
 			if ( ! url.equals(locn)) {
@@ -165,15 +167,15 @@ public class Spiderlet extends ATask<List<Item>> {
 					return null; // _this_ url has already been handled
 				}				
 			}
-			return page;
-		} catch(WebEx ex) {
+			return page;	
+		} catch(Exception ex) {
 			// oh well
 			handleError(url, ex);
 			return null;
-		}
+		}	
 	}
 
-	protected void handleError(String url2, WebEx ex) {
+	protected void handleError(String url2, Exception ex) {
 		Item item = new Item(ex, null, url2);		
 		spider.reportAnalysis(item.getXId2(), item);
 	}

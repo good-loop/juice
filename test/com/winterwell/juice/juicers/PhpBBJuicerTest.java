@@ -21,6 +21,20 @@ import winterwell.utils.io.FileUtils;
 public class PhpBBJuicerTest {
 
 	@Test
+	public void test220Triathlon() {
+		File file = TestUtils.getTestFile("phpbb", "http://www.220triathlon.com/forum/gatorade-powder-t48506.html");
+		String html = FileUtils.read(file);
+		PhpBBJuicer juicer = new PhpBBJuicer();
+		JuiceMe doc = new JuiceMe("http://bikeradar.com/forums/", html);
+		
+		boolean hm = juicer.juice(doc);
+		
+		List<Item> items = doc.getExtractedItems();
+		System.out.println(items);
+		assert items.size() > 1;
+	}
+	
+	@Test
 	public void testJuiceBikeRadarTopIndex() {
 		File file = TestUtils.getTestFile("phpbb", "http://bikeradar.com/forums/");
 		String html = FileUtils.read(file);

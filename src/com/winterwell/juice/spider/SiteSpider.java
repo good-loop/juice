@@ -155,6 +155,8 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 			super.report(runnableOrCallable, e);
 		};
 	};
+
+	static final long PAGE_FETCH_TIMEOUT = 5000;
 	 
 	/**
 	 * Delay to put in between requests. This is used as a uniform delay range (so the average delay is half this).
