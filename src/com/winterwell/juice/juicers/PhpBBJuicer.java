@@ -22,7 +22,9 @@ import com.winterwell.juice.JuiceMe;
 import creole.data.XId;
 
 /**
- * TODO a juicer for phpBB bulletin boards.
+ * ?? phpBB provides RSS feeds -- should we detect & use those instead??
+ * 
+ * A juicer for phpBB bulletin boards.
  * E.g. bikeradar.com/forums
  * @author daniel
  * @testedby {@link PhpBBJuicerTest}
