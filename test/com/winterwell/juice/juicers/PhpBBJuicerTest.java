@@ -16,6 +16,8 @@ import com.winterwell.juice.spider.JuicingSiteSpider;
 
 import creole.data.IDoCanonical;
 import creole.data.XId;
+import winterwell.utils.Printer;
+import winterwell.utils.StrUtils;
 import winterwell.utils.io.FileUtils;
 
 public class PhpBBJuicerTest {
@@ -105,9 +107,9 @@ public class PhpBBJuicerTest {
 	}
 	
 
-//	@Test Needs login on bike radar
-	public void testJuiceBikeRadarMemberPage() {
-		String url = "";				
+	@Test
+	public void testJuiceMemberPage() {
+		String url = "http://www.tritalk.co.uk/forums/profile.php?mode=viewprofile&u=13184";				
 		File file = TestUtils.getTestFile("phpbb", url);
 		String html = FileUtils.read(file);
 		PhpBBJuicer juicer = new PhpBBJuicer();
@@ -116,7 +118,10 @@ public class PhpBBJuicerTest {
 		boolean hm = juicer.juice(doc);
 		
 		List<Item> items = doc.getExtractedItems();
-		System.out.println(items);
+		assert ! items.isEmpty();
+		for (Item item : items) {
+			System.out.println(item.getXId()+"\t"+item.getAuthor()+" "+StrUtils.ellipsize(Printer.toString(item.getAnnotations()), 200));
+		}
 	}
 	
 	
