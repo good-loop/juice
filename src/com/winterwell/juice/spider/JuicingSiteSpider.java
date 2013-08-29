@@ -78,7 +78,7 @@ class JuiceSpiderlet extends Spiderlet {
 	
 	
 	@Override
-	protected void extractLinks(Item item, List<String> links) {
+	protected void extractLinks(Item item, List<String> links) {		
 		if (((JuicingSiteSpider)spider).onlyFollowStubs) {
 			if (item.isStub()) {
 				links.add(item.getUrl());
@@ -90,6 +90,7 @@ class JuiceSpiderlet extends Spiderlet {
 	
 	@Override
 	protected void extractLinks(String html, List<String> links) {
+		// FIXME Look for RSS feeds!
 		if (((JuicingSiteSpider)spider).onlyFollowStubs) {
 			return; // The Item based method gets them!
 		} else {

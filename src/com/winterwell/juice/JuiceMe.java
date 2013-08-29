@@ -142,6 +142,12 @@ public class JuiceMe
 		return domain;			
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @param value
+	 * @return Can be empty, never null
+	 */
 	public <V> List<Item> getItemsMatching(Key<V> key, V value) {
 		List<Item> items = getExtractedItems();
 		List<Item> matched = new ArrayList(4);
