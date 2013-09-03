@@ -3,7 +3,11 @@ package com.winterwell.juice;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 
 import org.jsoup.nodes.Element;
@@ -24,7 +28,9 @@ public class DateFinderTest {
 		 System.out.println(dates);
 		 assert dates.size() == 1;
 		 Time date = (Time) dates.get(0).value;
-		 assert date.equals(new Time(2013, 8, 19, 8, 55, 0)) : date;
+		 
+		 Time expected = new Time("Aug 19, 2013");
+		 assert date.equals(expected) : date + " vs " + expected;
 	}
 
 	@Test

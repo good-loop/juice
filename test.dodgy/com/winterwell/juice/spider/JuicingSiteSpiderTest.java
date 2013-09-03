@@ -65,6 +65,7 @@ public class JuicingSiteSpiderTest {
 	@Test
 	public void testGetItems() throws IOException {
 		final JuicingSiteSpider jss = new JuicingSiteSpider("http://www.soda.sh/static/blog");
+		XId.setService2canonical(IDoCanonical.DUMMY_CANONICALISER);
 //		jss.buildWeb = true;
 		jss.setMaxDepth(3);
 		DiGraph<Item> web = jss.run();

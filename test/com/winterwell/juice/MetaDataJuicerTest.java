@@ -25,6 +25,7 @@ public class MetaDataJuicerTest {
 			put(AJuicer.MSG_TYPE, KMsgType.VIDEO);
 			put(AJuicer.URL, "http://www.imdb.com/title/tt0117500/");
 			put(AJuicer.IMAGE_URL, "http://ia.media-imdb.com/images/rock.jpg");
+			put(AJuicer.AUTHOR_XID, "anon@imdb.com");
 		}};
 		
 		testJuicer(htmlFileName, expectedElements);

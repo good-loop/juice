@@ -86,7 +86,7 @@ public class JuiceTest {
 	
 	@Test
 	public void testBadParse() {
-		String url = "http://28g.co.uk/story.php?title=flats-to-rent-edinburgh";
+		String url = "http://www.28g.co.uk/story.php?title=pc-speed-maximizer";
 		File file = TestUtils.getTestFile("misc", url);
 		Juice j = new Juice();
 		String html = FileUtils.read(file);

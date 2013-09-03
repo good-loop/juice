@@ -21,6 +21,9 @@ import winterwell.utils.io.FileUtils;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.TestUtils;
 
+import creole.data.IDoCanonical;
+import creole.data.XId;
+
 public class SiteSpiderTest {
 
 	@Test public void testLinkExtract() {
@@ -50,12 +53,13 @@ public class SiteSpiderTest {
 		assert domainP.matcher("https://soda.sh/foobar").find();
 		
 		InSiteFilter f = new InSiteFilter(start);
-		assert f.accept(url);
+		assert !f.accept(url);
 	}
 	
 	@Test
 	public void testSiteSpider() throws Exception {
 		final SiteSpider ss = new SiteSpider("http://winterwell.com");
+		XId.setService2canonical(IDoCanonical.DUMMY_CANONICALISER);
 		
 		// php only
 		IFilter<String> f = Containers.And(ss.getUrlFilter(), new IFilter<String>() {

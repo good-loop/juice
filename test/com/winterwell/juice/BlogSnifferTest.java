@@ -27,9 +27,9 @@ public class BlogSnifferTest {
 		BlogSniffer sniffer = new BlogSniffer();
 		FakeBrowser fb = new FakeBrowser();
 		{	// Sandpit (ContentWave?)
-			String html = fb.getPage("http://thesandpit.com/the-founders-blog/2012/4/5/big-data-must-be-accurate-data.html");
+			String html = fb.getPage("http://googleblog.blogspot.co.uk/2013/08/tenth-annual-code-jam-competition-wraps.html");
 			String type = sniffer.sniff(html);
-			assert type == null;
+			assert !type.equals(BlogSniffer.WORDPRESS);
 		}
 	}
 	
