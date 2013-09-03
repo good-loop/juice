@@ -239,5 +239,16 @@ public class Item {
 		// non-stub fills out stub
 		this.stub = this.stub && item.stub;
 	}
+
+	/**
+	 * @deprecated Use with care!
+	 * 
+	 * What is the url that this Item was fetched from?
+	 * This may not be permanent -- e.g. homepage contents change, as do "the comments on page 2"
+	 * It should never be null.
+	 */
+	public String getUrlNow() {
+		return urlNow;
+	}
 	
 }
