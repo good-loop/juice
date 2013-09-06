@@ -2,3 +2,5 @@
 test/testHTMLFiles
 test/testHTMLFiles/*
 
+/bin.test
+/bin.test.dodgy
