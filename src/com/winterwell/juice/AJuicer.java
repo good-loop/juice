@@ -165,6 +165,12 @@ public abstract class AJuicer {
 	public static final Key<String> XID = new Key("xid");
 	
 	/**
+	 * What thread is this in?
+	 * This may or may not also be the XId of the root message (it depends on the site).
+	 */
+	public static final Key<XId> THREAD_XID = new Key("threadXId");
+	
+	/**
 	 * @param url
 	 * @param html
 	 * @param pages The extractions made by this juicer.
