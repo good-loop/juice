@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test.dodgy"/>
-	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" output="bin.test.dodgy" path="test.dodgy"/>
+	<classpathentry kind="src" output="bin.test" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/jsoup.jar" sourcepath="/middleware/jsoup/jsoup-1.7.1-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
