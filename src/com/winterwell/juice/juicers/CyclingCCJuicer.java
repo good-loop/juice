@@ -53,6 +53,7 @@ public class CyclingCCJuicer extends AJuicer {
 			for (String c : classes) {
 				if (c.startsWith("i")) {
 					threadId = c;
+					break;
 				}
 			}
 			Elements hs = null;
@@ -60,18 +61,20 @@ public class CyclingCCJuicer extends AJuicer {
 				hs = li.getElementsByTag("h"+i);
 				if ( ! hs.isEmpty()) break;
 			}
-			if (hs==null || hs.isEmpty()) {
-				Log.w("juicer.cc", "Skip no-title "+li.html());
-				continue;
+			String title = null;
+			if (hs!=null && ! hs.isEmpty()) {
+				title = hs.text(); // In a thread page, we don't get a title
 			}
-			String title = hs.text();			
 			Elements topics = li.getElementsByClass("topic");			
 			String text = topics.text();
-			
+			if (Utils.isBlank(title) && Utils.isBlank(text)) {
+				Log.d("juicer.cc", "skip blank "+li.html());
+				continue;
+			}
 			Item item = new Item(li, doc.getURL());
 			if ( ! Utils.isBlank(threadId)) {
 				item.put(anno(THREAD_XID, new XId(threadId+"@"+doc.getDomain(), SiteSpider.SERVICE_WEB), li));
-			}
+			}			
 			if ( ! Utils.isBlank(title)) item.put(anno(TITLE, title, hs.get(0)));
 			item.put(anno(DESC, text, topics.get(0)));
 			Elements as = hs!=null && ! hs.isEmpty()? hs.get(0).getElementsByTag("a") : null;
@@ -98,6 +101,9 @@ public class CyclingCCJuicer extends AJuicer {
 			if ( ! img.isEmpty()) {
 				item.put(anno(AUTHOR_IMG, img.attr("src"), img.get(0)));
 			}
+//			if (item.get(AJuicer.AUTHOR_XID)==null) {
+//				Log.d("juicer.cc", "No oxid? "+li.html());
+//			}
 			// DOne
 			doc.addItem(item);
 			items.add(item);

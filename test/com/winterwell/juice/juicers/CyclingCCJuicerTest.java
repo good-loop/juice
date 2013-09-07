@@ -9,7 +9,9 @@ import org.junit.Test;
 
 import winterwell.utils.StrUtils;
 import winterwell.utils.Utils;
+import winterwell.utils.containers.Pair2;
 import winterwell.utils.io.FileUtils;
+import winterwell.utils.web.WebUtils2;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
@@ -38,12 +40,10 @@ public class CyclingCCJuicerTest {
 		
 		List<Item> items = doc.getExtractedItems();
 		
+		Object warnings = TestUtils.out(items);
+		System.out.println(warnings);
+		
 		assert items.size() > 1 : items;
-		for (Item item : items) {
-			System.out.println(Utils.or(item.getXId(),item.getUrl())+"\t"
-					+item.getTitle()+"\tby "+item.getAuthor()+"("+item.get(AJuicer.AUTHOR_XID)+")\t"
-					+StrUtils.ellipsize(Utils.or(item.getText(), item.get(AJuicer.DESC)), 140));
-		}
 	}
 
 	@Test
@@ -52,6 +52,9 @@ public class CyclingCCJuicerTest {
 		String url = "http://www.cyclingweekly.cc/forum/racing-314/vuelta-a-espaa-chat-may-contain-spoilers-155467?page=3";
 		File file = TestUtils.getTestFile("cycling.cc", url);
 		String html = FileUtils.read(file);
+		
+//		WebUtils2.display(html);
+		
 		JuiceMe doc = new JuiceMe(url, html);
 		
 		CyclingCCJuicer j = new CyclingCCJuicer();
@@ -59,9 +62,11 @@ public class CyclingCCJuicerTest {
 		boolean ok = j.juice(doc);
 		
 		List<Item> items = doc.getExtractedItems();
+
+		Object warnings = TestUtils.out(items);
+		System.out.println(warnings);
 		
 		assert items.size() > 1 : items;
-		System.out.println(items);
 	}
 	
 }
