@@ -27,6 +27,15 @@ import winterwell.web.WebEx;
  */
 public class Item {
 
+	/**
+	 * true => the url can (kind-of) be trusted to mark the resource.
+	 * false => the url cannot be used to identify the resource.
+	 * E.g. there are many items on the page, or it is a front-page which
+	 * is likely to change. 
+	 * null => nothing
+	 */
+	public Boolean stable1ItemUrl;
+	
 	protected final Map<Key, Anno> type2annotation = new HashMap<Key, Anno>();
 	/**
 	 * What is the url that this Item was fetched from?

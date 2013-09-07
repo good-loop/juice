@@ -72,6 +72,8 @@ public class CyclingCCJuicer extends AJuicer {
 				continue;
 			}
 			Item item = new Item(li, doc.getURL());
+			// cycling.cc urls point to pages of items
+			item.stable1ItemUrl = false;
 			if ( ! Utils.isBlank(threadId)) {
 				item.put(anno(THREAD_XID, new XId(threadId+"@"+doc.getDomain(), SiteSpider.SERVICE_WEB), li));
 			}			

@@ -1,5 +1,7 @@
 package com.winterwell.juice;
 
+import java.util.List;
+
 import com.winterwell.juice.juicers.CyclingCCJuicer;
 import com.winterwell.juice.juicers.PhpBBJuicer;
 
@@ -64,6 +66,16 @@ public class Juice {
 				Log.d(LOGTAG, juicer.getClass().getSimpleName()+" says done for "+doc.getURL());
 			}
 		}		
+		// Mark stable urls
+		List<Item> items = doc.getExtractedItems();
+		if (items.size() > 1) {
+			for (Item item : items) {
+				String setUrl = item.get(AJuicer.URL);
+				if (setUrl==null && item.stable1ItemUrl==null) {
+					item.stable1ItemUrl = false;
+				}
+			}
+		}
 		return doc;
 	}
 }
