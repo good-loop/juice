@@ -1,5 +1,7 @@
 package com.winterwell.juice.juicers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.jsoup.nodes.Element;
@@ -35,12 +37,15 @@ public class CyclingCCJuicer extends AJuicer {
 	protected boolean juice(JuiceMe doc) {
 		Elements elements = doc.getDoc().select("li.forum");
 		if (elements.size() > 1) {
-			juiceIndex(elements, doc);
+			List<Item> items = juiceIndex(elements, doc);
+			return items.size() > 1;
 		}
+		// A thread??
 		return false;
 	}
 
-	private void juiceIndex(Elements lis, JuiceMe doc) {
+	private List<Item> juiceIndex(Elements lis, JuiceMe doc) {
+		List<Item> items = new ArrayList(lis.size());
 		for (Element li : lis) {
 			// Text
 			String threadId = null; // <li class="forum i156301">
@@ -95,7 +100,9 @@ public class CyclingCCJuicer extends AJuicer {
 			}
 			// DOne
 			doc.addItem(item);
+			items.add(item);
 		}
+		return items;
 	}
 
 }
