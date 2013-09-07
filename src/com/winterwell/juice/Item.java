@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import creole.data.XId;
 import winterwell.utils.Key;
 import winterwell.utils.containers.SetMap;
 import winterwell.utils.time.Time;
+import winterwell.utils.web.WebUtils2;
 import winterwell.web.WebEx;
 
 /**
@@ -206,7 +208,12 @@ public class Item {
 	 */
 	public XId getXId2() {
 		String xid = getXId();
-		if (xid==null) xid = getUrl();
+		if (xid==null) {
+			String url = getUrl();
+			// resolve relative
+			URI _uri2 = WebUtils2.resolveUri(urlNow, url);
+			xid = _uri2.toString();
+		}
 		return new XId(xid, "web");
 	}
 
