@@ -15,6 +15,11 @@ import com.winterwell.juice.spider.SiteSpider;
 
 import creole.data.XId;
 
+/**
+ * @testedby {@link CyclingCCJuicerTest}
+ * @author daniel
+ *
+ */
 public class CyclingCCJuicer extends AJuicer {
 
 //	http://www.cyclingweekly.cc/forum/all
@@ -64,7 +69,7 @@ public class CyclingCCJuicer extends AJuicer {
 			}
 			if ( ! Utils.isBlank(title)) item.put(anno(TITLE, title, hs.get(0)));
 			item.put(anno(DESC, text, topics.get(0)));
-			Elements as = hs!=null && ! hs.isEmpty()? hs.get(0).getElementsByClass("a") : null;
+			Elements as = hs!=null && ! hs.isEmpty()? hs.get(0).getElementsByTag("a") : null;
 			if (as!=null && ! as.isEmpty()) {
 				String href = as.attr("href");
 				item.put(anno(URL, href, as.get(0)));
@@ -80,6 +85,7 @@ public class CyclingCCJuicer extends AJuicer {
 						item.put(anno(AUTHOR_NAME, authName, a));
 						item.put(anno(AUTHOR_URL, href, a));
 						item.put(anno(AUTHOR_XID, authName.toLowerCase()+"@"+doc.getDomain(), a));
+						break;
 					}
 				}
 			}

@@ -65,7 +65,7 @@ public class Item {
 	 * See <code>get(AJuicer.URL)</code> (which is used, if set).
 	 */
 	public String getUrl() {
-		Anno a = type2annotation.get(AJuicer.URL);
+		Anno<String> a = type2annotation.get(AJuicer.URL);
 		if (a==null) {
 			return urlNow;
 		}

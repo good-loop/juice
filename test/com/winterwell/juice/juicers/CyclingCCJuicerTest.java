@@ -7,14 +7,24 @@ import java.util.List;
 
 import org.junit.Test;
 
+import winterwell.utils.StrUtils;
+import winterwell.utils.Utils;
 import winterwell.utils.io.FileUtils;
 
+import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
 
+import creole.data.IDoCanonical;
+import creole.data.XId;
+
 public class CyclingCCJuicerTest {
 
+	public CyclingCCJuicerTest() {
+		XId.setService2canonical(IDoCanonical.DUMMY_CANONICALISER);
+	}
+	
 	@Test
 	public void testJuiceIndex() {
 		String url = "http://www.cyclingweekly.cc/forum/all";
@@ -29,7 +39,11 @@ public class CyclingCCJuicerTest {
 		List<Item> items = doc.getExtractedItems();
 		
 		assert items.size() > 1 : items;
-		System.out.println(items);
+		for (Item item : items) {
+			System.out.println(Utils.or(item.getXId(),item.getUrl())+"\t"
+					+item.getTitle()+"\tby "+item.getAuthor()+"("+item.get(AJuicer.AUTHOR_XID)+")\t"
+					+StrUtils.ellipsize(Utils.or(item.getText(), item.get(AJuicer.DESC)), 140));
+		}
 	}
 
 	@Test
