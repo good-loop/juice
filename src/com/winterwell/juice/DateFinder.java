@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Element;
 
 import winterwell.utils.TodoException;
+import winterwell.utils.reporting.Log;
+import winterwell.utils.time.TUnit;
 import winterwell.utils.time.Time;
 import winterwell.utils.time.TimeUtils;
 
@@ -52,6 +54,8 @@ public class DateFinder extends AJuicer {
 	 */
 	static final Pattern ENGLISH_DATE2 = Pattern.compile("(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\\w* (\\d\\d?),? ?(19\\d{0,2}|20\\d{0,2}|21\\d{0,2})?", Pattern.CASE_INSENSITIVE);
 	
+	private static final String TAG = "DateFinder";
+	
 	/**
 	 * Does NOT add the dates to an item
 	 * 
@@ -80,10 +84,16 @@ public class DateFinder extends AJuicer {
 	private List<Anno> findDates2(String text, Pattern regex) {
 		Matcher m = regex.matcher(text);
 		List<Anno> list = new ArrayList();
+		// Filter out future dates (allow for some clock drift)
+		Time now = new Time().plus(5, TUnit.MINUTE);
 		while (m.find()) {
 			try {
 				String ms = m.group();
 				Time t = TimeUtils.parseExperimental(ms);
+				if (t.isAfter(now)) {
+					Log.d(TAG, "Skip future date "+t+" from "+ms+" in "+text);
+					continue;
+				}
 				list.add(new Anno(AJuicer.PUB_TIME, t, null));
 			} catch(Exception ex) {
 				// oh well

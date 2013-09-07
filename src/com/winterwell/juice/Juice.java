@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import com.winterwell.juice.juicers.CyclingCCJuicer;
 import com.winterwell.juice.juicers.PhpBBJuicer;
 
 import winterwell.utils.reporting.Log;
@@ -44,7 +45,10 @@ public class Juice {
 			new PhpBBJuicer(),
 			new MetaDataJuicer(),
 //			new GenericJuicer()	
-			new CommonNamesJuicer(),
+			// Site specific hacks :(
+			new CyclingCCJuicer(),
+			// Fall back to desperation
+			new CommonNamesJuicer(),			
 			new DateFinder()
 		};
 	}
