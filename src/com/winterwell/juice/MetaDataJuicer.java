@@ -169,7 +169,7 @@ public class MetaDataJuicer extends AJuicer {
 			if (tags==null) {
 				// Dan: Here is one place where a list of Annos would allow more flexibility
 				// -- the flexibility to record the source behind each tag. But we won't need that now, perhaps never. 
-				tags = anno(AJuicer.TAGS, new ArrayList(), null);
+				tags = anno(AJuicer.TAGS, new ArrayList<String>(), null);
 				item.type2annotation.put(AJuicer.TAGS, tags);
 			}
 			tags.value.add(contentStr);

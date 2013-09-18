@@ -1,35 +1,24 @@
 package com.winterwell.juice.spider;
 
-import java.net.URI;
-import java.nio.file.DirectoryNotEmptyException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import winterwell.maths.graph.DiEdge;
+import winterwell.maths.graph.DiGraph;
+import winterwell.maths.graph.DiNode;
+import winterwell.utils.IFilter;
+import winterwell.utils.MathUtils;
+import winterwell.utils.Utils;
+import winterwell.utils.reporting.Log;
+import winterwell.utils.web.WebUtils;
 
 import com.winterwell.juice.Item;
 import com.winterwell.utils.threads.ATask;
 import com.winterwell.utils.threads.TaskRunner;
 
 import creole.data.XId;
-import winterwell.maths.graph.DiEdge;
-import winterwell.maths.graph.DiGraph;
-import winterwell.maths.graph.DiNode;
-import winterwell.utils.IFilter;
-import winterwell.utils.MathUtils;
-import winterwell.utils.Printer;
-import winterwell.utils.Utils;
-import winterwell.utils.reporting.Log;
-import winterwell.utils.time.Time;
-import winterwell.utils.web.WebUtils;
-import winterwell.utils.web.WebUtils2;
 
 /**
  * Spider a single website. Holds everything in memory!
