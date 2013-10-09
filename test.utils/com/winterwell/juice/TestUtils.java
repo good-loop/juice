@@ -15,7 +15,6 @@ import winterwell.utils.containers.Pair2;
 import winterwell.utils.io.FileUtils;
 import winterwell.web.FakeBrowser;
 
-@Ignore
 public class TestUtils {
 	// Reading HTML markup from a file
 	static String readFile(String file) throws IOException {
