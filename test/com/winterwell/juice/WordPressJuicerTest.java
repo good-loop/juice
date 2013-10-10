@@ -24,6 +24,28 @@ import winterwell.utils.time.Time;
 public class WordPressJuicerTest {
 
 	@Test
+	public void testEverestBlog() {
+		String url = "http://blog.everest.co.uk/home-science-and-advice/signs-of-subsidence/";
+		File file = TestUtils.getTestFile("wordpress", url);
+		String html = FileUtils.read(file);
+		JuiceMe document = new JuiceMe(url, html);
+		
+		WordPressJuicer wpj = new WordPressJuicer();
+		
+		boolean done = wpj.juice(document);
+		
+		System.out.println(done);		
+		List<Item> items = document.getExtractedItems();
+		TestUtils.out(items);
+			
+		Item main = document.getMainItem();
+		System.out.println(main+" by "+main.getAuthor());
+		assert main.getPublishedTime() != null;
+		assert main.getUrl() != null;
+		assert ! main.getAuthor().contains("anon");		
+	}
+	
+	@Test
 	public void testSodashBlog() {
 		String url = "http://www.soda.sh/static/blog/?cat=1";
 		File file = TestUtils.getTestFile("wordpress", url);

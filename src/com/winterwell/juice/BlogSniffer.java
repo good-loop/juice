@@ -34,7 +34,7 @@ public class BlogSniffer {
 		if ( ! m.find()) {
 			m = GENERATOR2.matcher(html);
 			if ( ! m.find()) {
-				return null;
+				return sniff2_guess(html);
 			}
 		}
 		String gen = m.group(1).toLowerCase();
@@ -57,6 +57,11 @@ public class BlogSniffer {
 			return PINTEREST;
 		}		
 		// unknown!
+		return null;
+	}
+
+	private String sniff2_guess(String html) {
+		if (html.contains("/wp-content/themes")) return WORDPRESS;
 		return null;
 	}
 }
