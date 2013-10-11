@@ -2,14 +2,17 @@ package com.winterwell.juice;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.Test;
 
 import winterwell.utils.Key;
+import winterwell.utils.io.FileUtils;
 import winterwell.utils.time.Time;
 
 public class MetaDataJuicerTest {
@@ -72,6 +75,29 @@ public class MetaDataJuicerTest {
 	
 	private String testDirectoryPrefix = "test/testHTMLFiles/MetaDataJuicerTest/";
 
+	@Test
+	public void testTumblr() {
+		// a post
+		String url = "http://claudiarndt.tumblr.com/post/62083315543/frosch-philosophie";
+		
+		File file = TestUtils.getTestFile("wordpress", url);
+		String html = FileUtils.read(file);
+		
+		JuiceMe document = new JuiceMe(html);
+		
+		MetaDataJuicer mdj = new MetaDataJuicer();
+		mdj.juice(document);
+		
+		List<Item> items = document.getExtractedItems();
+		TestUtils.out(items);
+		
+		Item main = document.getMainItem();
+		System.out.println(main.getAuthor());
+		// TODO assert main.getAuthor().toLowerCase().startsWith("claudia") : main.getAuthor();
+		
+	}
+	
+		
 	private void testJuicer(String fileName, HashMap<Key, Object> expectedAnnotations) throws Exception {
 		String filePath = testDirectoryPrefix + fileName;
 		String html = TestUtils.readFile(filePath);
