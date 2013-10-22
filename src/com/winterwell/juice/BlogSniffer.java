@@ -19,6 +19,8 @@ public class BlogSniffer {
 	private static final String TYPEPAD = "blog.typepad";
 	private static final String PINTEREST = "pinterest";
 	
+	private static final String TUMBLELOG = "tumblr"; // TODO
+	
 	/**
 	 * 
 	 * @param html
@@ -45,6 +47,10 @@ public class BlogSniffer {
 		// blogger?
 		if (gen.startsWith("blogger")) {
 			return BLOGGER;
+		}
+		// Tumblr?
+		if (html.contains("<meta property=\"og:type\" content=\"tumblr-feed:tumblelog\" />")) {
+			return TUMBLELOG;
 		}
 		// moveable type?
 		if (gen.startsWith("movable")) {
