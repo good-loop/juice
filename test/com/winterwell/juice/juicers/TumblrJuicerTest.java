@@ -47,4 +47,41 @@ public class TumblrJuicerTest {
 		TestUtils.out(items);
 	}
 	
+	
+
+	@Test
+	public void testSearch() {
+		String url = "foo";
+		File file = TestUtils.getTestFile("tumblr", url);
+		
+		String html = FileUtils.read(file);
+		
+		JuiceMe jm = new JuiceMe(url, html);
+		TumblrJuicer tj = new TumblrJuicer();
+		
+		tj.juice(jm);
+		
+		List<Item> items = jm.getExtractedItems();
+		
+		TestUtils.out(items);
+	}
+	
+
+	@Test
+	public void testTagged() {
+		String url = "foo";
+		File file = TestUtils.getTestFile("tumblr", url);
+		
+		String html = FileUtils.read(file);
+		
+		JuiceMe jm = new JuiceMe(url, html);
+		TumblrJuicer tj = new TumblrJuicer();
+		
+		tj.juice(jm);
+		
+		List<Item> items = jm.getExtractedItems();
+		
+		TestUtils.out(items);
+	}
+
 }
