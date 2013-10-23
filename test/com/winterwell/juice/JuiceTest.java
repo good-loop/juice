@@ -205,6 +205,8 @@ public class JuiceTest {
 		
 		for (Item it : items) {
 			assert it.getAuthor()!=null;
+			assert it.get(AJuicer.IMAGE_URL) != null;
+			assert it.get(AJuicer.DESC) != null;
 		}
 	}
 
