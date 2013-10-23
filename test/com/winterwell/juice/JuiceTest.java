@@ -3,11 +3,14 @@
  */
 package com.winterwell.juice;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.util.List;
 
 import org.junit.Test;
 
+import winterwell.utils.Key;
 import winterwell.utils.StrUtils;
 import winterwell.utils.Utils;
 import winterwell.utils.io.FileUtils;
@@ -172,6 +175,20 @@ public class JuiceTest {
 		assert ! Utils.isBlank(extractedItem.getAuthor()) : extractedItem.getAnnotations();		
 		assert TimeUtils.equalish(extractedItem.getPublishedTime(),
 									new Time(2012, 2, 29), TUnit.DAY) : extractedItem.getPublishedTime();
+	}
+	
+	@Test
+	public void testTumblrBlogPost() {
+		String url = "http://all-thats-interesting.tumblr.com/post/64807640859/salvador-dali-kisses-the-hand-of-raquel-welch-in-1965";
+		String html = new FakeBrowser().getPage(url);
+		Juice j = new Juice();
+		JuiceMe doc = j.juice(url, html);
+		List<Item> items = doc.getExtractedItems();
+		for (Item it : items) {
+			assertEquals("anon@tumblr.com", it.getAuthor());
+			assertTrue(it.get(AJuicer.DESC) != null && !it.get(AJuicer.DESC).isEmpty());
+			assertTrue(it.getPublishedTime().isBefore(new Time()));
+		}
 	}
 
 }
