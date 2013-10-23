@@ -8,19 +8,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import winterwell.utils.io.FileUtils;
+
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
-import com.winterwell.juice.juicers.TumblrJuicer;
-
-import winterwell.utils.StrUtils;
-import winterwell.utils.Utils;
-import winterwell.utils.io.FileUtils;
-import winterwell.utils.reporting.Log;
-import winterwell.utils.time.TUnit;
-import winterwell.utils.time.Time;
-import winterwell.utils.time.TimeUtils;
-import winterwell.web.FakeBrowser;
 
 /**
  * @tested PageJuicer
@@ -51,7 +43,7 @@ public class TumblrJuicerTest {
 
 	@Test
 	public void testSearch() {
-		String url = "foo";
+		String url = "http://www.tumblr.com/search/blogs?q=tacos";
 		File file = TestUtils.getTestFile("tumblr", url);
 		
 		String html = FileUtils.read(file);
@@ -69,7 +61,7 @@ public class TumblrJuicerTest {
 
 	@Test
 	public void testTagged() {
-		String url = "foo";
+		String url = "http://www.tumblr.com/tagged/foo";
 		File file = TestUtils.getTestFile("tumblr", url);
 		
 		String html = FileUtils.read(file);
