@@ -9,8 +9,10 @@ import java.util.List;
 import org.junit.Test;
 
 import winterwell.utils.io.FileUtils;
+import winterwell.web.FakeBrowser;
 
 import com.winterwell.juice.Item;
+import com.winterwell.juice.Juice;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
 
@@ -21,6 +23,18 @@ import com.winterwell.juice.TestUtils;
  */
 public class TumblrJuicerTest {
 
+	
+
+	@Test
+	public void testTumblrIndex() throws Exception {
+		String url = "http://tumblr.com/tagged/edinburgh";
+		String html = FileUtils.read(TestUtils.getTestFile("tumblr", url));
+		Juice j = new Juice();
+		JuiceMe doc = j.juice(url, html);
+		List<Item> items = doc.getExtractedItems();		
+		TestUtils.out(items);
+		assert items.size() > 1;
+	}
 
 	@Test
 	public void testTumblog() {

@@ -180,7 +180,8 @@ public class JuiceTest {
 	@Test
 	public void testTumblrBlogPost() {
 		String url = "http://all-thats-interesting.tumblr.com/post/64807640859/salvador-dali-kisses-the-hand-of-raquel-welch-in-1965";
-		String html = new FakeBrowser().getPage(url);
+		String html = FileUtils.read(TestUtils.getTestFile("tumblr", url));
+		
 		Juice j = new Juice();
 		JuiceMe doc = j.juice(url, html);
 		List<Item> items = doc.getExtractedItems();
@@ -189,6 +190,24 @@ public class JuiceTest {
 			assertTrue(it.get(AJuicer.DESC) != null && !it.get(AJuicer.DESC).isEmpty());
 			assertTrue(it.getPublishedTime().isBefore(new Time()));
 		}
+		TestUtils.out(items);
 	}
+	
+	@Test
+	public void testTumblrPost2() throws Exception {
+		String url = "http://fuckyeahedinburgh.tumblr.com/post/64573657496/thenewetd-greyfriars-bobby-by-matteoboffi";
+		String html = FileUtils.read(TestUtils.getTestFile("tumblr", url));
+		
+		Juice j = new Juice();
+		JuiceMe doc = j.juice(url, html);
+		List<Item> items = doc.getExtractedItems();		
+		TestUtils.out(items);
+		
+		for (Item it : items) {
+			assert it.getAuthor()!=null;
+		}
+	}
+
+
 
 }
