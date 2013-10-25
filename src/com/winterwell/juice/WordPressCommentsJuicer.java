@@ -135,7 +135,7 @@ public class WordPressCommentsJuicer extends AJuicer {
 				if (mu !=null && ! url.equals(mu)) {
 					Log.e(LOGTAG, "Doc url: "+url+" != main-item-url: "+mu);
 				}
-				String xid = url+"#comment-"+idnum;
+				String xid = url+"#comment-"+m.group(1);
 				comment.put(anno(AJuicer.XID, xid, container));
 			}
 			return;
