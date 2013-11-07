@@ -41,7 +41,7 @@ public class PinterestJuicer extends AJuicer {
 			if (propertyVal.startsWith("pinterestapp:pinner")) {
 				String pinner = metaTag.attr("content");
 				if (pinner==null || pinner.isEmpty()) continue;
-				Pattern p = Pattern.compile("https?://pinterest.com/(\\w+)/?");
+				Pattern p = Pattern.compile("https?://www.pinterest.com/(\\w+)/?");
 				Matcher m = p.matcher(pinner);
 				if (m.matches()) pinner = m.group(1);
 				item.put(anno(AUTHOR_XID, pinner+"@pinterest", metaTag));
