@@ -44,6 +44,7 @@ public class PinterestJuicer extends AJuicer {
 				Pattern p = Pattern.compile("https?://www.pinterest.com/(\\w+)/?");
 				Matcher m = p.matcher(pinner);
 				if (m.matches()) pinner = m.group(1);
+				else pinner = "anon";
 				item.put(anno(AUTHOR_XID, pinner+"@pinterest", metaTag));
 				continue;
 			}
