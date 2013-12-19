@@ -78,7 +78,7 @@ public class CyclingCCJuicer extends AJuicer {
 				item.put(anno(THREAD_XID, new XId(threadId+"@"+doc.getDomain(), SiteSpider.SERVICE_WEB), li));
 			}			
 			if ( ! Utils.isBlank(title)) item.put(anno(TITLE, title, hs.get(0)));
-			item.put(anno(DESC, text, topics.get(0)));
+			if ( ! topics.isEmpty()) item.put(anno(DESC, text, topics.get(0)));
 			Elements as = hs!=null && ! hs.isEmpty()? hs.get(0).getElementsByTag("a") : null;
 			if (as!=null && ! as.isEmpty()) {
 				String href = as.attr("href");
