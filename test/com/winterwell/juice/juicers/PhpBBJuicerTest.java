@@ -69,6 +69,25 @@ public class PhpBBJuicerTest {
 	}
 
 	
+
+	@Test
+	public void testJuiceCruiseSite() {
+		String url = "http://cruise-community.me.uk/";
+		File file = TestUtils.getTestFile("phpbb", url);
+		String html = FileUtils.read(file);
+		PhpBBJuicer juicer = new PhpBBJuicer();
+		JuiceMe doc = new JuiceMe(url, html);
+		
+		boolean hm = juicer.juice(doc);
+		
+		List<Item> items = doc.getExtractedItems();
+		for (Item item : items) {
+			System.out.println(item.getUrl()+"\t"+item.isStub()+"\t"+item.getTitle());
+		}
+		assert items.size() > 1;				
+	}
+	
+	
 	@Test
 	public void testWithSpider() {
 		XId.setService2canonical(IDoCanonical.DUMMY_CANONICALISER);
