@@ -1,0 +1,241 @@
+<?xml version="1.0" ?>
+<!-- NOTICE: This file is (c) API Software. Winterwell has a royalty free license to use, modify & distribute. --> 
+<magicmatch>
+  <tag name="Reference">
+    <field name="reference"   pCoincidence="0.00001" pAmbiguous="0.001">
+      <translate in=" " out="" />
+      <translate in="/" out="" />
+    </field>
+    <macro name="stopwords" regex="(reference|id|ref|ref\.)">
+      <eg in="Reference" />
+    </macro>
+  </tag>
+
+  <tag name="Address">
+    <field name="prenumber"   pCoincidence="0.1"     pAmbiguous="0.1" />
+    <field name="number"      pCoincidence="1.0/50"  pAmbiguous="1.0/10000" />
+    <field name="street"      pCoincidence="1.0/200" pAmbiguous="1.0/10" />
+    <field name="street_type" pCoincidence="1.0/3"   pAmbiguous="1.0/1000">
+      <translate in="st" out="street" />
+      <translate in="cres" out="crescent" />
+      <translate in="ave" out="avenue" />
+      <translate in="rd" out="road" />
+      <translate in="sq" out="square" />
+    </field>
+    <field name="region"      pCoincidence="1.0/10"  pAmbiguous="1.0/10" />
+    <field name="postcode"    pCoincidence="100.0/2500000" pAmbiguous="1.0/1000000000" />
+    <macro name="sep" regex="((,?\s+)|(\s*,\s*))">
+      <eg in=", " />
+      <eg in="  " />
+    </macro>
+    <macro name="postcode" regex="\b(?{postcode}[a-z][a-z]?\d\d?[a-z]?( ?|[a-z]?)\d\d?[a-z][a-z])\b">
+      <eg in="EH3 9HN" />
+    </macro>
+    <macro name="number" regex="\b(?{number}\d+)">
+      <eg in="12" />
+    </macro>
+    <macro name="street_type" regex="\b(?{street_type}st|street|rd|road|ave|avenue|sq|square|crescent|pl|place|lane|terrace|close|drive|way)\b">
+      <eg in="crescent" />
+      <eg in="st" out="{street_type: 'street'}"/>
+      <eg in="Test Street" out="false"/>
+    </macro>
+    <macro name="street" regex="\b(?{street}[a-z]+\s([a-z']+\s)?)(${street_type})?">
+      <eg in="easy street" />
+      <eg in="Acacia Avenue"  />
+      <eg in="Old Rose Street" />
+      <eg in="Alan Turing Way" />
+      <eg in="Lemon Place" />
+      <eg in="St Andrew's Square" />
+    </macro>
+    <macro name="region" regex="\b(?{region}[a-z]+.*)\b">
+      <eg in="West Sussex" />
+      <eg in="Edinburgh, Midlothian" />
+    </macro>
+    <macro name="housename" regex="\b(?{prenumber}[a-z']+ (house|cottage|buildings?|towers?|homes?|hospital|farm|hotel))\b">
+      <eg in="Wellington Towers" />      
+    </macro>
+    <macro name="flat" regex="\b(?{prenumber}(flat|apartment|apt)\s+\w+|\d(f\d)?)\b">
+      <eg in="Flat 2f2" />
+      <eg in="flat 7" />
+      <eg in="searney" out="false" />
+    </macro>
+  </tag>
+
+  <tag name="Date">
+    <!-- pCoincidence figures here are corrected to make dates match... -->
+    <field name="day"         pCoincidence="0.0001/30" pAmbiguous="1/100000000" class="NumberField" />
+    <field name="month"       pCoincidence="0.0001/12" pAmbiguous="1/100000000" class="NumberField">
+        <translate in="jan(uary)?"      out="1" />
+        <translate in="feb(ruary)?"     out="2" />
+        <translate in="mar(ch)?"        out="3" />
+        <translate in="apr(il)?"        out="4" />
+        <translate in="jun(e)?"         out="6" />
+        <translate in="jul(y)?"         out="7" />
+        <translate in="aug(ust)?"       out="8" />
+        <translate in="sept(ember)?"    out="9" />
+        <translate in="oct(ober)?"      out="10" />
+        <translate in="nov(ember)?"     out="11" />
+        <translate in="dec(ember)?"     out="12" />
+    </field>
+    <field name="year"        pCoincidence="0.0001/10" pAmbiguous="1/100000000" class="YearField" />
+    <macro name="month_name"             regex="\b(?{month}jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|jun(e)?|jul(y)?|aug(ust)?|sept(ember)?|oct(ober)?|nov(ember)?|dec(ember)?)\b" >
+        <eg in="january" />
+    </macro>
+    <macro name="month"             regex="\b(?{month}0\d|1[012]|\d|jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|jun(e)?|jul(y)?|aug(ust)?|sept(ember)?|oct(ober)?|nov(ember)?|dec(ember)?)\b" >
+        <eg in="january" />
+        <eg in="12" />
+        <eg in="13" out="false" />
+    </macro>
+    <macro name="day-of-week"       regex="\b(mon(day)?|tues(day)?|wed(nesday)?|thur(sday)?|fri(day)?)\b">
+        <eg in="monday" />    
+    </macro>
+    <macro name="day-of-month"      regex="\b(?{day}[0123]\d|\d)(st|nd|rd|th)?\b">
+        <eg in="12" />
+        <eg in="12th" />
+        <eg in="12A" out="false"/>
+    </macro>
+    <macro name="year"              regex="\b(?{year}19\d\d|2\d\d\d|\d\d)\b">
+        <eg in="1943" />
+        <eg in="19435" out="false"/>
+    </macro>
+    <macro name="sep"               regex="[/\-\. ]">
+        <eg in="." />
+    </macro>
+  </tag>
+
+  <tag name="Junk">
+    <field name="word"        pCoincidence="0.1"     pAmbiguous="0.5" />
+  </tag>
+
+  <tag name="Name">
+    <field name="title"       pCoincidence="0.4"      pAmbiguous="0.1" />  
+    <field name="firstname"   pCoincidence="1.0/100"  pAmbiguous="0.4" class="AbbreviatedField">
+    	<translate in="christopher" out="chris" />
+    	<translate in="benjamin" out="ben" />
+    	<translate in="liz" out="elizabeth" />
+    	<translate in="joseph" out="joe" />
+    </field>
+    <field name="surname"     pCoincidence="1.0/1000" pAmbiguous="1.0/10000000" />
+    <field name="middle"      pCoincidence="1.0/100"  pAmbiguous="0.4" class="AbbreviatedField" />
+    <macro name="title"     regex="(?{title}Mr|Mrs|Ms|Miss|Dr|Doctor|Rev|Sir|Major|Colonel|Captain|Lord|Lady|Pres|President|Director|Chairman)\.?">
+      <eg in="mr" />
+    </macro>
+    <macro name="titlecase" regex="[A-Z][A-Za-z]+">
+      <eg in="Featheringhomeshaw" />
+    </macro>
+    <macro name="initial"   regex="\b[A-Z](\.|\b)">
+      <eg in="T." />
+    </macro>
+  </tag>
+  
+  <!-- 0.99 -->
+  <!-- Name with title -->
+  <pattern tag="Name" case-sensitive="true"
+           regex="${title}\s+(?{firstname}(${titlecase}\s+|${initial})\s*)?(?{surname}${titlecase})">
+    <eg    in="Major Tom Stardust" />
+    <eg    in="Mr. Billings" />
+    <eg    in="Tom Sawyer" out="false" />
+    <eg    in="Mrs B. Brown" out="{title:'mrs', firstname:'b', surname:'brown'}" />
+  </pattern>
+  
+  <pattern tag="Date"
+           regex="(${day-of-week}\s+)?${day-of-month}${sep}${month}${sep}${year}">
+    <eg    in="12/12/02" />
+    <eg    in="Monday 14th September 1920" out="{day:'14', month:'9', year:'1920'}"/>
+    <eg    in="14/09/20" out="{day:'14', month:'9', year:'2020'}" />
+  </pattern>
+
+  <!-- 0.95 -->
+  <pattern tag="Address"
+           regex="${flat}${sep}${number}\s${street}${sep}${region}${sep}${postcode}">
+    <eg    in="Flat 7, 12 Lemon Place, Edinburgh, Midlothian, EH3 9HN" />
+  </pattern>
+
+  <!-- 0.9 -->
+  <pattern tag="Address"
+           regex="${number}${sep}${street}${sep}(${region}${sep})?${postcode}">
+    <eg    in="14 New Acacia Ave, West Sussex, SW1 1WS"/>
+  </pattern>
+  <pattern tag="Address"
+           regex="${number}/(?{prenumber}\d+)${sep}${street}${sep}(${region}${sep})?${postcode}">
+    <eg    in="14/4 New Acacia Ave, West Sussex, SW1 1WS"/>
+  </pattern>
+  
+  <!-- 0.8 -->
+  <pattern tag="Address"
+           regex="${housename}${sep}${street}${sep}(${region}${sep})?${postcode}">
+    <eg    in="Orange House, Leyton Place, Hove, NW1 1WN"/>
+  </pattern>
+  <pattern tag="Date"
+           regex="(${day-of-week}\s+)?${day-of-month}\s+${month_name}">
+    <eg    in="Monday 14th September" out="{day:'14', month:'9'}"/>        
+    <eg    in="5/2" out="false"/>
+    <eg    in="15 2" out="false"/>
+  </pattern>
+  <!-- care of -->
+  <pattern tag="Name" case-sensitive="true"
+           regex="\b(care of|c/o|c\.o\.)\s+(?{firstname}(${titlecase}\s+|${initial})\s*)(?{surname}${titlecase})">
+    <eg    in="c/o John Smith" />
+  </pattern>
+  
+  <!-- 0.4 -->
+  <pattern tag="Address"
+           regex="${street}${sep}(${region}${sep})?${postcode}">
+    <eg    in="Lonsdale Crescent, Edinburgh, EH1 1WE"/>
+  </pattern>
+  <!-- Odd street name -->
+  <pattern tag="Address"
+           regex="${number}${sep}(?{street}\w+\s+((\w+)\s+)?(\w+)?)${sep}(${region}${sep})?${postcode}">
+    <eg    in="12 Any Junk Causeway, Glasgow, G1 7PQ"/>
+  </pattern>
+  <!-- No postcode -->
+  <pattern tag="Address"
+           regex="(${flat}${sep})?${number}${sep}${street}${sep}${region}">
+    <eg    in="15 Lucky Street, Basingstoke, Oxfordshire"/>
+  </pattern>
+  <pattern tag="Address"
+           regex="${number}${sep}${street}">
+    <eg    in="10 Brown Avenue"/>
+  </pattern>
+
+
+  <!--  Just a postcode -->
+  <pattern tag="Address" 
+         regex="${postcode}">
+	<eg    in="EH8 9ER" />
+  </pattern>
+
+  
+  <pattern tag="Reference" 
+         regex="(${stopwords}\s+)?((?{reference}[a-z\-\\/]*[0-9][0-9a-z\-\\/]*)\b)">
+    <eg    in="ALF-129d" />
+	  <eg    in="A1-129d" />
+    <eg    in="Account-ref" out="false"/>
+    <eg    in="1234" />
+    <eg    in="12X" />
+    <eg    in="Reference 1234" />
+  </pattern>
+  
+  <pattern tag="Address"
+           regex="${number}/(?{prenumber}\d+)${sep}${street}${sep}${region}">
+    <eg    in="14/4 New Acacia Ave, West Sussex"/>
+  </pattern>
+
+  <pattern tag="Name" case-sensitive="true"
+           regex="(?{firstname}${titlecase}|${initial})\s+(?{surname}${titlecase})">
+    <eg    in="James Front" />
+    <eg    in="james front" out="false" />
+  </pattern>
+
+  <pattern tag="Name" case-sensitive="true"
+           regex="(?{surname}${titlecase})\s*,\s+(?{firstname}${titlecase}|${initial})">
+    <eg    in="Back, Anthony" />
+    <eg    in="back, anthony" out="false" />
+  </pattern>
+
+  <pattern tag="Junk"
+           regex="(?{word}\w+)">
+    <eg    in="Whatever" />
+  </pattern>
+
+</magicmatch>
