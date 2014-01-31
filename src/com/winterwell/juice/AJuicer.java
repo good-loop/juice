@@ -107,6 +107,11 @@ public abstract class AJuicer {
 	public static final Key<String> TARGET_NAME = new Key("target.name");
 	
 	/**
+	 * The image url of the post's target 
+	 */
+	public static final Key<String> TARGET_IMG = new Key("target.img");
+	
+	/**
 	 * The location of a post/place
 	 */
 	public static final Key<String> LOCATION = new Key("location");
