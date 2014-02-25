@@ -218,6 +218,10 @@ public class MetaDataJuicer extends AJuicer {
 					return;
 				}
 			}
+			else if (!contentStr.startsWith("http") && document == null) {
+				Log.w(LOGTAG, "Bogus url: " + contentStr);
+				return;
+			}
 			// OK
 			value = contentStr;
 		} else {
