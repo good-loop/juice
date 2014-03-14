@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class MetaDataJuicer extends AJuicer {
 		Item item = document.getMainItem();
 		
 		Elements metaTags = document.getDoc().getElementsByTag("meta");
-		
+
 		for (Element metaTag : metaTags) {
 			// Check if it is metadata if Open Graph format
 			String propertyVal = metaTag.attr("property");			
@@ -81,6 +82,8 @@ public class MetaDataJuicer extends AJuicer {
 		// If no URL was extracted from Open Graph metadata, extract
 		// canonical URL
 		Anno<String> urlAnno = item.getAnnotation(AJuicer.URL);
+		
+		// Non-http urls are worthless to us.
 		if (urlAnno == null) {		
 			Elements canons = document.getDoc().getElementsByAttributeValue("rel", "canonical");
 			for (Element element : canons) {
@@ -91,7 +94,6 @@ public class MetaDataJuicer extends AJuicer {
 				break;
 			}
 		}
-				
 		juice2_author(document, item, metaTags);
 		
 		return false;
@@ -209,7 +211,15 @@ public class MetaDataJuicer extends AJuicer {
 			}
 			// Resolve relative urls
 			if ( ! contentStr.startsWith("http") && document!=null && document.getURL()!=null) {
+				
 				String base = document.getURL();
+				// Weird Absolute URL? (e.g. E://imahdlink.blah.blah)
+				if (WebUtils.URI(contentStr).isAbsolute()){
+					Log.w(LOGTAG, "Bogus url: (weird canonical) "+contentStr+" in doc "+base);
+					return;
+				}
+				
+				
 				// Resolve the URI with the base url to get an absolute one
 				try {
 					contentStr = WebUtils.resolveUri(base, contentStr).toString();
