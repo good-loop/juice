@@ -6,8 +6,8 @@ package com.winterwell.juice;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.winterwell.utils.Utils;
-import com.winterwell.utils.reporting.Log;
+import winterwell.utils.Utils;
+import winterwell.utils.reporting.Log;
 
 /**
  * Crude hack! Guess stuff from commonly used css class names.

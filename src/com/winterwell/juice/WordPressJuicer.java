@@ -17,13 +17,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
-import com.winterwell.utils.StrUtils;
-import com.winterwell.utils.Utils;
-import com.winterwell.utils.containers.ArraySet;
-import com.winterwell.utils.reporting.Log;
-import com.winterwell.utils.time.Time;
-import com.winterwell.utils.web.WebUtils;
-import com.winterwell.utils.web.WebUtils2;
+import winterwell.utils.StrUtils;
+import winterwell.utils.Utils;
+import winterwell.utils.containers.ArraySet;
+import winterwell.utils.reporting.Log;
+import winterwell.utils.time.Time;
+import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 import winterwell.web.fields.DateField;
 

@@ -15,11 +15,11 @@ import java.util.regex.Matcher;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.winterwell.utils.Key;
-import com.winterwell.utils.reporting.Log;
-import com.winterwell.utils.time.Time;
-import com.winterwell.utils.web.WebUtils;
-import com.winterwell.utils.web.WebUtils2;
+import winterwell.utils.Key;
+import winterwell.utils.reporting.Log;
+import winterwell.utils.time.Time;
+import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 
 /**
@@ -125,7 +125,7 @@ public class MetaDataJuicer extends AJuicer {
 		for (Element metaTag : metaTags) {
 			if ("author".equals(metaTag.attr("name"))) {
 				String author = metaTag.attr("content");
-				if ( ! com.winterwell.utils.Utils.isBlank(author)) {
+				if ( ! winterwell.utils.Utils.isBlank(author)) {
 					String xid = author+"@"+domain;
 					item.put(anno(AJuicer.AUTHOR_XID, xid, metaTag));		
 					break;	

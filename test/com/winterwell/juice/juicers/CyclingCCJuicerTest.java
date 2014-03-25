@@ -11,11 +11,11 @@ import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
-import com.winterwell.utils.StrUtils;
-import com.winterwell.utils.Utils;
-import com.winterwell.utils.containers.Pair2;
-import com.winterwell.utils.io.FileUtils;
-import com.winterwell.utils.web.WebUtils2;
+import winterwell.utils.StrUtils;
+import winterwell.utils.Utils;
+import winterwell.utils.containers.Pair2;
+import winterwell.utils.io.FileUtils;
+import winterwell.utils.web.WebUtils2;
 
 import creole.data.IDoCanonical;
 import creole.data.XId;
