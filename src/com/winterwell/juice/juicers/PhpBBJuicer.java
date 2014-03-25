@@ -7,17 +7,16 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import winterwell.utils.Key;
-import winterwell.utils.Utils;
-import winterwell.utils.reporting.Log;
-import winterwell.utils.web.WebUtils;
-import winterwell.utils.web.WebUtils2;
-
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Anno;
 import com.winterwell.juice.DateFinder;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
+import com.winterwell.utils.Key;
+import com.winterwell.utils.Utils;
+import com.winterwell.utils.reporting.Log;
+import com.winterwell.utils.web.WebUtils;
+import com.winterwell.utils.web.WebUtils2;
 
 import creole.data.XId;
 

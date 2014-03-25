@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Element;
 
-import winterwell.utils.reporting.Log;
-import winterwell.utils.time.Time;
+import com.winterwell.utils.reporting.Log;
+import com.winterwell.utils.time.Time;
 
 
 /**
