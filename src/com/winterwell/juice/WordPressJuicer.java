@@ -17,7 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
-import com.winterwell.utils.web.WebUtils2;
+import winterwell.utils.web.WebUtils2;
 
 import winterwell.utils.StrUtils;
 import winterwell.utils.Utils;

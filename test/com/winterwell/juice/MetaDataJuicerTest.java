@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.winterwell.utils.io.FileUtils;
+import winterwell.utils.io.FileUtils;
 
 import winterwell.utils.Key;
 import winterwell.utils.time.Time;

@@ -20,7 +20,7 @@ import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
 
 import com.winterwell.utils.threads.ATask;
-import com.winterwell.utils.web.WebUtils2;
+import winterwell.utils.web.WebUtils2;
 
 import winterwell.utils.time.Dt;
 import winterwell.utils.time.TUnit;

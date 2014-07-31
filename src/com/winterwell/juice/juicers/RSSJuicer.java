@@ -16,7 +16,7 @@ import winterwell.web.fields.DateField;
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
-import com.winterwell.utils.web.WebUtils2;
+import winterwell.utils.web.WebUtils2;
 
 import winterwell.utils.Utils;
 import winterwell.utils.containers.Tree;
