@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.winterwell.utils.web.WebUtils2;
+import winterwell.utils.web.WebUtils2;
 
 import winterwell.utils.Key;
 import winterwell.utils.reporting.Log;

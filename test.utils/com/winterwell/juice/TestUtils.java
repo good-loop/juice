@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Ignore;
 
-import com.winterwell.utils.io.FileUtils;
+import winterwell.utils.io.FileUtils;
 
 import winterwell.utils.StrUtils;
 import winterwell.utils.Utils;

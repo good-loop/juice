@@ -9,7 +9,7 @@ import winterwell.maths.graph.DiNode;
 import winterwell.maths.graph.DotPrinter;
 
 import com.winterwell.juice.Item;
-import com.winterwell.utils.io.FileUtils;
+import winterwell.utils.io.FileUtils;
 
 import winterwell.utils.IFilter;
 import winterwell.utils.Printer;
