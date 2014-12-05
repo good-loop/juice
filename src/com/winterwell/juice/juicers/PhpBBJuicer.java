@@ -189,10 +189,12 @@ public class PhpBBJuicer extends AJuicer {
 		String href = _href;
 		String docu = doc.getURL();
 		href = WebUtils2.resolveUri(docu, href).toString();
-		// remove sid
+		// remove sid (Q:why??)
 		href = WebUtils2.removeQueryParameter(href, "sid");
 		href = WebUtils2.removeQueryParameter(href, "hilit");
-		assert ! href.contains("sid=") : href;
+		assert ! href.contains("&sid=") && ! href.contains("?sid=") : href;
+		// NB: we have seen bogus formatting, e.g. http://webcommunity.ilvolo.it/fuori-pista-a-quito-per-b737-p208790.html-sid=a2d7c1bb8950d0f5a1782363f5f9702c
+		// c.f. #14428 Ignore them?
 		return href;
 	}
 
