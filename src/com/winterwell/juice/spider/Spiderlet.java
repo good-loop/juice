@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import winterwell.web.FakeBrowser;
-import winterwell.web.WebEx;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
@@ -20,8 +19,9 @@ import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
 
 import com.winterwell.utils.threads.ATask;
-import winterwell.utils.web.WebUtils2;
+import com.winterwell.web.WebEx;
 
+import winterwell.utils.web.WebUtils2;
 import winterwell.utils.time.Dt;
 import winterwell.utils.time.TUnit;
 import winterwell.utils.web.WebUtils;
