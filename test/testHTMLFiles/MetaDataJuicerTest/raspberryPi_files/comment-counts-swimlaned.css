@@ -1,0 +1,38 @@
+.pluck-init-block, .pluck-on { display: block; }
+.pluck-init-inline { display: inline; }
+.pluck-off-error { display: none; }
+
+a.comment-count-info {
+    display: block;
+}
+
+a.trail-comment-count {
+    background-image: url(http://resource.guim.co.uk/global/static/file/discussion/comment-icon12x12.gif);
+    min-height: 15px;
+    display: block;
+    background-position: left center;
+    padding: 0 0 2px 16px;
+    margin-top: 0;
+    clear: both;
+    font-size: 12px;
+}
+
+a.content-comment-count {
+    background-image: url(http://resource.guim.co.uk/global/static/file/discussion/comment-icon16x16.gif);
+    min-height: 15px;
+    display: block;
+    background-position: left center;
+    padding: 0 0 2px 20px;
+    margin-top: 0;
+    clear: both;
+    font-size: 12px;
+}
+
+li.comment-count-start {
+    clear: left;
+}
+
+li.chalkboard {
+    display: inline;
+    float: right;
+}
