@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import winterwell.web.FakeBrowser;
-import winterwell.web.WebEx;
+import com.winterwell.web.WebEx;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
