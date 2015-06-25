@@ -4,8 +4,9 @@ import java.io.Serializable;
 
 import org.jsoup.nodes.Element;
 
-import winterwell.utils.Key;
-import winterwell.utils.reporting.Log;
+import com.winterwell.utils.log.Log;
+
+import com.winterwell.utils.Key;
 
 /**
  * Annotate a region of a document.

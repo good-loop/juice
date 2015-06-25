@@ -7,7 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.winterwell.juice.PinterestJuicerTest;
-import winterwell.utils.Utils;
+import com.winterwell.utils.Utils;
 
 /**
  * Leaves most of the work to the {@link MetaDataJuicer}

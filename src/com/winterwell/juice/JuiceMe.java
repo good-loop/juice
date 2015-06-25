@@ -6,11 +6,12 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
-import winterwell.utils.web.WebUtils2;
+import com.winterwell.utils.web.WebUtils;
 
-import winterwell.utils.Key;
-import winterwell.utils.StrUtils;
-import winterwell.utils.web.WebUtils;
+import com.winterwell.utils.web.WebUtils2;
+
+import com.winterwell.utils.Key;
+import com.winterwell.utils.StrUtils;
 
 /**
  * Internal container for document. Uses JSoup as a lenient parser.

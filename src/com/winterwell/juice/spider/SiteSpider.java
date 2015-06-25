@@ -11,15 +11,15 @@ import winterwell.maths.graph.DiNode;
 
 import com.winterwell.juice.Item;
 
-import winterwell.utils.IFilter;
-import winterwell.utils.Utils;
-import winterwell.utils.reporting.Log;
+import com.winterwell.utils.IFilter;
+import com.winterwell.utils.Utils;
 
 import com.winterwell.utils.MathUtils;
+import com.winterwell.utils.log.Log;
 import com.winterwell.utils.threads.ATask;
 import com.winterwell.utils.threads.TaskRunner;
+import com.winterwell.utils.web.WebUtils;
 
-import winterwell.utils.web.WebUtils;
 import creole.data.XId;
 
 /**

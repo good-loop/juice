@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.junit.Test;
 
-import winterwell.utils.io.FileUtils;
+import com.winterwell.utils.io.FileUtils;
 
 public class PinterestJuicerTest {
 

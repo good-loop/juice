@@ -2,7 +2,7 @@ package com.winterwell.juice;
 
 import org.junit.Test;
 
-import winterwell.web.FakeBrowser;
+import com.winterwell.web.FakeBrowser;
 
 public class BlogSnifferTest {
 
