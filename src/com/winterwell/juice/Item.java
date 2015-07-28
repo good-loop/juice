@@ -10,11 +10,12 @@ import java.util.Map;
 import org.jsoup.nodes.Element;
 
 import winterwell.utils.web.WebUtils2;
-
+import winterwell.utils.IProperties;
 import winterwell.utils.Key;
 import winterwell.utils.containers.SetMap;
 import winterwell.utils.time.Time;
 import creole.data.XId;
+
 import com.winterwell.web.WebEx;
 
 /**
@@ -26,7 +27,7 @@ import com.winterwell.web.WebEx;
  * @author ivan
  * 
  */
-public class Item {
+public class Item implements IProperties {
 
 	/**
 	 * true => the url can (kind-of) be trusted to mark the resource.
@@ -266,6 +267,27 @@ public class Item {
 	 */
 	public String getUrlNow() {
 		return urlNow;
+	}
+
+	@Override
+	public <T> boolean containsKey(Key<T> key) {
+		return type2annotation.containsKey(key);
+	}
+
+	@Override
+	public Collection<Key> getKeys() {
+		return type2annotation.keySet();
+	}
+
+	@Override
+	public boolean isTrue(Key<Boolean> key) {
+		Boolean v = get(key);
+		return v!=null && v;
+	}
+
+	@Override
+	public <T> T put(Key<T> key, T value) throws UnsupportedOperationException {
+		throw new UnsupportedOperationException();
 	}
 	
 }
