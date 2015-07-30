@@ -104,6 +104,12 @@ public class Item implements IProperties {
 		type2annotation.put(anno.name, anno);		
 	}
 	
+	@Override
+	public <T> T put(Key<T> key, T value) {
+		put(AJuicer.anno(key, value, null));
+		return null;
+	}
+	
 	public <X> boolean putIfAbsent(Anno<X> value) {
 		if (value==null) return false;
 		if (type2annotation.containsKey(value.name)) return false;
@@ -285,9 +291,6 @@ public class Item implements IProperties {
 		return v!=null && v;
 	}
 
-	@Override
-	public <T> T put(Key<T> key, T value) throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
+	
 	
 }

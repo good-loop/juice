@@ -8,9 +8,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import winterwell.utils.web.WebUtils2;
-
 import winterwell.utils.Key;
 import winterwell.utils.NotUniqueException;
+import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 import creole.data.XId;
 
@@ -24,6 +24,22 @@ import creole.data.XId;
  *
  */
 public abstract class AJuicer {
+	
+	protected final String LOGTAG = "juice."+getClass().getSimpleName();
+
+	protected String findAnno(JuiceMe doc, Item item, Key<String> key, String selector)
+	{
+		Elements hs = doc.getDoc().select(selector);
+		if (hs.isEmpty()) return null;
+		if (hs.size() > 1) {
+			Log.w(LOGTAG, selector+" returned multiple hits (using 1st): "+hs.html());
+		}
+		String value = hs.get(0).text();
+		if (value==null || value.isEmpty()) return null;
+		Anno<String> anno = anno(key, value, hs.get(0));
+		item.put(anno);
+		return value;
+	}
 
 	/**
 	 * Marks the borders of a post.
@@ -56,6 +72,7 @@ public abstract class AJuicer {
 	 * Author id. You might find... email, twitter, facebook, youtube, phone-number.
 	 * <p> 
 	 * This ID must be stable (the same author will always get the same id) and unique across the web! 
+	 * Do NOT use the p_ wart
 	 * <p>
 	 * On a blog, use one of:<br>
 	 *  (a) email@domain-name	(preferred if known)<br>
@@ -66,6 +83,13 @@ public abstract class AJuicer {
 	 * @see XId in Creole
 	 */
 	public static final Key<String> AUTHOR_XID = new Key("oxid");
+	
+	public static final Key<String> AUTHOR_JOB = new Key("author.job");
+	
+	/**
+	 * Or friend count if its bidrectional connections
+	 */
+	public static final Key<Integer> AUTHOR_FAN_COUNT = new Key("author.fancnt");
 	
 	/**
 	 * Url for the author's profile page, if there is one.
@@ -190,7 +214,7 @@ public abstract class AJuicer {
 	 * @param element Can be null. See {@link Anno#Anno(Key, Object, Element)}
 	 * @return new Anno(key, value, element)
 	 */
-	protected <V> Anno<V> anno(Key<V> key, V value, Element element) {
+	protected static <V> Anno<V> anno(Key<V> key, V value, Element element) {
 		return new Anno<V>(key, value, element);
 	}
 	

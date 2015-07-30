@@ -3,9 +3,10 @@ package com.winterwell.juice;
 import java.util.List;
 
 import com.winterwell.juice.juicers.CyclingCCJuicer;
+import com.winterwell.juice.juicers.LinkedInJuicer;
 import com.winterwell.juice.juicers.PhpBBJuicer;
-import winterwell.utils.reporting.Log;
 
+import winterwell.utils.reporting.Log;
 import winterwell.web.FakeBrowser;
 
 /**
@@ -44,10 +45,11 @@ public class Juice {
 		juicers = new AJuicer[]{				
 			new WordPressJuicer(),			
 			new PinterestJuicer(),
-			new PhpBBJuicer(),
+			new PhpBBJuicer(),			
 			new MetaDataJuicer(),
 //			new GenericJuicer()	
 			// Site specific hacks :(
+			new LinkedInJuicer(),
 			new CyclingCCJuicer(),
 			// Fall back to desperation
 			new CommonNamesJuicer(),			
