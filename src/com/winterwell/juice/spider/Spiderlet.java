@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import winterwell.web.FakeBrowser;
+import com.winterwell.web.WebEx;
+
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.KMsgType;

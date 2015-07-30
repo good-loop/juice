@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.jsoup.nodes.Element;
 
+
 import com.winterwell.utils.containers.SetMap;
 import com.winterwell.utils.time.Time;
 import com.winterwell.web.WebEx;
@@ -26,7 +27,7 @@ import creole.data.XId;
  * @author ivan
  * 
  */
-public class Item {
+public class Item implements IProperties {
 
 	/**
 	 * true => the url can (kind-of) be trusted to mark the resource.
@@ -101,6 +102,12 @@ public class Item {
 		
 	public <X> void put(Anno<X> anno) {
 		type2annotation.put(anno.name, anno);		
+	}
+	
+	@Override
+	public <T> T put(Key<T> key, T value) {
+		put(AJuicer.anno(key, value, null));
+		return null;
 	}
 	
 	public <X> boolean putIfAbsent(Anno<X> value) {
@@ -267,5 +274,23 @@ public class Item {
 	public String getUrlNow() {
 		return urlNow;
 	}
+
+	@Override
+	public <T> boolean containsKey(Key<T> key) {
+		return type2annotation.containsKey(key);
+	}
+
+	@Override
+	public Collection<Key> getKeys() {
+		return type2annotation.keySet();
+	}
+
+	@Override
+	public boolean isTrue(Key<Boolean> key) {
+		Boolean v = get(key);
+		return v!=null && v;
+	}
+
+	
 	
 }
