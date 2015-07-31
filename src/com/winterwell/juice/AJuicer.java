@@ -32,7 +32,8 @@ public abstract class AJuicer {
 		Elements hs = doc.getDoc().select(selector);
 		if (hs.isEmpty()) return null;
 		if (hs.size() > 1) {
-			Log.w(LOGTAG, selector+" returned multiple hits (using 1st): "+hs.html());
+			// accept this as normal
+//			Log.d(LOGTAG, selector+" returned multiple hits (using 1st): "+hs.html());
 		}
 		String value = hs.get(0).text();
 		if (value==null || value.isEmpty()) return null;
