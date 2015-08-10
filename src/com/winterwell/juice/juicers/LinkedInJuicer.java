@@ -24,8 +24,8 @@ import creole.data.XId;
 
 /**
  * Special case support for LinkedIn profiles. Assumes: {@link MetaDataJuicer} has already run for canonical url and image.
+ * @testedby {@link LinkedInJuicerTest}
  * @author daniel
- *
  */
 public class LinkedInJuicer extends AJuicer {
 
@@ -37,7 +37,12 @@ public class LinkedInJuicer extends AJuicer {
 		// Is it a profile page?
 		Elements elements = doc.getDoc().select(".full-name");
 //		<meta property="og:image" content="http://m.c.lnkd.licdn.com/mpr/mpr/shrink_200_200/p/1/000/03c/21f/3f22b7b.jpg">
-		if (elements.size()==0) return false;
+		if (elements.size()==0) {
+			// Is it a post?
+			if (doc.getURL()!=null && doc.getURL().contains("/post/")) {
+				return doJuicePost(doc);
+			}
+		}
 		if (elements.size() > 1) {			
 			return false;
 		}		
@@ -89,8 +94,51 @@ public class LinkedInJuicer extends AJuicer {
 		return true;
 	}
 
+	private boolean doJuicePost(JuiceMe doc) {
+		// eg https://www.linkedin.com/grp/post/7445683-5898412079244681220
+		Item item = doc.getMainItem();
+		Elements atitle = doc.getDoc().select(".header-body .title");
+		if (atitle.size()==1) {
+			Element atitle0 = atitle.get(0);
+			String name = atitle0.text();
+			String url = atitle0.attr("href");
+			// get an id from that?? Or stay with url??
+			if ( ! Utils.isBlank(name)) anno(AJuicer.AUTHOR_NAME, name, atitle0);
+			if ( ! Utils.isBlank(url)) {
+				anno(AJuicer.AUTHOR_URL, url, atitle0);
+			}
+			item.put(AUTHOR_XID, xid(url));									
+		}		
+		
+		Elements imgs = doc.getDoc().select(".post-header .header-image img");
+		if (imgs.size()==1) {
+			Element img = imgs.get(0);
+			String isrc = img.attr("src");
+			if ( ! Utils.isBlank(isrc)) item.put(AUTHOR_IMG, isrc);
+		}
+//.post-header .header-image
+//comment-wrapper
+//header-body title author name
+//subtile - their job
+//post-title the title
+//post-date the date
+//
+//entity-name
+//entity-image
+//	comment-body
+//	comment-date
+//	
+//	comment-content
+		return false;
+	}
+
 	public static String xid(String url) {
 		// Use the url as the ID, because we cant get useful cross-app IDs from LinkedIn
+		
+		// we do get IDs, eg "memberID":7715970 -- and you can make a url
+		// https://www.linkedin.com/profile/view?id=7715970 -- shall we use those?? 
+		url = WebUtils2.removeQueryParameter(url, "trk");
+		
 		// Let the LinkedInPlugin do any extra canonicalisation we want
 		String url_wo_protocol = url.replaceFirst("https?://", "");
 		return XId.WART_P+url_wo_protocol+"@linkedin";
