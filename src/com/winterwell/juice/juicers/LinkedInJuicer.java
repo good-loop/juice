@@ -13,6 +13,7 @@ import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.web.WebUtils;
 
+import com.sodash.jlinkedin.model.LIGroup;
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Anno;
 import com.winterwell.juice.Item;
@@ -42,6 +43,21 @@ public class LinkedInJuicer extends AJuicer {
 			if (doc.getURL()!=null && doc.getURL().contains("/post/")) {
 				return doJuicePost(doc);
 			}
+			// Is it a group?
+			if ((doc.getURL()!=null && doc.getURL().contains("/grp/"))) {
+				String gid = WebUtils2.getQueryParameter(doc.getURL(), "gid");
+				LIGroup lig = new LIGroup(gid, doc.getHTML());
+				anno(AUTHOR_NAME, lig.getName(), null);
+				anno(AUTHOR_DESC, lig.getDescription(), null);
+				anno(AUTHOR_URL, lig.getPublicUrl(), null);
+				anno(AUTHOR_XID,  XId.WART_G+lig.getId()+"@linkedin", null);
+				anno(AUTHOR_IMG, lig.getSmallLogoUrl(), null);
+				return true;
+			}
+			// something else TODO investigate
+			// TODO handle redirects, e.g. https://www.linkedin.com/groups/School-Social-Political-Science-University-4307735
+			Log.d(LOGTAG, doc.getURL()+" unrecognised page type ");
+			return false;
 		}
 		if (elements.size() > 1) {			
 			return false;
@@ -129,7 +145,7 @@ public class LinkedInJuicer extends AJuicer {
 //	comment-date
 //	
 //	comment-content
-		return false;
+		return true;
 	}
 
 	public static String xid(String url) {

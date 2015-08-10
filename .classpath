@@ -11,5 +11,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.web"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.maths"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.utils"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jlinkedin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
