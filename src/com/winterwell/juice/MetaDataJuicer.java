@@ -211,18 +211,15 @@ public class MetaDataJuicer extends AJuicer {
 				}
 			}
 			// Resolve relative urls
-			if ( ! contentStr.startsWith("http") && document!=null && document.getURL()!=null) {
-				
-				String base = document.getURL();
-				// Weird Absolute URL? (e.g. E://imahdlink.blah.blah)
-				if (WebUtils.URI(contentStr).isAbsolute()){
-					Log.w(LOGTAG, "Bogus url: (weird canonical) "+contentStr+" in doc "+base);
-					return;
-				}
-				
-				
+			if ( ! contentStr.startsWith("http") && document!=null && document.getURL()!=null) {												
 				// Resolve the URI with the base url to get an absolute one
-				try {
+				String base = document.getURL();
+				try {					
+					// Weird non-http Absolute URL? (e.g. E://imahdlink.blah.blah)
+					if (WebUtils.URI(contentStr).isAbsolute()){
+						Log.w(LOGTAG, "Bogus url: (weird canonical) "+contentStr+" in doc "+base);
+						return;
+					}
 					contentStr = WebUtils.resolveUri(base, contentStr).toString();
 				} catch(Exception ex) {
 					Log.w(LOGTAG, "Bogus url: "+contentStr+" in doc "+base+": "+ex);
