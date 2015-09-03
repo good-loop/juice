@@ -62,7 +62,12 @@ public class LinkedInJuicer extends AJuicer {
 		if (elements.size() > 1) {			
 			return false;
 		}		
+		return doJuiceProfile(doc);
+	}
+
+	private boolean doJuiceProfile(JuiceMe doc) {
 		Item item = doc.getMainItem();
+		Elements elements = doc.getDoc().select(".full-name");
 		String aName = elements.get(0).text();
 		item.put(anno(AUTHOR_NAME, aName, elements.get(0)));
 		String url = item.getUrl();
@@ -89,7 +94,7 @@ public class LinkedInJuicer extends AJuicer {
 		String currentSummary = findAnno(doc, item, new Key("current-overview"), "#overview-summary-current");		
 		// Increase the description with extra info
 		
-		// Current roles??
+		// Current roles?? Note: the current job (but not employer) is set above via the headline
 		Elements cRoles = doc.getDoc().select(".current-position");
 		String currentRoles = "";
 		for (Element crole : cRoles) {
@@ -97,13 +102,13 @@ public class LinkedInJuicer extends AJuicer {
 			currentRoles += " - "+crole.text()+"\n"; 
 		}
 		// Set a loonngg description
-		StringBuilder longDesc = new StringBuilder();
+		StringBuilder longDesc = new StringBuilder(headline==null?"" : headline+"\n");
 		if (desc!=null) {longDesc.append(desc); longDesc.append("\n");}
-		if (ind!=null) longDesc.append("Industry: "+ind+"\n");
 		if (currentSummary!=null) {
 			if (currentSummary.startsWith("Current")) currentSummary = currentSummary.substring(7);
-			longDesc.append("Current (summary): "+currentSummary+"\n");
+			longDesc.append("Current organisation: "+currentSummary+"\n");
 		}
+		if (ind!=null) longDesc.append("Industry: "+ind+"\n");		
 		if ( ! currentRoles.isEmpty()) longDesc.append("\n"+currentRoles);
 		item.put(anno(AUTHOR_DESC, longDesc.toString(), null));
 		

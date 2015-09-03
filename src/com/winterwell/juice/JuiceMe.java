@@ -7,7 +7,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import winterwell.utils.web.WebUtils2;
-
 import winterwell.utils.Key;
 import winterwell.utils.StrUtils;
 import winterwell.utils.web.WebUtils;
@@ -43,8 +42,13 @@ public class JuiceMe
 
 	private String domain;	
 	
+	/**
+	 * 
+	 * @param url
+	 * @param html Cannot be null
+	 */
 	public JuiceMe(String url, String html) {
-		assert html != null : url;
+		if (html==null) throw new NullPointerException("no html provided for "+url);
 		this.url = url;
 		this.html = html;
 		this.doc = Jsoup.parse(html, url);
