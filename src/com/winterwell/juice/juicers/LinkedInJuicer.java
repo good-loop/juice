@@ -7,9 +7,9 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
-import winterwell.utils.Key;
-import winterwell.utils.reporting.Log;
-import winterwell.utils.web.WebUtils;
+import com.winterwell.utils.Key;
+import com.winterwell.utils.log.Log;
+import com.winterwell.utils.web.WebUtils;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Anno;
