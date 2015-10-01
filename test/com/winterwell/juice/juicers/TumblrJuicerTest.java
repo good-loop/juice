@@ -8,13 +8,12 @@ import java.util.List;
 
 import org.junit.Test;
 
-import winterwell.web.FakeBrowser;
-
 import com.winterwell.juice.Item;
 import com.winterwell.juice.Juice;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
-import winterwell.utils.io.FileUtils;
+import com.winterwell.utils.io.FileUtils;
+import com.winterwell.web.FakeBrowser;
 
 /**
  * @tested PageJuicer

@@ -10,8 +10,8 @@ package com.winterwell.juice;
 //import com.gravity.goose.Goose;
 //import com.gravity.goose.extractors.PublishDateExtractor;
 //
-//import winterwell.utils.TodoException;
-//import winterwell.utils.time.Time;
+//import com.winterwell.utils.TodoException;
+//import com.winterwell.utils.time.Time;
 //
 ///**
 // * @deprecated Initial tests are not impressive.

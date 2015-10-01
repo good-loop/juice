@@ -5,10 +5,10 @@
 //
 //import org.junit.Test;
 //
-//import winterwell.utils.Utils;
-//import winterwell.utils.time.TUnit;
-//import winterwell.utils.time.Time;
-//import winterwell.utils.time.TimeUtils;
+//import com.winterwell.utils.Utils;
+//import com.winterwell.utils.time.TUnit;
+//import com.winterwell.utils.time.Time;
+//import com.winterwell.utils.time.TimeUtils;
 //import winterwell.web.FakeBrowser;
 //
 //public class GooseJuicerTest {

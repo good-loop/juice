@@ -1,6 +1,6 @@
 package com.winterwell.juice;
 
-import winterwell.web.FakeBrowser;
+import com.winterwell.web.FakeBrowser;
 
 public class WordPressJuicerDemo {
 	public static void main(String[] argv) {
