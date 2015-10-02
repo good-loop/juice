@@ -19,7 +19,7 @@ import com.winterwell.juice.Anno;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.MetaDataJuicer;
-import com.winterwell.utils.web.WebUtils2;
+import winterwell.utils.web.WebUtils2;
 
 import creole.data.XId;
 

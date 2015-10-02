@@ -8,13 +8,13 @@ import java.util.List;
 
 import org.junit.Ignore;
 
-import com.winterwell.utils.containers.ListMap;
-import com.winterwell.utils.containers.Pair2;
+import winterwell.utils.containers.ListMap;
+import winterwell.utils.containers.Pair2;
 
-import com.winterwell.utils.io.FileUtils;
+import winterwell.utils.io.FileUtils;
 import com.winterwell.web.FakeBrowser;
-import com.winterwell.utils.StrUtils;
-import com.winterwell.utils.Utils;
+import winterwell.utils.StrUtils;
+import winterwell.utils.Utils;
 
 public class TestUtils {
 	// Reading HTML markup from a file

@@ -13,11 +13,11 @@ import java.util.regex.Matcher;
 import org.jsoup.nodes.Element;
 import org.junit.Test;
 
-import com.winterwell.utils.time.Time;
+import winterwell.utils.time.Time;
 
-import com.winterwell.utils.io.FileUtils;
+import winterwell.utils.io.FileUtils;
 
-import com.winterwell.utils.StrUtils;
+import winterwell.utils.StrUtils;
 
 public class DateFinderTest {
 

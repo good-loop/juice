@@ -5,7 +5,7 @@ import java.util.List;
 import com.winterwell.juice.juicers.CyclingCCJuicer;
 import com.winterwell.juice.juicers.LinkedInJuicer;
 import com.winterwell.juice.juicers.PhpBBJuicer;
-import com.winterwell.utils.log.Log;
+import winterwell.utils.reporting.Log;
 import com.winterwell.web.FakeBrowser;
 
 /**

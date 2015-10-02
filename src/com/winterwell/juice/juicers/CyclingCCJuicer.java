@@ -11,9 +11,9 @@ import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.spider.SiteSpider;
-import com.winterwell.utils.log.Log;
+import winterwell.utils.reporting.Log;
 
-import com.winterwell.utils.Utils;
+import winterwell.utils.Utils;
 import creole.data.XId;
 
 /**

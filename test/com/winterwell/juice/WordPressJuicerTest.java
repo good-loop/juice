@@ -16,12 +16,12 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.winterwell.utils.time.TUnit;
-import com.winterwell.utils.time.Time;
+import winterwell.utils.time.TUnit;
+import winterwell.utils.time.Time;
 
-import com.winterwell.utils.io.FileUtils;
+import winterwell.utils.io.FileUtils;
 
-import com.winterwell.utils.Key;
+import winterwell.utils.Key;
 
 public class WordPressJuicerTest {
 
