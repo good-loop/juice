@@ -1,23 +1,14 @@
 package com.winterwell.juice;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 
 import org.jsoup.nodes.Element;
 import org.junit.Test;
 
-import winterwell.utils.time.Time;
-
 import winterwell.utils.io.FileUtils;
-
-import winterwell.utils.StrUtils;
+import winterwell.utils.time.Time;
 
 public class DateFinderTest {
 

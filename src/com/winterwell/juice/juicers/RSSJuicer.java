@@ -1,28 +1,20 @@
 package com.winterwell.juice.juicers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Node;
+
+import winterwell.utils.Utils;
+import winterwell.utils.time.Time;
+import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
+import winterwell.web.fields.DateField;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
-import winterwell.utils.containers.Tree;
-import winterwell.utils.reporting.Log;
-import winterwell.utils.time.Time;
-import winterwell.utils.web.WebUtils;
-import winterwell.utils.web.XMLNode;
-import winterwell.web.email.SimpleMessage;
-import winterwell.web.fields.DateField;
-import winterwell.utils.web.WebUtils2;
 
-import winterwell.utils.Utils;
 import creole.data.XId;
 
 /**

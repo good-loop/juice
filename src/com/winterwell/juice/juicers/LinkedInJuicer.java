@@ -1,25 +1,21 @@
 package com.winterwell.juice.juicers;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import winterwell.utils.Key;
 import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
-import winterwell.utils.web.WebUtils;
+import winterwell.utils.web.WebUtils2;
 
 import com.sodash.jlinkedin.model.LIGroup;
 import com.winterwell.juice.AJuicer;
-import com.winterwell.juice.Anno;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.MetaDataJuicer;
-import winterwell.utils.web.WebUtils2;
 
 import creole.data.XId;
 

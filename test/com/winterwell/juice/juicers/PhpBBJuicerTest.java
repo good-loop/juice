@@ -1,22 +1,20 @@
 package com.winterwell.juice.juicers;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
 
+import winterwell.utils.Printer;
+import winterwell.utils.StrUtils;
+import winterwell.utils.io.FileUtils;
+
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
-import com.winterwell.juice.juicers.PhpBBJuicer;
 import com.winterwell.juice.spider.JuicingSiteSpider;
-import winterwell.utils.io.FileUtils;
 
-import winterwell.utils.Printer;
-import winterwell.utils.StrUtils;
 import creole.data.IDoCanonical;
 import creole.data.XId;
 

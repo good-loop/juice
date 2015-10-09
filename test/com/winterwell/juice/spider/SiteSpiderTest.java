@@ -7,8 +7,9 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 
-import com.winterwell.juice.TestUtils;
 import winterwell.utils.io.FileUtils;
+
+import com.winterwell.juice.TestUtils;
 
 public class SiteSpiderTest {
 

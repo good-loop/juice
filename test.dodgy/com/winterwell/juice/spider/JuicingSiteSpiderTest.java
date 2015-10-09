@@ -1,7 +1,5 @@
 package com.winterwell.juice.spider;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -12,15 +10,14 @@ import org.junit.Test;
 import winterwell.maths.graph.DiGraph;
 import winterwell.maths.graph.DiNode;
 import winterwell.maths.graph.DotPrinter;
-
-import com.winterwell.juice.Item;
-import winterwell.utils.gui.GuiUtils;
-import winterwell.utils.web.XStreamUtils;
-
-import winterwell.utils.io.FileUtils;
-
 import winterwell.utils.Printer;
 import winterwell.utils.StrUtils;
+import winterwell.utils.gui.GuiUtils;
+import winterwell.utils.io.FileUtils;
+import winterwell.utils.web.XStreamUtils;
+
+import com.winterwell.juice.Item;
+
 import creole.data.IDoCanonical;
 import creole.data.XId;
 

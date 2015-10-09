@@ -1,6 +1,5 @@
 package com.winterwell.juice;
 
-import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,15 +16,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
+import winterwell.utils.StrUtils;
+import winterwell.utils.Utils;
 import winterwell.utils.containers.ArraySet;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils;
-
 import winterwell.utils.web.WebUtils2;
 import winterwell.web.fields.DateField;
-import winterwell.utils.StrUtils;
-import winterwell.utils.Utils;
 
 /**
  * Class for extracting metadata from WordPress posts. It can extract post's tags,

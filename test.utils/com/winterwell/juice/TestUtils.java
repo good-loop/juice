@@ -6,15 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Ignore;
-
-import winterwell.utils.containers.ListMap;
-import winterwell.utils.containers.Pair2;
-
-import winterwell.utils.io.FileUtils;
-import com.winterwell.web.FakeBrowser;
 import winterwell.utils.StrUtils;
 import winterwell.utils.Utils;
+import winterwell.utils.containers.ListMap;
+import winterwell.utils.io.FileUtils;
+
+import com.winterwell.web.FakeBrowser;
 
 public class TestUtils {
 	// Reading HTML markup from a file

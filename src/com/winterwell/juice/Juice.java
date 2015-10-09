@@ -2,10 +2,11 @@ package com.winterwell.juice;
 
 import java.util.List;
 
+import winterwell.utils.reporting.Log;
+
 import com.winterwell.juice.juicers.CyclingCCJuicer;
 import com.winterwell.juice.juicers.LinkedInJuicer;
 import com.winterwell.juice.juicers.PhpBBJuicer;
-import winterwell.utils.reporting.Log;
 import com.winterwell.web.FakeBrowser;
 
 /**

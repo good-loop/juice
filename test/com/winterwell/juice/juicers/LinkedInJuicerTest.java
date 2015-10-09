@@ -1,7 +1,5 @@
 package com.winterwell.juice.juicers;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 
 import org.junit.Test;
@@ -12,7 +10,6 @@ import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.MetaDataJuicer;
-import com.winterwell.juice.PinterestJuicer;
 import com.winterwell.juice.TestUtils;
 
 public class LinkedInJuicerTest {

@@ -3,23 +3,23 @@
  */
 package com.winterwell.juice;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.List;
 
 import org.junit.Test;
 
+import winterwell.utils.StrUtils;
+import winterwell.utils.Utils;
+import winterwell.utils.io.FileUtils;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.TUnit;
 import winterwell.utils.time.Time;
 import winterwell.utils.time.TimeUtils;
-import com.winterwell.web.FakeBrowser;
-import winterwell.utils.io.FileUtils;
 
-import winterwell.utils.Key;
-import winterwell.utils.StrUtils;
-import winterwell.utils.Utils;
+import com.winterwell.web.FakeBrowser;
 
 /**
  * @tested PageJuicer

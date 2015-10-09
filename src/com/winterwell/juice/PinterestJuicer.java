@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.winterwell.juice.PinterestJuicerTest;
 import winterwell.utils.Utils;
 
 /**

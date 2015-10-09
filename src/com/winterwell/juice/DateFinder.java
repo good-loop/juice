@@ -15,8 +15,6 @@ import winterwell.utils.time.TUnit;
 import winterwell.utils.time.Time;
 import winterwell.utils.time.TimeUtils;
 
-import winterwell.utils.TodoException;
-
 /**
  * TODO Look for publication date in a document.
  * @author daniel

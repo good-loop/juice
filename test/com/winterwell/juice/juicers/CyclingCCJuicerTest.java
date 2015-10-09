@@ -1,22 +1,16 @@
 package com.winterwell.juice.juicers;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.List;
 
 import org.junit.Test;
 
-import com.winterwell.juice.AJuicer;
+import winterwell.utils.io.FileUtils;
+
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
-import winterwell.utils.containers.Pair2;
-import winterwell.utils.io.FileUtils;
-import winterwell.utils.web.WebUtils2;
 
-import winterwell.utils.StrUtils;
-import winterwell.utils.Utils;
 import creole.data.IDoCanonical;
 import creole.data.XId;
 

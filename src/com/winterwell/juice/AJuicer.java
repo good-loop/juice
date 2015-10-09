@@ -2,17 +2,12 @@ package com.winterwell.juice;
 
 import java.util.List;
 
-import javax.xml.xpath.XPath;
-
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import winterwell.utils.time.Time;
-
-import winterwell.utils.web.WebUtils2;
-
 import winterwell.utils.Key;
 import winterwell.utils.NotUniqueException;
+import winterwell.utils.time.Time;
 import creole.data.XId;
 
 /**

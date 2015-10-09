@@ -11,11 +11,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import winterwell.utils.time.Time;
-
-import winterwell.utils.io.FileUtils;
-
 import winterwell.utils.Key;
+import winterwell.utils.io.FileUtils;
+import winterwell.utils.time.Time;
 
 public class MetaDataJuicerTest {
 	
