@@ -7,12 +7,15 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import winterwell.utils.Key;
+import winterwell.utils.MathUtils;
 import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
+import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils2;
 
 import com.sodash.jlinkedin.model.LIGroup;
 import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Anno;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.MetaDataJuicer;
@@ -30,6 +33,47 @@ public class LinkedInJuicer extends AJuicer {
 
 	@Override
 	protected boolean juice(JuiceMe doc) {
+		boolean ok = juice2_entity(doc);
+		// Do we have some feed posts?
+		Elements feedItems = doc.getDoc().select(".feed-item");
+		if (feedItems.size()!=0) {
+			for(Element e : feedItems) {
+				doJuiceFeedItem(doc, e);
+			}
+		}
+		return ok;
+	}
+	
+
+	private void doJuiceFeedItem(JuiceMe doc, Element e) {
+		Item item = new Item(e, doc.getURL());
+		// ID
+		String id = e.attr("data-li-update-id");
+		if ( ! Utils.isBlank(id)) {
+			item.put(this.XID, "update-"+id+"@linkedin");
+		}
+		// Time
+		String pub = e.attr("data-li-update-date");
+		if ( ! Utils.isBlank(pub)) {
+			Time pt = new Time(pub);
+			item.put(this.PUB_TIME, pt);
+		}
+		// Link
+		Elements link = e.select("a.nus-timestamp");
+		if ( ! link.isEmpty()) {
+			String xurl = link.get(0).attr("href");
+			if ( ! Utils.isBlank(xurl)) {
+				Anno<String> anno = anno(URL, xurl, link.get(0));
+				item.put(anno);
+			}
+		}		
+		// the post text!
+		String fnd = findAnno(e, item, AJuicer.POST_BODY, ".commentary");
+		doc.addItem(item);
+	}
+
+
+	private boolean juice2_entity(JuiceMe doc) {
 //		<link rel="canonical" href="https://uk.linkedin.com/in/grusev"> already done??
 		// Is it a profile page?
 		Elements elements = doc.getDoc().select(".full-name");
@@ -50,6 +94,11 @@ public class LinkedInJuicer extends AJuicer {
 				anno(AUTHOR_IMG, lig.getSmallLogoUrl(), null);
 				return true;
 			}
+			// Is it a company page?
+			if ((doc.getURL()!=null && doc.getURL().contains("/company/"))) {
+				boolean ok = doJuiceCompany(doc);
+				return ok;
+			}
 			// something else TODO investigate
 			// TODO handle redirects, e.g. https://www.linkedin.com/groups/School-Social-Political-Science-University-4307735
 			Log.d(LOGTAG, doc.getURL()+" unrecognised page type ");
@@ -59,7 +108,9 @@ public class LinkedInJuicer extends AJuicer {
 			return false;
 		}		
 		return doJuiceProfile(doc);
+
 	}
+
 
 	private boolean doJuiceProfile(JuiceMe doc) {
 		Item item = doc.getMainItem();
@@ -107,6 +158,32 @@ public class LinkedInJuicer extends AJuicer {
 		if (ind!=null) longDesc.append("Industry: "+ind+"\n");		
 		if ( ! currentRoles.isEmpty()) longDesc.append("\n"+currentRoles);
 		item.put(anno(AUTHOR_DESC, longDesc.toString(), null));
+		
+		return true;
+	}
+	
+
+	private boolean doJuiceCompany(JuiceMe doc) {
+		Item item = doc.getMainItem();
+		// probably already juiced by MetaDataJuicer
+		String self = XId.WART_C+item.getTitle()+"@linkedin";
+		Anno<String> anno = anno(AJuicer.AUTHOR_XID, self, null);
+		item.put(anno);
+		
+		Elements followers = doc.getDoc().select(".followers-count");
+		if ( ! followers.isEmpty()) {
+			try {
+				String fs = followers.get(0).text();
+				Pattern nwc = Pattern.compile("[0-9,]+");
+				Matcher m = nwc.matcher(fs);
+				if (m.find()) {
+					Integer cnt = Integer.valueOf(m.group().replace(",", ""));
+					anno(AUTHOR_FAN_COUNT, cnt, followers.get(0));
+				}
+			} catch(Throwable ex) {
+				Log.e(LOGTAG, ex);
+			}
+		}
 		
 		return true;
 	}

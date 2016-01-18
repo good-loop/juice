@@ -23,9 +23,13 @@ public abstract class AJuicer {
 	
 	protected final String LOGTAG = "juice."+getClass().getSimpleName();
 
-	protected String findAnno(JuiceMe doc, Item item, Key<String> key, String selector)
+	protected String findAnno(JuiceMe doc, Item item, Key<String> key, String selector) {
+		return findAnno(doc.getDoc(), item, key, selector);
+	}
+	
+	protected String findAnno(Element e, Item item, Key<String> key, String selector)	
 	{
-		Elements hs = doc.getDoc().select(selector);
+		Elements hs = e.select(selector);
 		if (hs.isEmpty()) return null;
 		if (hs.size() > 1) {
 			// accept this as normal

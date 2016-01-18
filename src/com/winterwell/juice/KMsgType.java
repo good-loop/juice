@@ -19,5 +19,6 @@ public enum KMsgType {
 	PERSON,
 	LOCATION,
 	COMPANY, 
+	GROUP,
 	ERROR
 }

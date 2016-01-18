@@ -1,6 +1,7 @@
 package com.winterwell.juice.juicers;
 
 import java.io.File;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -16,6 +17,36 @@ public class LinkedInJuicerTest {
 
 //	https://www.linkedin.com/grp/post/5042022-6020180410548383748
 	
+	@Test
+	public void testHarrods() {		
+		String url = "https://www.linkedin.com/company/harrods";
+		File local = TestUtils.getTestFile("linkedin", url);
+		MetaDataJuicer mdj = new MetaDataJuicer();
+		LinkedInJuicer pj = new LinkedInJuicer();
+		String html = FileUtils.read(local);
+		JuiceMe doc = new JuiceMe(url, html);
+		
+		mdj.juice(doc);
+		boolean ok = pj.juice(doc);
+		
+		Item item = doc.getMainItem();
+		
+		List<Item> posts = doc.getExtractedItems();
+		posts.remove(item);
+		for (Item item2 : posts) {
+			System.out.println(item2);	
+		}		
+		
+		System.out.println(item);
+		System.out.println(item.getTitle());
+		System.out.println(item.getXId());
+		assert item.getXId()!=null;
+		System.out.println(item.getText());
+//		System.out.println(item.getHTML());	
+		System.out.println(item.get(AJuicer.IMAGE_URL));
+		System.out.println(item.get(AJuicer.LINK));
+		System.out.println(item.get(AJuicer.AUTHOR_NAME));
+	}
 	
 	@Test
 	public void testLIProfileFail() {		
