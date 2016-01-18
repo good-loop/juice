@@ -12,7 +12,7 @@ import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Dt;
 import winterwell.utils.time.TUnit;
 import winterwell.utils.web.WebUtils2;
-import winterwell.web.FakeBrowser;
+import com.winterwell.web.FakeBrowser;
 
 import com.winterwell.juice.Item;
 import com.winterwell.utils.threads.ATask;
