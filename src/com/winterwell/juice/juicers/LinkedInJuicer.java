@@ -12,8 +12,8 @@ import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils2;
-import com.winterwell.utils.web.WebUtils;
 
+import com.winterwell.utils.web.WebUtils;
 import com.sodash.jlinkedin.model.LIGroup;
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Anno;
@@ -167,9 +167,20 @@ public class LinkedInJuicer extends AJuicer {
 	private boolean doJuiceCompany(JuiceMe doc) {
 		Item item = doc.getMainItem();
 		// probably already juiced by MetaDataJuicer
+		// Hm: title as XId? slightly dubious, but probably OK enough
 		String self = XId.WART_C+item.getTitle()+"@linkedin";
 		Anno<String> anno = anno(AJuicer.AUTHOR_XID, self, null);
 		item.put(anno);
+		
+		item.put(anno(AUTHOR_NAME, item.getTitle(), null));
+		String url = item.getUrl();
+		item.put(AUTHOR_URL, url);		
+		// image -- from og:image on the page (assuming: MetaDataJuicer has already run!)
+		String imgUrl = item.get(IMAGE_URL);
+		item.put(AUTHOR_IMG, imgUrl);
+		// desc
+		String desc = item.get(DESC);
+		if ( ! Utils.isBlank(desc)) item.put(anno(AUTHOR_DESC, desc, null));
 		
 		Elements followers = doc.getDoc().select(".followers-count");
 		if ( ! followers.isEmpty()) {
