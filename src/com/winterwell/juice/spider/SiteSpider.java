@@ -9,12 +9,12 @@ import winterwell.maths.graph.DiEdge;
 import winterwell.maths.graph.DiGraph;
 import winterwell.maths.graph.DiNode;
 import winterwell.utils.IFilter;
-import winterwell.utils.MathUtils;
 import winterwell.utils.Utils;
 import winterwell.utils.reporting.Log;
 import winterwell.utils.web.WebUtils;
 
 import com.winterwell.juice.Item;
+import com.winterwell.utils.MathUtils;
 import com.winterwell.utils.threads.ATask;
 import com.winterwell.utils.threads.TaskRunner;
 
