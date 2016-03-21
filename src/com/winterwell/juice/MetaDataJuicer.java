@@ -67,7 +67,10 @@ public class MetaDataJuicer extends AJuicer {
 
 		for (Element metaTag : metaTags) {
 			// Check if it is metadata if Open Graph format
-			String propertyVal = metaTag.attr("property");			
+			String propertyVal = metaTag.attr("property");
+			if (propertyVal.isEmpty()) {
+				propertyVal = metaTag.attr("name"); // Hack for LinkedIn, Mar 2016, who don't follow the spec
+			}
 			if ( ! propertyVal.isEmpty()) {
 				extractOG(item, propertyVal, metaTag, document);
 				continue;
@@ -164,6 +167,11 @@ public class MetaDataJuicer extends AJuicer {
 		assert item != null && key != null : contentStr;
 		assert contentStr!=null : item+" "+key;
 		Object value = null;
+		
+		// HACK: strip " | LinkedIn" -- ??we can probably generalise this
+		if (contentStr.endsWith("| LinkedIn")) {
+			contentStr = contentStr.split("\\|")[0];
+		}
 		
 		// We store all tags at once
 		if (key == AJuicer.TAGS) {

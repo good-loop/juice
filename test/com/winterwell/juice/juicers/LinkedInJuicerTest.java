@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import winterwell.utils.Utils;
 import winterwell.utils.io.FileUtils;
 
 import com.winterwell.juice.AJuicer;
@@ -16,6 +17,38 @@ import com.winterwell.juice.TestUtils;
 public class LinkedInJuicerTest {
 
 //	https://www.linkedin.com/grp/post/5042022-6020180410548383748
+	
+	@Test
+	public void testLISteveBalmerProfile() {		
+		String url = "https://uk.linkedin.com/in/steve-balmer-082b8b61";
+		File local = TestUtils.getTestFile("linkedin", url);
+		MetaDataJuicer mdj = new MetaDataJuicer();
+		LinkedInJuicer pj = new LinkedInJuicer();
+		String html = FileUtils.read(local);
+		JuiceMe doc = new JuiceMe(url, html);
+		
+		mdj.juice(doc);
+		Item item0 = doc.getMainItem();
+		boolean ok = pj.juice(doc);
+		
+		Item item = doc.getMainItem();
+		System.out.println("title: "+item.getTitle());		
+		System.out.println("xid: "+item.getXId());
+		System.out.println("oxid: "+item.get(AJuicer.AUTHOR_XID));
+		System.out.println(item.getText());
+//		System.out.println(item.getHTML());	
+		System.out.println("desc: "+item.get(AJuicer.DESC));
+		System.out.println("img: "+item.get(AJuicer.IMAGE_URL));
+		System.out.println("link: "+item.get(AJuicer.LINK));
+		System.out.println("olink: "+item.get(AJuicer.AUTHOR_URL));
+		System.out.println(item.get(AJuicer.AUTHOR_NAME));
+		assert item.get(AJuicer.AUTHOR_NAME).contains("Steve") : item;
+		assert ! Utils.isBlank(item.getTitle());
+		assert ! Utils.isBlank(item.get(AJuicer.DESC));
+		assert ! Utils.isBlank(item.get(AJuicer.AUTHOR_XID));
+	}
+
+	
 	
 	@Test
 	public void testHarrods() {		
@@ -37,15 +70,20 @@ public class LinkedInJuicerTest {
 			System.out.println(item2);	
 		}		
 		
-		System.out.println(item);
-		System.out.println(item.getTitle());
-		System.out.println(item.getXId());
-		assert item.getXId()!=null;
+		System.out.println("title: "+item.getTitle());		
+		System.out.println("xid: "+item.getXId());
+		System.out.println("oxid: "+item.get(AJuicer.AUTHOR_XID));
 		System.out.println(item.getText());
 //		System.out.println(item.getHTML());	
-		System.out.println(item.get(AJuicer.IMAGE_URL));
-		System.out.println(item.get(AJuicer.LINK));
+		System.out.println("desc: "+item.get(AJuicer.DESC));
+		System.out.println("img: "+item.get(AJuicer.IMAGE_URL));
+		System.out.println("link: "+item.get(AJuicer.LINK));
+		System.out.println("olink: "+item.get(AJuicer.AUTHOR_URL));
 		System.out.println(item.get(AJuicer.AUTHOR_NAME));
+		assert item.get(AJuicer.AUTHOR_NAME).contains("Harrods") : item;
+		assert ! Utils.isBlank(item.getTitle());
+		assert ! Utils.isBlank(item.get(AJuicer.DESC));
+		assert ! Utils.isBlank(item.get(AJuicer.AUTHOR_XID));
 	}
 	
 	@Test
@@ -71,8 +109,9 @@ public class LinkedInJuicerTest {
 		assert item.get(AJuicer.AUTHOR_NAME).contains("Joshua") : item;
 	}
 	
-	@Test
-	public void testJuice() {
+	
+//	@Test This fails 'cos group discussions are now all private, as of 2015
+	public void testJuice() {		
 		String url = "https://www.linkedin.com/grp/post/7445683-5898412079244681220";
 		File local = TestUtils.getTestFile("linkedin", url);
 		MetaDataJuicer mdj = new MetaDataJuicer();
@@ -91,7 +130,7 @@ public class LinkedInJuicerTest {
 		System.out.println(item.get(AJuicer.IMAGE_URL));
 		System.out.println(item.get(AJuicer.LINK));
 		System.out.println(item.get(AJuicer.AUTHOR_NAME));
-		assert item.get(AJuicer.AUTHOR_NAME).contains("Duncan");
+		assert item.get(AJuicer.AUTHOR_NAME).contains("Duncan") : item;
 
 	}
 

@@ -13,6 +13,7 @@ import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils2;
 
 import com.winterwell.utils.MathUtils;
+import com.winterwell.utils.StrUtils;
 import com.winterwell.utils.web.WebUtils;
 import com.sodash.jlinkedin.model.LIGroup;
 import com.winterwell.juice.AJuicer;
@@ -77,9 +78,13 @@ public class LinkedInJuicer extends AJuicer {
 	private boolean juice2_entity(JuiceMe doc) {
 //		<link rel="canonical" href="https://uk.linkedin.com/in/grusev"> already done??
 		// Is it a profile page?
-		Elements elements = doc.getDoc().select(".full-name");
+		Elements fullNameElements = doc.getDoc().select(".full-name");
+		// NB: The css class used varies depending on logged in or not. March 2016
+		if (fullNameElements.isEmpty()) {
+			fullNameElements = doc.getDoc().select(".fn");
+		}
 //		<meta property="og:image" content="http://m.c.lnkd.licdn.com/mpr/mpr/shrink_200_200/p/1/000/03c/21f/3f22b7b.jpg">
-		if (elements.size()==0) {
+		if (fullNameElements.size()==0) {
 			// Is it a post?
 			if (doc.getURL()!=null && doc.getURL().contains("/post/")) {
 				return doJuicePost(doc);
@@ -105,19 +110,19 @@ public class LinkedInJuicer extends AJuicer {
 			Log.d(LOGTAG, doc.getURL()+" unrecognised page type ");
 			return false;
 		}
-		if (elements.size() > 1) {			
+		if (fullNameElements.size() > 1) {			
 			return false;
 		}		
-		return doJuiceProfile(doc);
+		return doJuiceProfile(doc, fullNameElements);
 
 	}
 
 
-	private boolean doJuiceProfile(JuiceMe doc) {
-		Item item = doc.getMainItem();
-		Elements elements = doc.getDoc().select(".full-name");
-		String aName = elements.get(0).text();
-		item.put(anno(AUTHOR_NAME, aName, elements.get(0)));
+	private boolean doJuiceProfile(JuiceMe doc, Elements fullNameElements) {
+		assert ! fullNameElements.isEmpty() : doc;
+		Item item = doc.getMainItem();		
+		String aName = fullNameElements.get(0).text();
+		item.put(anno(AUTHOR_NAME, aName, fullNameElements.get(0)));
 		String url = item.getUrl();
 		item.put(AUTHOR_URL, url);
 		item.put(AUTHOR_XID, xid(url));
@@ -125,7 +130,7 @@ public class LinkedInJuicer extends AJuicer {
 		String imgUrl = item.get(IMAGE_URL);
 		item.put(AUTHOR_IMG, imgUrl);		
 		// More info
-		String headline = findAnno(doc, item, AUTHOR_JOB, "#headline");
+		String headline = findAnno(doc, item, AUTHOR_JOB, "#headline, .headline"); // OR selector 'cos different repns seen March 2016
 		Elements hs = doc.getDoc().select(".member-connections");
 		if ( ! hs.isEmpty()) {
 			String text = hs.get(0).text();
@@ -138,6 +143,11 @@ public class LinkedInJuicer extends AJuicer {
 //		TODO Elements elements = doc.getDoc().select("#overview-recommendation-count");
 		String locn = findAnno(doc, item, AUTHOR_LOCN, ".locality");
 		String ind = findAnno(doc, item, AUTHOR_INDUSTRY, ".industry");
+		if (ind==null) { // LI has multiple formats :(
+			Pattern INDUSTRY = Pattern.compile("<dt[^>]*>[Ii]ndustry</dt>\\s*<dd[^>]*>(.+?)</dd>");
+			String[] matched = StrUtils.find(INDUSTRY, doc.getHTML());
+			if (matched!=null) ind = matched[1];
+		}
 		String desc = findAnno(doc, item, AUTHOR_DESC, "p.description");
 		String currentSummary = findAnno(doc, item, new Key("current-overview"), "#overview-summary-current");		
 		// Increase the description with extra info
