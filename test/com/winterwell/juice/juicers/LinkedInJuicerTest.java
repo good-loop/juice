@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Test;
 
 import winterwell.utils.Utils;
-import winterwell.utils.io.FileUtils;
+import com.winterwell.utils.io.FileUtils;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;

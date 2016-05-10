@@ -10,7 +10,7 @@ import winterwell.maths.graph.DotPrinter;
 import winterwell.utils.IFilter;
 import winterwell.utils.containers.Containers;
 import winterwell.utils.gui.GuiUtils;
-import winterwell.utils.io.FileUtils;
+import com.winterwell.utils.io.FileUtils;
 
 import com.winterwell.juice.Item;
 import com.winterwell.utils.Printer;

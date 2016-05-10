@@ -7,7 +7,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import winterwell.utils.StrUtils;
-import winterwell.utils.io.FileUtils;
+import com.winterwell.utils.io.FileUtils;
 
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
