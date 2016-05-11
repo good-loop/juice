@@ -33,9 +33,14 @@ public class ContactDetailsJuicer extends AJuicer {
 			if (emails.size()==1) {
 				item.putIfAbsent(emails.get(0));
 			} else if (! emails.isEmpty()) {
-				// TODO ??
+				// TODO ?? we could remove emails which occur in several items
 				item.putIfAbsent(emails.get(0));
 			}
+		}
+		for (Item item : items) {
+			List<Anno> phones = findPhoneNumbers(item, item.getDoc());
+			if (phones.isEmpty()) continue;
+			item.putIfAbsent(phones.get(0));
 		}
 		return false;
 	}
@@ -62,5 +67,13 @@ public class ContactDetailsJuicer extends AJuicer {
 		}
 		return emails;
 	}
+	
+
+	private List<Anno> findPhoneNumbers(Item item, Element doc) {
+		// TODO
+		ArrayList emails = new ArrayList();
+		return emails;
+	}
+
 
 }
