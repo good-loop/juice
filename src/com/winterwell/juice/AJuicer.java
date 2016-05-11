@@ -97,6 +97,9 @@ public abstract class AJuicer {
 	 */
 	public static final Key<String> AUTHOR_URL = new Key("author.url");
 	
+	public static final Key<String> EMAIL = new Key("email");
+	public static final Key<String> PHONE = new Key("phone");
+	
 	/**
 	 * Facebook ID, if this page has one.
 	 */

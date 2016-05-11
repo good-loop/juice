@@ -4,6 +4,7 @@ import java.util.List;
 
 import winterwell.utils.reporting.Log;
 
+import com.winterwell.juice.juicers.ContactDetailsJuicer;
 import com.winterwell.juice.juicers.CyclingCCJuicer;
 import com.winterwell.juice.juicers.LinkedInJuicer;
 import com.winterwell.juice.juicers.PhpBBJuicer;
@@ -47,6 +48,7 @@ public class Juice {
 			new PinterestJuicer(),
 			new PhpBBJuicer(),			
 			new MetaDataJuicer(),
+			new ContactDetailsJuicer(),
 //			new GenericJuicer()	
 			// Site specific hacks :(
 			new LinkedInJuicer(),
