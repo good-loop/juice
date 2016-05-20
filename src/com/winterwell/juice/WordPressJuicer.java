@@ -18,12 +18,15 @@ import org.jsoup.select.Selector;
 
 import winterwell.utils.StrUtils;
 import winterwell.utils.Utils;
-import winterwell.utils.containers.ArraySet;
-import winterwell.utils.reporting.Log;
+
+import com.winterwell.utils.containers.ArraySet;
+import com.winterwell.utils.log.Log;
+
 import winterwell.utils.time.Time;
-import winterwell.utils.web.WebUtils;
-import winterwell.utils.web.WebUtils2;
-import winterwell.web.fields.DateField;
+
+import com.winterwell.utils.web.WebUtils;
+import com.winterwell.utils.web.WebUtils2;
+import com.winterwell.web.fields.DateField;
 
 /**
  * Class for extracting metadata from WordPress posts. It can extract post's tags,
