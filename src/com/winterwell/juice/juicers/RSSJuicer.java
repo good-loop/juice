@@ -7,9 +7,9 @@ import org.jsoup.select.Elements;
 
 import winterwell.utils.Utils;
 import winterwell.utils.time.Time;
-import winterwell.utils.web.WebUtils;
-import winterwell.utils.web.WebUtils2;
-import winterwell.web.fields.DateField;
+import com.winterwell.utils.web.WebUtils;
+import com.winterwell.utils.web.WebUtils2;
+import com.winterwell.web.fields.DateField;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
