@@ -7,7 +7,7 @@ import org.junit.Test;
 import winterwell.maths.graph.DiGraph;
 import winterwell.maths.graph.DiNode;
 import winterwell.maths.graph.DotPrinter;
-import winterwell.utils.IFilter;
+import com.winterwell.utils.IFilter;
 import winterwell.utils.Printer;
 import com.winterwell.utils.containers.Containers;
 import com.winterwell.utils.gui.GuiUtils;

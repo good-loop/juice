@@ -83,6 +83,9 @@ public class Item implements IProperties {
 		return (String) a.value;
 	}
 	
+	/**
+	 * The element containing this item. COuld be the whole page, or just a section.
+	 */
 	Element doc;
 	
 	/**
@@ -117,7 +120,7 @@ public class Item implements IProperties {
 	}
 	
 	
-	Element getDoc() {
+	public Element getDoc() {
 		return doc;
 	}
 
