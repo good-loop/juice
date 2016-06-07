@@ -11,12 +11,14 @@ import org.jsoup.select.NodeVisitor;
 
 import winterwell.utils.Key;
 import winterwell.utils.Utils;
+import winterwell.utils.reporting.Log;
 import winterwell.web.email.SimpleMessage;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Anno;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
+import com.winterwell.utils.web.WebUtils2;
 
 /**
  * TODO Emails, phone numbers, addresses
@@ -52,10 +54,18 @@ public class ContactDetailsJuicer extends AJuicer {
 		for (Element link : links) {
 			String href = link.attr("href");
 			if (href==null || ! href.startsWith("mailto:")) continue;
-			String m = href.substring("mailto:".length()).trim();
+			String m = href.substring("mailto:".length()).trim();			
+			// screen out e.g. "mailto:?subject=Hello&body=ref"
+			if (m.indexOf('?') != -1) {
+				m = m.substring(0, m.indexOf('?'));
+			}
 			if (Utils.isBlank(m)) continue;
-			Anno<String> anno = anno(EMAIL, m, link);
-			emails.add(anno);	
+			if (WebUtils2.isValidEmail(m)) {
+				Anno<String> anno = anno(EMAIL, m, link);
+				emails.add(anno);
+			} else {
+				// skip invalid email address 
+			}
 		}
 		// regex
 		String text = doc.text();
