@@ -13,7 +13,9 @@ import winterwell.utils.IProperties;
 import winterwell.utils.Key;
 import winterwell.utils.time.Time;
 import winterwell.utils.web.WebUtils2;
+
 import com.winterwell.web.WebEx;
+
 import creole.data.XId;
 
 /**
@@ -290,6 +292,12 @@ public class Item implements IProperties {
 	public boolean isTrue(Key<Boolean> key) {
 		Boolean v = get(key);
 		return v!=null && v;
+	}
+
+	public String getDomain() {
+		String url = getUrl();
+		if (url==null) return null;
+		return WebUtils2.getDomain(url);
 	}
 
 	
