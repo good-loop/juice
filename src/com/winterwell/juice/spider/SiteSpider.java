@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import winterwell.maths.graph.DiEdge;
 import winterwell.maths.graph.DiGraph;
 import winterwell.maths.graph.DiNode;
-import com.winterwell.utils.IFilter;
+import winterwell.utils.IFilter;
 import winterwell.utils.Utils;
 import com.winterwell.utils.log.Log;
 import com.winterwell.utils.web.WebUtils;
