@@ -9,7 +9,7 @@
 //import winterwell.utils.time.TUnit;
 //import winterwell.utils.time.Time;
 //import winterwell.utils.time.TimeUtils;
-//import winterwell.web.FakeBrowser;
+//import com.winterwell.web.FakeBrowser;
 //
 //public class GooseJuicerTest {
 //
