@@ -5,13 +5,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
-import org.jsoup.select.NodeVisitor;
 
-import winterwell.utils.Key;
 import winterwell.utils.Utils;
-import winterwell.utils.reporting.Log;
 import winterwell.web.email.SimpleMessage;
 
 import com.winterwell.juice.AJuicer;
