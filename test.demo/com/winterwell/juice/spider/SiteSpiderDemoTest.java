@@ -8,7 +8,7 @@ import winterwell.maths.graph.DiGraph;
 import winterwell.maths.graph.DiNode;
 import winterwell.maths.graph.DotPrinter;
 import winterwell.utils.IFilter;
-import winterwell.utils.Printer;
+import com.winterwell.utils.Printer;
 import winterwell.utils.gui.GuiUtils;
 
 import com.winterwell.juice.Item;
