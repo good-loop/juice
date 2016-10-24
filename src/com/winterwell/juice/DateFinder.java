@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Element;
 
-import com.winterwell.utils.time.TUnit;
-import com.winterwell.utils.time.Time;
-import com.winterwell.utils.time.TimeUtils;
+import winterwell.utils.time.TUnit;
+import winterwell.utils.time.Time;
+import winterwell.utils.time.TimeUtils;
 
 import winterwell.utils.reporting.Log;
 

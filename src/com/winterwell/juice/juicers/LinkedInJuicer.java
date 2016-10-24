@@ -18,7 +18,7 @@ import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.MetaDataJuicer;
 import com.winterwell.utils.StrUtils;
-import com.winterwell.utils.time.Time;
+import winterwell.utils.time.Time;
 
 import creole.data.XId;
 

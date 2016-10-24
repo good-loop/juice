@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.winterwell.utils.time.Time;
+import winterwell.utils.time.Time;
 
 import winterwell.utils.Key;
 import winterwell.utils.Utils;
