@@ -7,9 +7,8 @@ import java.util.regex.Matcher;
 import org.jsoup.nodes.Element;
 import org.junit.Test;
 
-import winterwell.utils.time.Time;
-
 import com.winterwell.utils.io.FileUtils;
+import com.winterwell.utils.time.Time;
 
 public class DateFinderTest {
 
