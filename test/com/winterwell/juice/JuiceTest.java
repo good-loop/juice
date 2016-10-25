@@ -18,7 +18,7 @@ import winterwell.utils.reporting.Log;
 import winterwell.utils.io.FileUtils;
 import winterwell.utils.time.TUnit;
 import winterwell.utils.time.Time;
-import winterwell.utils.time.TimeUtils;
+import com.winterwell.utils.time.TimeUtils;
 import com.winterwell.web.FakeBrowser;
 
 /**

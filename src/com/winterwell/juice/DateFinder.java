@@ -12,7 +12,7 @@ import org.jsoup.nodes.Element;
 
 import winterwell.utils.time.TUnit;
 import winterwell.utils.time.Time;
-import winterwell.utils.time.TimeUtils;
+import com.winterwell.utils.time.TimeUtils;
 
 import winterwell.utils.reporting.Log;
 
