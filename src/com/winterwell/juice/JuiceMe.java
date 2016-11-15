@@ -8,7 +8,9 @@ import org.jsoup.nodes.Element;
 
 import winterwell.utils.Key;
 import winterwell.utils.StrUtils;
-import winterwell.utils.web.WebUtils;
+
+import com.winterwell.utils.time.TimeUtils;
+import com.winterwell.utils.web.WebUtils;
 
 /**
  * Internal container for document. Uses JSoup as a lenient parser.
