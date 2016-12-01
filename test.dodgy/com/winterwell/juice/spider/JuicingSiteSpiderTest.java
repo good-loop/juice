@@ -16,7 +16,7 @@ import com.winterwell.juice.Item;
 import com.winterwell.utils.Printer;
 import com.winterwell.utils.gui.GuiUtils;
 import com.winterwell.utils.io.FileUtils;
-import com.winterwell.utils.web.XStreamUtils;
+import winterwell.utils.web.XStreamUtils;
 
 import creole.data.IDoCanonical;
 import creole.data.XId;
