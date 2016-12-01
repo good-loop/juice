@@ -7,19 +7,19 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import winterwell.utils.Utils;
-import winterwell.utils.reporting.Log;
+import com.winterwell.utils.Utils;
+import com.winterwell.utils.log.Log;
 
 import com.winterwell.juice.Item;
 import com.winterwell.utils.threads.ATask;
 import com.winterwell.utils.web.WebUtils2;
 
-import winterwell.utils.time.Dt;
-import winterwell.utils.time.TUnit;
+import com.winterwell.utils.time.Dt;
+import com.winterwell.utils.time.TUnit;
 
 import com.winterwell.web.FakeBrowser;
 
-import creole.data.XId;
+import com.winterwell.web.data.XId;
 
 public class Spiderlet extends ATask<List<Item>> {
 

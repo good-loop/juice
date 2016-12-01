@@ -2,7 +2,7 @@ package com.winterwell.juice;
 
 import java.util.List;
 
-import winterwell.utils.reporting.Log;
+import com.winterwell.utils.log.Log;
 
 import com.winterwell.juice.juicers.ContactDetailsJuicer;
 import com.winterwell.juice.juicers.CyclingCCJuicer;

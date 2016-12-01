@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-import winterwell.maths.graph.DiEdge;
-import winterwell.maths.graph.DiGraph;
-import winterwell.maths.graph.DiNode;
-import winterwell.utils.IFilter;
-import winterwell.utils.Utils;
+import com.winterwell.maths.graph.DiEdge;
+import com.winterwell.maths.graph.DiGraph;
+import com.winterwell.maths.graph.DiNode;
+import com.winterwell.utils.IFilter;
+import com.winterwell.utils.Utils;
 
 import com.winterwell.juice.Item;
 import com.winterwell.utils.MathUtils;
@@ -18,7 +18,7 @@ import com.winterwell.utils.threads.ATask;
 import com.winterwell.utils.threads.TaskRunner;
 import com.winterwell.utils.web.WebUtils;
 
-import creole.data.XId;
+import com.winterwell.web.data.XId;
 
 /**
  * Spider a single website. Holds everything in memory!

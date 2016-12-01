@@ -4,19 +4,18 @@ import java.io.File;
 
 import org.junit.Test;
 
-import winterwell.maths.graph.DiGraph;
-import winterwell.maths.graph.DiNode;
-import winterwell.maths.graph.DotPrinter;
-import winterwell.utils.IFilter;
+import com.winterwell.maths.graph.DiGraph;
+import com.winterwell.maths.graph.DiNode;
+import com.winterwell.maths.graph.DotPrinter;
+import com.winterwell.utils.IFilter;
 
 import com.winterwell.utils.Printer;
 import com.winterwell.juice.Item;
 import com.winterwell.utils.containers.Containers;
 import com.winterwell.utils.gui.GuiUtils;
 import com.winterwell.utils.io.FileUtils;
-
-import creole.data.IDoCanonical;
-import creole.data.XId;
+import com.winterwell.web.data.IDoCanonical;
+import com.winterwell.web.data.XId;
 
 public class SiteSpiderDemoTest {
 

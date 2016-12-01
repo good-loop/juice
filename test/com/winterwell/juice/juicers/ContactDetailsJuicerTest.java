@@ -9,9 +9,8 @@ import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
 import com.winterwell.utils.io.FileUtils;
-
-import creole.data.IDoCanonical;
-import creole.data.XId;
+import com.winterwell.web.data.IDoCanonical;
+import com.winterwell.web.data.XId;
 
 public class ContactDetailsJuicerTest {
 

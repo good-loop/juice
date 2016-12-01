@@ -7,8 +7,8 @@ import java.util.regex.Matcher;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import winterwell.utils.Utils;
-import winterwell.web.email.SimpleMessage;
+import com.winterwell.utils.Utils;
+import com.winterwell.web.email.SimpleMessage;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Anno;

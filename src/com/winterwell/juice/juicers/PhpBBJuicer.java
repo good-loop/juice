@@ -7,9 +7,9 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import winterwell.utils.Key;
-import winterwell.utils.Utils;
-import winterwell.utils.reporting.Log;
+import com.winterwell.utils.Key;
+import com.winterwell.utils.Utils;
+import com.winterwell.utils.log.Log;
 
 import com.winterwell.utils.time.TimeUtils;
 import com.winterwell.utils.web.WebUtils;
@@ -20,7 +20,7 @@ import com.winterwell.juice.DateFinder;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 
-import creole.data.XId;
+import com.winterwell.web.data.XId;
 
 /**
  * ?? phpBB provides RSS feeds -- should we detect & use those instead??

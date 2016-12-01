@@ -14,10 +14,10 @@ import java.util.regex.Matcher;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import winterwell.utils.time.Time;
-import winterwell.utils.Key;
-import winterwell.utils.Utils;
-import winterwell.utils.reporting.Log;
+import com.winterwell.utils.time.Time;
+import com.winterwell.utils.Key;
+import com.winterwell.utils.Utils;
+import com.winterwell.utils.log.Log;
 
 import com.winterwell.utils.time.TimeUtils;
 import com.winterwell.utils.web.WebUtils;

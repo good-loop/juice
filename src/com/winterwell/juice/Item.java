@@ -9,13 +9,13 @@ import java.util.Map;
 
 import org.jsoup.nodes.Element;
 
-import winterwell.utils.IProperties;
-import winterwell.utils.Key;
+import com.winterwell.utils.IProperties;
+import com.winterwell.utils.Key;
 
-import winterwell.utils.time.Time;
+import com.winterwell.utils.time.Time;
 import com.winterwell.utils.web.WebUtils2;
 
-import creole.data.XId;
+import com.winterwell.web.data.XId;
 
 /**
  * Item extracted from a web-page.
