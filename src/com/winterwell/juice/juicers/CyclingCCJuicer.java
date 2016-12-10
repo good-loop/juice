@@ -7,15 +7,15 @@ import java.util.Set;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import winterwell.utils.Utils;
-import winterwell.utils.reporting.Log;
+import com.winterwell.utils.Utils;
+import com.winterwell.utils.log.Log;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.spider.SiteSpider;
 
-import creole.data.XId;
+import com.winterwell.web.data.XId;
 
 /**
  * @testedby {@link CyclingCCJuicerTest}

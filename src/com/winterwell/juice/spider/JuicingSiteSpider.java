@@ -5,13 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import winterwell.maths.graph.DiNode;
+import com.winterwell.maths.graph.DiNode;
 
 import com.winterwell.juice.Item;
 import com.winterwell.juice.Juice;
 import com.winterwell.juice.JuiceMe;
 
-import creole.data.XId;
+import com.winterwell.web.data.XId;
 
 /**
  * Spider a site, piping the pages through Juice.

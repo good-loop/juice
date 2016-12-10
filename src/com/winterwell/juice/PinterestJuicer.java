@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import winterwell.utils.Utils;
+import com.winterwell.utils.Utils;
 
 /**
  * Leaves most of the work to the {@link MetaDataJuicer}

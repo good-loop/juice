@@ -5,11 +5,11 @@ import java.util.List;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import winterwell.utils.time.Time;
+import com.winterwell.utils.time.Time;
 
-import winterwell.utils.Key;
-import winterwell.utils.NotUniqueException;
-import creole.data.XId;
+import com.winterwell.utils.Key;
+import com.winterwell.utils.NotUniqueException;
+import com.winterwell.web.data.XId;
 
 /**
  * Base for building juicers. Also defines the standard annotations.
