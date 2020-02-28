@@ -57,7 +57,7 @@ public class RSSJuicer extends AJuicer {
 			String authr = null;
 			if (WebUtils2.isValidEmail(author)) {
 				InternetAddress email = WebUtils2.internetAddress(author);
-				authr = new XId(WebUtils2.canonicalEmail(email), "Email").toString();
+				authr = new XId(WebUtils2.canonicalEmail(email), "email").toString();
 			} else if ( ! Utils.isBlank(author)) {
 				String service = WebUtils.getDomain(doc.getURL());
 				authr = author+"@"+service;

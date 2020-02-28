@@ -94,7 +94,7 @@ public class LinkedInJuicer extends AJuicer {
 				anno(AUTHOR_NAME, lig.getName(), null);
 				anno(AUTHOR_DESC, lig.getDescription(), null);
 				anno(AUTHOR_URL, lig.getPublicUrl(), null);
-				anno(AUTHOR_XID,  XId.WART_G+lig.getId()+"@linkedin", null);
+				anno(AUTHOR_XID,  lig.getId()+"@group.linkedin", null);
 				anno(AUTHOR_IMG, lig.getSmallLogoUrl(), null);
 				return true;
 			}
@@ -176,7 +176,7 @@ public class LinkedInJuicer extends AJuicer {
 		Item item = doc.getMainItem();
 		// probably already juiced by MetaDataJuicer
 		// Hm: title as XId? slightly dubious, but probably OK enough
-		String self = XId.WART_C+item.getTitle()+"@linkedin";
+		String self = item.getTitle()+"@company.linkedin";
 		Anno<String> anno = anno(AJuicer.AUTHOR_XID, self, null);
 		item.put(anno);
 		
@@ -255,7 +255,7 @@ public class LinkedInJuicer extends AJuicer {
 		
 		// Let the LinkedInPlugin do any extra canonicalisation we want
 		String url_wo_protocol = url.replaceFirst("https?://", "");
-		return XId.WART_P+url_wo_protocol+"@linkedin";
+		return url_wo_protocol+"@linkedin";
 	}
 
 

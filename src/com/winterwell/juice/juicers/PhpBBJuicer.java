@@ -125,7 +125,7 @@ public class PhpBBJuicer extends AJuicer {
 					ref.put(anno(AUTHOR_URL, href, ppa));
 					String uid = WebUtils2.getQueryParameter(href, "u");
 					if ( ! Utils.isBlank(uid)) {
-						ref.put(anno(AUTHOR_XID, XId.WART_P+uid+"@"+domain, ppa));	
+						ref.put(anno(AUTHOR_XID, uid+"@"+domain, ppa));	
 					}
 				}
 				break;
