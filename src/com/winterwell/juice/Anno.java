@@ -54,6 +54,14 @@ public final class Anno<X> implements Serializable {
 	final Key<X> name;
 	
 	final X value;
+	
+	public X getValue() {
+		return value;
+	}
+	
+	public Key<X> getName() {
+		return name;
+	}
 
 	@Override
 	public int hashCode() {

@@ -205,9 +205,7 @@ public abstract class AJuicer {
 	public static final Key<XId> THREAD_XID = new Key("threadXId");
 	
 	/**
-	 * @param url
-	 * @param html
-	 * @param pages The extractions made by this juicer.
+	 * 
 	 * @param true if this juicer considers the job to be done
 	 */
 	protected abstract boolean juice(JuiceMe doc);

@@ -43,10 +43,11 @@ public class Juice {
 	}
 	
 	public Juice() {
-		juicers = new AJuicer[]{				
+		juicers = new AJuicer[]{
+			new SchemaOrgJuicer(),
 			new WordPressJuicer(),			
 			new PinterestJuicer(),
-			new PhpBBJuicer(),			
+			new PhpBBJuicer(),		
 			new MetaDataJuicer(),
 			new ContactDetailsJuicer(),
 //			new GenericJuicer()	
