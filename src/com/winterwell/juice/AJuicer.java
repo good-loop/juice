@@ -111,6 +111,12 @@ public abstract class AJuicer {
 	 */
 	public static final Key<Time> PUB_TIME = new Key("time");
 	
+	public static final Key<String> PUBLISHER_NAME = new Key("publisher_name");
+	/**
+	 * This is the publisher logo for a news article
+	 */
+	public static final Key<String> PUBLISHER_LOGO = new Key("publisher_logo");
+	
 	/**
 	 * The canonical url for this post (which may be different from the url used to read this page).
 	 */

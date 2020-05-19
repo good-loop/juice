@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.winterwell.utils.log.Log;
@@ -28,7 +29,8 @@ public class Juice {
 	 * Just a test sketch of how to use this.
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
+		System.out.println("Juice version "+JuiceConfig.version); // TODO use config and AMain
 		Juice juice = new Juice();
 		if (args==null || args.length==0) {
 			args = new String[]{"http://www.guardian.co.uk/technology/2012/feb/29/raspberry-pi-computer-sale-british"};
@@ -43,7 +45,7 @@ public class Juice {
 	}
 	
 	public Juice() {
-		juicers = new AJuicer[]{
+		this(Arrays.asList(
 			new SchemaOrgJuicer(),
 			new WordPressJuicer(),			
 			new PinterestJuicer(),
@@ -57,9 +59,14 @@ public class Juice {
 			// Fall back to desperation
 			new CommonNamesJuicer(),			
 			new DateFinder()
-		};
+		));
+		// TODO config
 	}
 	
+	public Juice(List<AJuicer> juicers) {
+		this.juicers = juicers.toArray(new AJuicer[0]);
+	}
+
 	public JuiceMe juice(String url, String html) {		
 		JuiceMe doc = new JuiceMe(url, html);
 		for(AJuicer juicer : juicers) {
