@@ -14,6 +14,8 @@ import com.winterwell.utils.log.Log;
 import com.winterwell.utils.web.WebUtils2;
 
 /**
+ * Status: half done
+ * 
  * TODO read schema.org metadata
  * e.g. see 
  * view-source:https://www.scotsman.com/business/eie-2018-5-start-ups-watch-years-conference-311184
