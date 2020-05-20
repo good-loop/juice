@@ -11,7 +11,7 @@ import com.winterwell.utils.io.FileUtils;
 public class BuildJuice extends BuildWinterwellProject {
 
 	public BuildJuice() {
-		super(new File(FileUtils.getWinterwellDir(), "juice"), "juice");
+		super("juice");
 //		setScpToWW(true);
 	}
 	
