@@ -10,7 +10,7 @@ import com.winterwell.utils.Key;
 import com.winterwell.utils.Utils;
 import com.winterwell.utils.log.Log;
 
-import com.sodash.jlinkedin.model.LIGroup;
+
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Anno;
 import com.winterwell.juice.Item;
@@ -90,12 +90,13 @@ public class LinkedInJuicer extends AJuicer {
 			// Is it a group?
 			if ((doc.getURL()!=null && doc.getURL().contains("/grp/"))) {
 				String gid = WebUtils2.getQueryParameter(doc.getURL(), "gid");
-				LIGroup lig = new LIGroup(gid, doc.getHTML());
-				anno(AUTHOR_NAME, lig.getName(), null);
-				anno(AUTHOR_DESC, lig.getDescription(), null);
-				anno(AUTHOR_URL, lig.getPublicUrl(), null);
-				anno(AUTHOR_XID,  lig.getId()+"@group.linkedin", null);
-				anno(AUTHOR_IMG, lig.getSmallLogoUrl(), null);
+				Log.e(LOGTAG, "TODO bring back jlinkedin");
+//				LIGroup lig = new LIGroup(gid, doc.getHTML());
+//				anno(AUTHOR_NAME, lig.getName(), null);
+//				anno(AUTHOR_DESC, lig.getDescription(), null);
+//				anno(AUTHOR_URL, lig.getPublicUrl(), null);
+//				anno(AUTHOR_XID,  lig.getId()+"@group.linkedin", null);
+//				anno(AUTHOR_IMG, lig.getSmallLogoUrl(), null);
 				return true;
 			}
 			// Is it a company page?
