@@ -10,11 +10,10 @@ import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Element;
 
+import com.winterwell.utils.log.Log;
 import com.winterwell.utils.time.TUnit;
 import com.winterwell.utils.time.Time;
 import com.winterwell.utils.time.TimeUtils;
-
-import com.winterwell.utils.log.Log;
 
 /**
  * TODO Look for publication date in a document.

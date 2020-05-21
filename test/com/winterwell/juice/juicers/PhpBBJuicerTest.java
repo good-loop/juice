@@ -6,13 +6,12 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.winterwell.utils.StrUtils;
-
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.TestUtils;
 import com.winterwell.juice.spider.JuicingSiteSpider;
 import com.winterwell.utils.Printer;
+import com.winterwell.utils.StrUtils;
 import com.winterwell.utils.io.FileUtils;
 import com.winterwell.web.data.IDoCanonical;
 import com.winterwell.web.data.XId;
