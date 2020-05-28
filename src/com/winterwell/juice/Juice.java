@@ -45,8 +45,10 @@ public class Juice {
 	}
 	
 	public Juice() {
+		// in rough order of reliability
 		this(Arrays.asList(
 			new SchemaOrgJuicer(),
+			new MicroFormatJuicer(),
 			new WordPressJuicer(),			
 			new PinterestJuicer(),
 			new PhpBBJuicer(),		
