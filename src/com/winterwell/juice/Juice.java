@@ -72,12 +72,17 @@ public class Juice {
 	public JuiceMe juice(String url, String html) {		
 		JuiceMe doc = new JuiceMe(url, html);
 		for(AJuicer juicer : juicers) {
-			boolean done = juicer.juice(doc);
-			// Stop early?? No -- the juicer's judgement isn't reliable
-			if (done) {
-				// yes for some
-				if (juicer instanceof PinterestJuicer) return doc;
-				Log.d(LOGTAG, juicer.getClass().getSimpleName()+" says done for "+doc.getURL());
+			try {
+				boolean done = juicer.juice(doc);
+				// Stop early?? No -- the juicer's judgement isn't reliable
+				if (done) {
+					// yes for some
+					if (juicer instanceof PinterestJuicer) return doc;
+					Log.d(LOGTAG, juicer.getClass().getSimpleName()+" says done for "+doc.getURL());
+				}
+			} catch(Throwable ex) {
+				// allow juicers to fail without killing the juice
+				Log.e(LOGTAG, ex);
 			}
 		}		
 		// Mark stable urls
