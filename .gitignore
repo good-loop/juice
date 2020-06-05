@@ -6,3 +6,6 @@ test/testHTMLFiles/*
 /bin.test.dodgy
 /bin.test.demo
 dependencies
+boblog
+bob.log
+juice.jar
