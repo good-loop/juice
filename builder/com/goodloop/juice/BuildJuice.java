@@ -22,6 +22,7 @@ public class BuildJuice extends BuildWinterwellProject {
 		MavenDependencyTask mdt = new MavenDependencyTask();
 		mdt.setIncSrc(true);
 		mdt.addDependency("org.jsoup", "jsoup", "1.13.1");
+//		mdt.setSkipGap(null); // debug - force a rerun
 		deps.add(mdt);
 		
 		return deps;
