@@ -9,7 +9,10 @@ import org.eclipse.jetty.util.ajax.JSON;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.winterwell.utils.Utils;
+import com.winterwell.utils.containers.Containers;
 import com.winterwell.utils.log.Log;
+import com.winterwell.utils.web.SimpleJson;
 import com.winterwell.utils.web.WebUtils2;
 
 /**
@@ -68,19 +71,27 @@ public class SchemaOrgJuicer extends AJuicer {
 			if ("publisher".equals(type)) {
 				juicePublisher(map, doc, item);
 			} else {
-				Map pub = (Map) map.get("publisher");
+				Object pub = map.get("publisher");
 				if (pub!=null) {
-					juicePublisher(pub, doc, item);
+					if (pub instanceof Map) {
+						juicePublisher((Map) pub, doc, item);
+					} else if (pub instanceof String) {
+						Anno<String> anno = new Anno<>(PUBLISHER_NAME, (String)pub, getSrcElement(map));
+						item.put(anno);
+					}
 				}
 			}
 			// author
 			if ("author".equals(type)) {
 				juiceAuthor(map, doc, item);
 			} else {
-				Map pub = (Map) map.get("author");
-				if (pub!=null) {
-					juiceAuthor(pub, doc, item);
-				}
+				Object pub = map.get("author");
+				if (pub instanceof Map) {
+					juiceAuthor((Map) pub, doc, item);
+				} else if (pub instanceof String) {
+					Anno<String> anno = new Anno<>(AUTHOR_NAME, (String)pub, getSrcElement(map));
+					item.put(anno);
+				}				
 			}
 		}
 		// TODO author etc
@@ -132,10 +143,15 @@ public class SchemaOrgJuicer extends AJuicer {
 			try {
 				String typ = element.attr("type");
 				if ( ! "application/ld+json".equals(typ)) continue;
-				String txt = element.text();
-				Map json = (Map) JSON.parse(txt);
-				json.put("_element", element);
-				jsons.add(json);
+				String txt = Utils.or(element.text(), element.html());
+				Object json = JSON.parse(txt);
+				if (json instanceof Map) {
+					((Map)json).put("_element", element); // hack - see getSrcElement()
+					jsons.add((Map)json);
+				} else if (json instanceof List || json.getClass().isArray()) {
+					List<Map> jlist = Containers.asList(json);
+					jsons.addAll(jlist);
+				}
 			} catch(Exception ex) {
 				Log.w(LOGTAG, ex);
 			}
