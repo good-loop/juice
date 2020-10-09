@@ -24,7 +24,7 @@ import com.winterwell.web.data.XId;
  * Spider a single website. Holds everything in memory!
  * 
  * @author Daniel
- * @testedby {@link SiteSpiderTest}
+ * @testedby  SiteSpiderTest}
  */
 public class SiteSpider extends ATask<DiGraph<Item>> {
 

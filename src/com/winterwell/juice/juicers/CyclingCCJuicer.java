@@ -16,7 +16,7 @@ import com.winterwell.utils.log.Log;
 import com.winterwell.web.data.XId;
 
 /**
- * @testedby {@link CyclingCCJuicerTest}
+ * @testedby  CyclingCCJuicerTest}
  * @author daniel
  *
  */

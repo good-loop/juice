@@ -16,7 +16,7 @@ import com.winterwell.web.data.XId;
 /**
  * Spider a site, piping the pages through Juice.
  * 
- * @testedby {@link JuicingSiteSpiderTest}
+ * @testedby  JuicingSiteSpiderTest}
  * @author daniel
  *
  */

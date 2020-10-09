@@ -10,7 +10,7 @@ import com.winterwell.utils.Utils;
 
 /**
  * Leaves most of the work to the {@link MetaDataJuicer}
- * @testedby {@link PinterestJuicerTest}
+ * @testedby  PinterestJuicerTest}
  * @author daniel
  *
  */

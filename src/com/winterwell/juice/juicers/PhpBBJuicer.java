@@ -28,7 +28,7 @@ import com.winterwell.web.data.XId;
  * A juicer for phpBB bulletin boards.
  * E.g. bikeradar.com/forums
  * @author daniel
- * @testedby {@link PhpBBJuicerTest}
+ * @testedby  PhpBBJuicerTest}
  */
 public class PhpBBJuicer extends AJuicer {
 

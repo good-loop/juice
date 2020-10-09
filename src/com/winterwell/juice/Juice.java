@@ -18,7 +18,7 @@ import com.winterwell.web.FakeBrowser;
  * http://tomazkovacic.com/blog/56/list-of-resources-article-text-extraction-from-html-documents/
  * 
  * @author daniel
- * @testedby {@link JuiceTest}
+ * @testedby  JuiceTest}
  */
 public class Juice {
 	

@@ -20,7 +20,7 @@ import com.winterwell.utils.web.WebUtils2;
 
 /**
  * Special case support for LinkedIn profiles. Assumes: {@link MetaDataJuicer} has already run for canonical url and image.
- * @testedby {@link LinkedInJuicerTest}
+ * @testedby  LinkedInJuicerTest}
  * @author daniel
  */
 public class LinkedInJuicer extends AJuicer {
