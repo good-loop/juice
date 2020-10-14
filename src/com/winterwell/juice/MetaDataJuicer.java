@@ -247,7 +247,7 @@ public class MetaDataJuicer extends AJuicer {
 		
 		// If value was extracted store this value
 		if (value != null) {
-			item.put(anno(key, value, srcTag));
+			item.put(anno(key, value, srcTag).setJuicer(this));
 		}
 	}
 

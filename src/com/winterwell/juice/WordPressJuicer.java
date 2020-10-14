@@ -281,7 +281,7 @@ public class WordPressJuicer extends AJuicer {
 			calendar.set(Calendar.MILLISECOND, 0);
 			
 			Time publicationTime = new Time(calendar);
-			post.put(anno(AJuicer.PUB_TIME, publicationTime, dateElement));
+			post.put(anno(AJuicer.PUB_TIME, publicationTime, dateElement).setJuicer(this));
 			return true;
 			
 		} catch (ParseException pe) {
@@ -294,7 +294,7 @@ public class WordPressJuicer extends AJuicer {
 		// Use WW code
 		try {
 			Time date = DateField.parse(dateText);
-			post.put(anno(AJuicer.PUB_TIME, date, dateElement));
+			post.put(anno(AJuicer.PUB_TIME, date, dateElement).setJuicer(this));
 			return true;
 		} catch(Exception ex) {
 			// oh well

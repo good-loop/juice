@@ -154,7 +154,7 @@ public class WordPressCommentsJuicer extends AJuicer {
 			String timeText = commentURL.text();
 			Date parsedDate = dateFormat.parse(timeText);
 			Time time = new Time(parsedDate);
-			comment.put(anno(AJuicer.PUB_TIME, time, commentURL));			
+			comment.put(anno(AJuicer.PUB_TIME, time, commentURL).setJuicer(this));			
 		} catch (Exception pe) {
 			// We failed to parse date, so simply ignore it
 			Log.e(LOGTAG, pe);

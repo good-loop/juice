@@ -38,7 +38,7 @@ public class MicroFormatJuicer extends AJuicer {
 		if (Utils.isBlank(ts)) ts = time.text();
 		if (Utils.isBlank(ts)) return false;
 		Time pt = TimeUtils.parseExperimental(ts);
-		Anno anno = anno(PUB_TIME, pt, time);
+		Anno anno = anno(PUB_TIME, pt, time).setJuicer(this);
 		item.put(anno);
 		return true;
 	}

@@ -51,5 +51,30 @@ public class DateFinderTest {
 		System.out.println(items0);
 		assert items0.get(0).getPublishedTime() != null;		
 	}
+	
+
+	@Test
+	public void testDateOct2020() {
+		String url = "https://dailybusinessgroup.co.uk/2020/10/engineering-and-software-winners-announced/";
+		File file = TestUtils.getTestFile("misc", url);
+		Juice j = new Juice();
+		String html = FileUtils.read(file);
+		
+		DateFinder df = new DateFinder();
+		JuiceMe doc = new JuiceMe(url, html);
+		
+		Element e = doc.getMainItem().getDoc();
+		List<Anno> dates = df.findDates(e);
+		assert ! dates.isEmpty();
+		
+		df.juice(doc);
+		List<Item> items0 = doc.getExtractedItems();
+		System.out.println(items0);
+		assert items0.get(0).getPublishedTime() != null;
+		assert items0.get(0).getPublishedTime().ddMMyyyy().equals("02/10/2020") : items0.get(0).getPublishedTime();
+	}
+	
+	
+	
 
 }

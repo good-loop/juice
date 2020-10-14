@@ -22,6 +22,11 @@ public final class Anno<X> implements Serializable {
 	Element src;
 	
 	/**
+	 * For debug
+	 */
+	transient Class juicer;
+	
+	/**
 	 * 
 	 * @param type
 	 * @param value
@@ -102,6 +107,11 @@ public final class Anno<X> implements Serializable {
 		}
 		
 		return true;
+	}
+
+	public Anno<X> setJuicer(AJuicer j) {
+		juicer = j.getClass();
+		return this;
 	}
 	
 	
