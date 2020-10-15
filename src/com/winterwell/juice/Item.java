@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
