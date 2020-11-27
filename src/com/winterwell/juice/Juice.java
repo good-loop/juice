@@ -3,12 +3,11 @@ package com.winterwell.juice;
 import java.util.Arrays;
 import java.util.List;
 
-import com.winterwell.utils.log.Log;
-
 import com.winterwell.juice.juicers.ContactDetailsJuicer;
 import com.winterwell.juice.juicers.CyclingCCJuicer;
 import com.winterwell.juice.juicers.LinkedInJuicer;
 import com.winterwell.juice.juicers.PhpBBJuicer;
+import com.winterwell.utils.log.Log;
 import com.winterwell.web.FakeBrowser;
 
 /**

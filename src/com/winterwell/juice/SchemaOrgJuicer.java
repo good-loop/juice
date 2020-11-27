@@ -12,7 +12,6 @@ import org.jsoup.select.Elements;
 import com.winterwell.utils.Utils;
 import com.winterwell.utils.containers.Containers;
 import com.winterwell.utils.log.Log;
-import com.winterwell.utils.web.SimpleJson;
 import com.winterwell.utils.web.WebUtils2;
 
 /**
