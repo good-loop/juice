@@ -13,6 +13,27 @@ import com.winterwell.utils.time.Time;
 public class DateFinderTest {
 
 	@Test
+	public void testWhyNotFound() {
+		String url = "https://eminetra.co.uk/phil-tech-company-good-loop-doubles-growth-while-supporting-good-reason/156388/";
+		File file = TestUtils.getTestFile("misc", url);
+		Juice j = new Juice();
+		String html = FileUtils.read(file);
+		
+		DateFinder df = new DateFinder();
+		JuiceMe doc = new JuiceMe(url, html);
+		
+		Element e = doc.getMainItem().getDoc();
+		List<Anno> dates = df.findDates(e);
+		assert ! dates.isEmpty();
+		
+		df.juice(doc);
+		List<Item> items0 = doc.getExtractedItems();
+		System.out.println(items0);
+		assert items0.get(0).getPublishedTime() != null;		
+	}
+	
+		
+	@Test
 	public void testABitOff() {
 		 String text = "<html><p>&raquo; Mon Aug 19, 2013 8:55 am </p></html>";
 		 JuiceMe jm = new JuiceMe(text);

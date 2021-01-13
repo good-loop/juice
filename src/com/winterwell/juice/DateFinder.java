@@ -93,7 +93,9 @@ public class DateFinder extends AJuicer {
 					Log.d(TAG, "Skip future date "+t+" from "+ms+" in "+text);
 					continue;
 				}
-				list.add(new Anno(AJuicer.PUB_TIME, t, null).setJuicer(this));
+				Anno anno = new Anno(AJuicer.PUB_TIME, t, null).setJuicer(this);
+				anno.setText(ms); 
+				list.add(anno);
 			} catch(Exception ex) {
 				// oh well
 			}

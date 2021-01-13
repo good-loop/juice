@@ -27,6 +27,16 @@ public final class Anno<X> implements Serializable {
 	transient Class juicer;
 	
 	/**
+	 * From text or src
+	 * @return
+	 */
+	public String getText() {
+		if (text!=null) return text;
+		if (src!=null) return src.text();
+		return null;
+	}
+	
+	/**
 	 * 
 	 * @param type
 	 * @param value
@@ -59,6 +69,11 @@ public final class Anno<X> implements Serializable {
 	final Key<X> name;
 	
 	final X value;
+
+	/**
+	 * Like src
+	 */
+	public String text;
 	
 	public X getValue() {
 		return value;
@@ -112,6 +127,10 @@ public final class Anno<X> implements Serializable {
 	public Anno<X> setJuicer(AJuicer j) {
 		juicer = j.getClass();
 		return this;
+	}
+
+	public void setText(String ms) {
+		this.text = ms;
 	}
 	
 	
