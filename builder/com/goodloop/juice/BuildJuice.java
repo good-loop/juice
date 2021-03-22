@@ -12,6 +12,7 @@ public class BuildJuice extends BuildWinterwellProject {
 
 	public BuildJuice() {
 		super("juice");
+		setVersion("1.0.0"); // 22 Mar 2021
 //		setScpToWW(true);
 	}
 	
