@@ -22,7 +22,7 @@ import com.winterwell.web.FakeBrowser;
 public class Juice {
 	
 	private static final String LOGTAG = "juice";
-	AJuicer[] juicers;
+	List<AJuicer> juicers;
 	
 	/**
 	 * Just a test sketch of how to use this.
@@ -65,7 +65,21 @@ public class Juice {
 	}
 	
 	public Juice(List<AJuicer> juicers) {
-		this.juicers = juicers.toArray(new AJuicer[0]);
+		this.juicers = juicers;
+	}
+	
+	/**
+	 * 
+	 * @param juicer
+	 * @param first If true, put this juicer first - you trust it for the task above the others.
+	 * Juicers _typically_ only add missing annotations, accepting an earlier juicer's work as correct.
+	 * Otherwise it goes last.
+	 * @return
+	 */
+	public Juice addJuicer(AJuicer juicer, boolean first) {
+		if (first) juicers.add(0, juicer); 
+		else juicers.add(juicer);
+		return this;
 	}
 
 	public JuiceMe juice(String url, String html) {		
