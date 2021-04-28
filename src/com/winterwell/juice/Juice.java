@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class Juice {
 	
 	public Juice() {
 		// in rough order of reliability
-		this(Arrays.asList(
+		this(new ArrayList<> (Arrays.asList(
 			new SchemaOrgJuicer(),
 			new MicroFormatJuicer(),
 			new WordPressJuicer(),			
@@ -60,7 +61,7 @@ public class Juice {
 			// Fall back to desperation
 			new CommonNamesJuicer(),			
 			new DateFinder()
-		));
+		)));
 		// TODO config
 	}
 	
