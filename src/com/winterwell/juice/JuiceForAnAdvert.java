@@ -1,8 +1,11 @@
 package com.winterwell.juice;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -45,15 +48,31 @@ public class JuiceForAnAdvert extends AJuicer {
 		}
 		
 		// take a screenshot from the webpage and build a colour histogram
-		takeScreenshot(item.getUrl());
-		
+		File png = new File("test/screenshot.png");
+		takeScreenshot(item.getUrl(), png);
+		// histogram with 16 bins at each channel - increase number of bins to increase colour accuracy
+		int[][][] histogram = new int[16][16][16];
+		try {
+			BufferedImage image = ImageIO.read(png);
+			for (int x=0; x<image.getWidth(); x++) {
+				for (int y=0; y<image.getHeight(); y++) {
+					int rgb = image.getRGB(x, y);
+					int red = (rgb >> 16) & 0x000000FF;
+					int green = (rgb >> 8 ) & 0x000000FF;
+					int blue = (rgb) & 0x000000FF;
+					histogram[red / 16][green / 16][blue / 16]++;
+				}
+			}
+		} catch (Exception ex) {
+			Log.d("Unable to create colour histogram");
+		}
+		// TODO: how to deal with the colour histogram, do we want to extract a single colour pixel or a range? 
 		
 		return false;
 	}
 	
-	private static void takeScreenshot(String url) {
+	private static void takeScreenshot(String url, File pngOut) {
 		File temp1 = null;
-		File pngOut = new File("test/screenshot.png");
 		try {
 			temp1 = File.createTempFile("chart", ".pdf", new File("test/"));
 			Proc p1 = WebUtils.renderUrlToPdf_usingChrome(url, temp1, "--include-background");
