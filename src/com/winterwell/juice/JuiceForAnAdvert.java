@@ -44,8 +44,16 @@ public class JuiceForAnAdvert extends AJuicer {
 		if (item.get(AJuicer.PUBLISHER_NAME)==null && item.get(AJuicer.TITLE)!=null) {
 			// use the title instead
 			Anno<String> title = item.getAnnotation(AJuicer.TITLE);
-			Anno<String> anno = new Anno<>(AJuicer.PUBLISHER_NAME, title.value, title.src);
-			item.put(anno);
+			Anno<String> anno1 = new Anno<>(AJuicer.PUBLISHER_NAME, title.value, title.src);
+			item.put(anno1);
+		}
+		
+		if (item.get(AJuicer.PUBLISHER_LOGO)==null && item.get(AJuicer.IMAGE_URL)!=null) {
+			// in most cases, the image URL is the publisher logo
+			// but is there a way to double check??
+			Anno<String> logo = item.getAnnotation(AJuicer.IMAGE_URL);
+			Anno<String> anno2 = new Anno<>(AJuicer.PUBLISHER_LOGO, logo.value, logo.src);
+			item.put(anno2);
 		}
 		
 		// take a screenshot from the webpage and build a colour histogram
