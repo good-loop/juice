@@ -14,8 +14,6 @@ import com.winterwell.utils.io.FileUtils;
  *
  */
 public class JuiceForAnAdvertTest {
-
-
 	
 	@Test
 	public void testInC() throws Exception {
@@ -25,7 +23,8 @@ public class JuiceForAnAdvertTest {
 		Juice j = new Juice();
 		j.addJuicer(new JuiceForAnAdvert(), false);
 		JuiceMe doc = j.juice(url, html);
-		List<Item> items = doc.getExtractedItems();		
+		
+		List<Item> items = doc.getExtractedItems();	
 		TestUtils.out(items);
 		
 		Item item = doc.getMainItem();
@@ -34,7 +33,7 @@ public class JuiceForAnAdvertTest {
 		
 		// name
 		String name = item.get(AJuicer.PUBLISHER_NAME);
-		assert name.equalsIgnoreCase("invest-in-change") : name;
+		assert name.equalsIgnoreCase("invest in change") : name;
 		// logo
 		String logo = item.get(JuiceKeys.LOGO);
 		assert logo != null;
@@ -42,6 +41,9 @@ public class JuiceForAnAdvertTest {
 		// tagline
 		// photos
 		// fonts
+		String font = item.get(AJuicer.FONT_FAMILY);
+		System.out.println(font);
+		assert font != null;
 		// colours
 	}
 }
