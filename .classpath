@@ -5,6 +5,10 @@
 	<classpathentry kind="src" output="bin.test" path="test"/>
 	<classpathentry kind="src" path="test.utils"/>
 	<classpathentry kind="src" path="builder"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.web"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.utils"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.maths"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.bob"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -12,9 +16,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="dependencies/jsoup.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.web"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.utils"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.maths"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.bob"/>
+	<classpathentry kind="lib" path="dependencies/jvppeteer.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
