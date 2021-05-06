@@ -8,8 +8,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import org.jsoup.nodes.Element;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ruiyun.jvppeteer.core.Puppeteer;
 import com.ruiyun.jvppeteer.core.browser.Browser;
@@ -73,27 +71,7 @@ public class JuiceForAnAdvert extends AJuicer {
 		
 		// Use a chrome headless browser to get the rendered CSS font family
 		try {
-			Browser b = Puppeteer.launch();
-			Page p = b.newPage();
-			p.goTo(item.getUrl());
-			
-			// getting the rendered fonts through the chrome dev tools api
-			p.client().send("DOM.enable", null, true);
-			p.client().send("CSS.enable", null, true);
-			JsonNode jn = p.client().send("DOM.getDocument", null, true);
-			Map<String, Object> m = new HashMap<String,Object>();
-			m.put("nodeId", jn.get("root").get("nodeId"));
-			m.put("selector", "h1");
-			JsonNode jn2 = p.client().send("DOM.querySelector", m, true);
-			Map<String, Object> m2 = new HashMap<String,Object>();
-			m2.put("nodeId", jn2.get("nodeId"));
-			JsonNode jn3 = p.client().send("CSS.getPlatformFontsForNode", m2, true);
-			String font = jn3.get("fonts").get(0).get("familyName").asText();
-			
-			// annotate and save the font family, null is passed as the src as font is rendered dynamically
-			Anno<String> fontAnnotation = new Anno<>(AJuicer.FONT_FAMILY, font, null);
-			item.put(fontAnnotation);
-			
+			scrapeFont(item);
 		} catch (Exception ex) {
 			Log.d("Error while using Puppeteer client");
 		}
@@ -132,6 +110,29 @@ public class JuiceForAnAdvert extends AJuicer {
 				FileUtils.delete(temp1);
 			}
 		}
+	}
+	
+	private void scrapeFont(Item item) throws Exception {
+		Browser b = Puppeteer.launch();
+		Page p = b.newPage();
+		p.goTo(item.getUrl());
+		
+		// getting the rendered fonts through the chrome dev tools api
+		p.client().send("DOM.enable", null, true);
+		p.client().send("CSS.enable", null, true);
+		JsonNode jn = p.client().send("DOM.getDocument", null, true);
+		Map<String, Object> m = new HashMap<String,Object>();
+		m.put("nodeId", jn.get("root").get("nodeId"));
+		m.put("selector", "h1");
+		JsonNode jn2 = p.client().send("DOM.querySelector", m, true);
+		Map<String, Object> m2 = new HashMap<String,Object>();
+		m2.put("nodeId", jn2.get("nodeId"));
+		JsonNode jn3 = p.client().send("CSS.getPlatformFontsForNode", m2, true);
+		String font = jn3.get("fonts").get(0).get("familyName").asText();
+		
+		// annotate and save the font family, null is passed as the src as font is rendered dynamically
+		Anno<String> fontAnnotation = new Anno<>(AJuicer.FONT_FAMILY, font, null);
+		item.put(fontAnnotation);
 	}
 
 }
