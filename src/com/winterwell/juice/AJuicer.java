@@ -210,6 +210,8 @@ public abstract class AJuicer {
 	 */
 	public static final Key<XId> THREAD_XID = new Key("threadXId");
 	
+	public static final Key<String> FONT_FAMILY = new Key("font");
+	
 	/**
 	 * 
 	 * @param true if this juicer considers the job to be done

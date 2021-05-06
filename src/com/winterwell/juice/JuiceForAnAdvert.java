@@ -3,20 +3,23 @@ package com.winterwell.juice;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.ruiyun.jvppeteer.core.Puppeteer;
+import com.ruiyun.jvppeteer.core.browser.Browser;
+import com.ruiyun.jvppeteer.core.page.Page;
 import com.winterwell.utils.Proc;
 import com.winterwell.utils.Utils;
 import com.winterwell.utils.io.FileUtils;
 import com.winterwell.utils.log.Log;
 import com.winterwell.utils.time.TUnit;
 import com.winterwell.utils.web.WebUtils;
-import com.winterwell.web.FakeBrowser;
 
 /**
  * TODO patch the gaps left by other juicers for:
@@ -67,6 +70,34 @@ public class JuiceForAnAdvert extends AJuicer {
 			Log.d("Unable to create colour histogram");
 		}
 		// TODO: how to deal with the colour histogram, do we want to extract a single colour pixel or a range? 
+		
+		// Use a chrome headless browser to get the rendered CSS font family
+		try {
+			Browser b = Puppeteer.launch();
+			Page p = b.newPage();
+			p.goTo(item.getUrl());
+			
+			// getting the rendered fonts through the chrome dev tools api
+			p.client().send("DOM.enable", null, true);
+			p.client().send("CSS.enable", null, true);
+			JsonNode jn = p.client().send("DOM.getDocument", null, true);
+			Map<String, Object> m = new HashMap<String,Object>();
+			m.put("nodeId", jn.get("root").get("nodeId"));
+			m.put("selector", "h1");
+			JsonNode jn2 = p.client().send("DOM.querySelector", m, true);
+			Map<String, Object> m2 = new HashMap<String,Object>();
+			m2.put("nodeId", jn2.get("nodeId"));
+			JsonNode jn3 = p.client().send("CSS.getPlatformFontsForNode", m2, true);
+			String font = jn3.get("fonts").get(0).get("familyName").asText();
+			
+			// annotate and save the font family, null is passed as the src as font is rendered dynamically
+			Anno<String> fontAnnotation = new Anno<>(AJuicer.FONT_FAMILY, font, null);
+			item.put(fontAnnotation);
+			
+		} catch (Exception ex) {
+			Log.d("Error while using Puppeteer client");
+		}
+		
 		
 		return false;
 	}
