@@ -3,7 +3,9 @@ package com.winterwell.juice;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -60,7 +62,9 @@ public class JuiceForAnAdvert extends AJuicer {
 		File png = new File("test/screenshot.png");
 		takeScreenshot(item.getUrl(), png);
 		// histogram with 16 bins at each channel - increase number of bins to increase colour accuracy
-		int[][][] histogram = new int[16][16][16];
+		int bins = 16;
+		int pixel = 256/bins;
+		int[][][] histogram = new int[bins][bins][bins];
 		try {
 			BufferedImage image = ImageIO.read(png);
 			for (int x=0; x<image.getWidth(); x++) {
@@ -69,9 +73,36 @@ public class JuiceForAnAdvert extends AJuicer {
 					int red = (rgb >> 16) & 0x000000FF;
 					int green = (rgb >> 8 ) & 0x000000FF;
 					int blue = (rgb) & 0x000000FF;
-					histogram[red / 16][green / 16][blue / 16]++;
+					histogram[red/pixel][green/pixel][blue/pixel]++;
 				}
 			}
+			
+			// get the top 4 colours 
+			// the two linkedlist are always sorted
+			LinkedList<Integer> dominantColours = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
+			LinkedList<Integer> maxValues = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
+			for (int i=0; i<bins; i++) {
+				for (int j=0; j<bins; j++) {
+					for (int k=0; k<bins; k++) {
+						if (histogram[i][j][k] > maxValues.get(0)) {
+							// check which position it should enter
+							for (int l=3; l>=0; l--) {
+								if (histogram[i][j][k] >= maxValues.get(l)) {
+									maxValues.removeFirst();
+									dominantColours.removeFirst();									
+									maxValues.add(l,histogram[i][j][k]);
+									int colour = ((i*pixel)<<16)+((j*pixel)<<8)+(k*pixel);
+									dominantColours.add(l, colour);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+			item.put(anno(WEBSITE_COLOUR, dominantColours, null));
+
+			
 		} catch (Exception ex) {
 			Log.d("Unable to create colour histogram");
 		}

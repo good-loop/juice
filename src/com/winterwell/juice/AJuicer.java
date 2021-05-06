@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.jsoup.nodes.Element;
@@ -210,7 +211,16 @@ public abstract class AJuicer {
 	 */
 	public static final Key<XId> THREAD_XID = new Key("threadXId");
 	
+	/**
+	 * The most used font family on the website.
+	 */
 	public static final Key<String> FONT_FAMILY = new Key("font");
+	
+	/**
+	 * The most dominant colours that are are used on the website.
+	 * The colours are stored as Integer values, which are equivalent to the RGB values
+	 */
+	public static final Key<LinkedList> WEBSITE_COLOUR = new Key("colour");
 	
 	/**
 	 * 
