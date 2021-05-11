@@ -33,7 +33,7 @@ import com.winterwell.utils.web.WebUtils;
  * CTA link
  * CTA "action words"
  * 
- * @author daniel
+ * @author daniel, kai
  *
  */
 public class JuiceForAnAdvert extends AJuicer {
@@ -61,52 +61,13 @@ public class JuiceForAnAdvert extends AJuicer {
 		// take a screenshot from the webpage and build a colour histogram
 		File png = new File("test/screenshot.png");
 		takeScreenshot(item.getUrl(), png);
-		// histogram with 16 bins at each channel - increase number of bins to increase colour accuracy
-		int bins = 16;
-		int pixel = 256/bins;
-		int[][][] histogram = new int[bins][bins][bins];
 		try {
 			BufferedImage image = ImageIO.read(png);
-			for (int x=0; x<image.getWidth(); x++) {
-				for (int y=0; y<image.getHeight(); y++) {
-					int rgb = image.getRGB(x, y);
-					int red = (rgb >> 16) & 0x000000FF;
-					int green = (rgb >> 8 ) & 0x000000FF;
-					int blue = (rgb) & 0x000000FF;
-					histogram[red/pixel][green/pixel][blue/pixel]++;
-				}
-			}
-			
-			// get the top 4 colours 
-			// the two linkedlist are always sorted
-			LinkedList<Integer> dominantColours = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
-			LinkedList<Integer> maxValues = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
-			for (int i=0; i<bins; i++) {
-				for (int j=0; j<bins; j++) {
-					for (int k=0; k<bins; k++) {
-						if (histogram[i][j][k] > maxValues.get(0)) {
-							// check which position it should enter
-							for (int l=3; l>=0; l--) {
-								if (histogram[i][j][k] >= maxValues.get(l)) {
-									maxValues.removeFirst();
-									dominantColours.removeFirst();									
-									maxValues.add(l,histogram[i][j][k]);
-									int colour = ((i*pixel)<<16)+((j*pixel)<<8)+(k*pixel);
-									dominantColours.add(l, colour);
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-			item.put(anno(WEBSITE_COLOUR, dominantColours, null));
-
-			
-		} catch (Exception ex) {
-			Log.d("Unable to create colour histogram");
+			// histogram with 16 bins at each channel - increase number of bins to increase colour accuracy
+			scrapeColour(item, image, 16);
+		} catch (IOException ex) {
+			Log.d("Unable to locate screenshot...");
 		}
-		// TODO: how to deal with the colour histogram, do we want to extract a single colour pixel or a range? 
 		
 		// Use a chrome headless browser to get the rendered CSS font family
 		try {
@@ -114,8 +75,7 @@ public class JuiceForAnAdvert extends AJuicer {
 		} catch (Exception ex) {
 			Log.d("Error while using Puppeteer client");
 		}
-		
-		
+			
 		return false;
 	}
 	
@@ -149,6 +109,45 @@ public class JuiceForAnAdvert extends AJuicer {
 				FileUtils.delete(temp1);
 			}
 		}
+	}
+	
+	private void scrapeColour(Item item, BufferedImage image, int bins) {
+		int pixel = 256/bins;
+		int[][][] histogram = new int[bins][bins][bins];
+		for (int x=0; x<image.getWidth(); x++) {
+			for (int y=0; y<image.getHeight(); y++) {
+				int rgb = image.getRGB(x, y);
+				int red = (rgb >> 16) & 0x000000FF;
+				int green = (rgb >> 8 ) & 0x000000FF;
+				int blue = (rgb) & 0x000000FF;
+				histogram[red/pixel][green/pixel][blue/pixel]++;
+			}
+		}
+		
+		// get the top 4 colours 
+		// the two linkedlist are always sorted
+		LinkedList<Integer> dominantColours = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
+		LinkedList<Integer> maxValues = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
+		for (int i=0; i<bins; i++) {
+			for (int j=0; j<bins; j++) {
+				for (int k=0; k<bins; k++) {
+					if (histogram[i][j][k] > maxValues.get(0)) {
+						// check which position it should enter
+						for (int l=3; l>=0; l--) {
+							if (histogram[i][j][k] >= maxValues.get(l)) {
+								maxValues.removeFirst();
+								dominantColours.removeFirst();									
+								maxValues.add(l,histogram[i][j][k]);
+								int colour = ((i*pixel)<<16)+((j*pixel)<<8)+(k*pixel);
+								dominantColours.add(l, colour);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		item.put(anno(WEBSITE_COLOUR, dominantColours, null));
 	}
 	
 	private void scrapeFont(Item item) throws Exception {
