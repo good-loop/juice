@@ -3,6 +3,7 @@ package com.winterwell.juice;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -48,6 +49,14 @@ public class JuiceForAnAdvert extends AJuicer {
 		// a useful api to get the logo of websites
 		String logo = "https://logo.clearbit.com/"+item.getUrl();
 		item.put(anno(AJuicer.PUBLISHER_LOGO, logo, null));
+		// download the logo - do we need that? 
+		try {
+			BufferedImage websiteLogo = ImageIO.read(new URL(logo));
+			ImageIO.write(websiteLogo, "png", new File("test/logo.png"));
+		} catch (IOException ex) {
+			Log.d("Error downloading logo");
+		}
+		
 		
 		try {
 			// launch a headless browser using puppeteer
