@@ -132,7 +132,7 @@ public class JuiceForAnAdvert extends AJuicer {
 		JsonNode jn = p.client().send("DOM.getDocument", null, true);
 		Map<String, Object> m = new HashMap<String,Object>();
 		m.put("nodeId", jn.get("root").get("nodeId"));
-		m.put("selector", "h1");
+		m.put("selector", "html");
 		JsonNode jn2 = p.client().send("DOM.querySelector", m, true);
 		Map<String, Object> m2 = new HashMap<String,Object>();
 		m2.put("nodeId", jn2.get("nodeId"));
