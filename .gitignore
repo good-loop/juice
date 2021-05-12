@@ -2,11 +2,13 @@
 test/testHTMLFiles
 test/testHTMLFiles/*
 test/screenshot.png
+test/logo.png
 
 /bin.test
 /bin.test.dodgy
 /bin.test.demo
 dependencies
+build-lib
 boblog
 bob.log
 juice.jar

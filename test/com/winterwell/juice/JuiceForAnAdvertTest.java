@@ -17,7 +17,7 @@ public class JuiceForAnAdvertTest {
 	
 	@Test
 	public void testInC() throws Exception {
-		String url = "https://invest-in-change.com";
+		String url = "https://good-loop.com/";
 		String html = FileUtils.read(TestUtils.getTestFile("company-website", url));
 		
 		Juice j = new Juice();
@@ -33,16 +33,17 @@ public class JuiceForAnAdvertTest {
 		
 		// name
 		String name = item.get(AJuicer.PUBLISHER_NAME);
-		assert name.equalsIgnoreCase("invest in change") : name;
+		assert name.equalsIgnoreCase("good-loop") : name;
 		// logo
 		String logo = item.get(JuiceKeys.LOGO);
 		assert logo != null;
-		// TODO
 		// tagline
+		String tagline = item.get(AJuicer.TAGLINE);
+		assert tagline.equalsIgnoreCase("effective advertising that's a force for good in the world");
+		// TODO
 		// photos
 		// fonts
 		String font = item.get(AJuicer.FONT_FAMILY);
-		System.out.println(font);
 		assert font != null;
 		// colours
 	}

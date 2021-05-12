@@ -212,6 +212,11 @@ public abstract class AJuicer {
 	public static final Key<XId> THREAD_XID = new Key("threadXId");
 	
 	/**
+	 * The tagline / slogan of a website
+	 */
+	public static final Key<String> TAGLINE = new Key("tagline");
+	
+	/**
 	 * The most used font family on the website.
 	 */
 	public static final Key<String> FONT_FAMILY = new Key("font");

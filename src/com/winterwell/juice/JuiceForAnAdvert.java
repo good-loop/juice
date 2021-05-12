@@ -11,6 +11,9 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ruiyun.jvppeteer.core.Puppeteer;
 import com.ruiyun.jvppeteer.core.browser.Browser;
@@ -57,6 +60,8 @@ public class JuiceForAnAdvert extends AJuicer {
 			Log.d("Error downloading logo");
 		}
 		
+		// get the tagline/slogan of the website
+		scrapeTagline(doc, item);
 		
 		try {
 			// launch a headless browser using puppeteer
@@ -84,6 +89,21 @@ public class JuiceForAnAdvert extends AJuicer {
 		}
 		
 		return false;
+	}
+	
+	private void scrapeTagline(JuiceMe doc, Item item) {
+		// Normally, the tagline is the first header to appear on the webpage (or appear after the publisher name)
+		Elements es = doc.getDoc().getElementsByTag("h1");
+		if (es.isEmpty() || es.get(0).text().equalsIgnoreCase(item.get(AJuicer.PUBLISHER_NAME))) {
+			es = doc.getDoc().getElementsByTag("h2");
+			if (es.isEmpty() || es.get(0).text().equalsIgnoreCase(item.get(AJuicer.PUBLISHER_NAME))) {
+				es = doc.getDoc().getElementsByTag("h3");
+			}
+		}
+		if (!es.isEmpty()) {
+			Element e = es.get(0);
+			item.put(anno(AJuicer.TAGLINE, e.text(), e));
+		}
 	}
 	
 	private void scrapeColour(Item item, BufferedImage image, int bins) {
