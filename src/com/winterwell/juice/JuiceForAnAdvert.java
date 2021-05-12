@@ -136,16 +136,17 @@ public class JuiceForAnAdvert extends AJuicer {
 		JsonNode jn2 = p.client().send("DOM.querySelector", m, true);
 		Map<String, Object> m2 = new HashMap<String,Object>();
 		m2.put("nodeId", jn2.get("nodeId"));
-		JsonNode jn3 = p.client().send("CSS.getPlatformFontsForNode", m2, true);
-		System.out.println("Start");
-		System.out.println(jn);
-		System.out.println(jn2);
-		System.out.println(jn3);
-		String font = jn3.get("fonts").get(0).get("familyName").asText();
+		JsonNode jn3 = p.client().send("CSS.getComputedStyleForNode", m2, true);
 		
-		// annotate and save the font family, null is passed as the src as font is rendered dynamically
-		Anno<String> fontAnnotation = new Anno<>(AJuicer.FONT_FAMILY, font, null);
-		item.put(fontAnnotation);
+		for (JsonNode j: jn3.get("computedStyle")) {
+			if (j.get("name").asText().equals("font-family")) {
+				String font = j.get("value").asText();
+				// annotate and save the font family, null is passed as the src as font is rendered dynamically
+				Anno<String> fontAnnotation = new Anno<>(AJuicer.FONT_FAMILY, font, null);
+				item.put(fontAnnotation);
+				break;
+			}
+		}
 	}
 
 }
