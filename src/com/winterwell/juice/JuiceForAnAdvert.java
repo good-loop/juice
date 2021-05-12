@@ -14,12 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.ruiyun.jvppeteer.core.Puppeteer;
 import com.ruiyun.jvppeteer.core.browser.Browser;
 import com.ruiyun.jvppeteer.core.page.Page;
-import com.winterwell.utils.Proc;
-import com.winterwell.utils.Utils;
-import com.winterwell.utils.io.FileUtils;
 import com.winterwell.utils.log.Log;
-import com.winterwell.utils.time.TUnit;
-import com.winterwell.utils.web.WebUtils;
 
 /**
  * TODO patch the gaps left by other juicers for:
@@ -50,13 +45,9 @@ public class JuiceForAnAdvert extends AJuicer {
 			item.put(anno1);
 		}
 		
-		if (item.get(AJuicer.PUBLISHER_LOGO)==null && item.get(AJuicer.IMAGE_URL)!=null) {
-			// in most cases, the image URL is the publisher logo
-			// but is there a way to double check??
-			Anno<String> logo = item.getAnnotation(AJuicer.IMAGE_URL);
-			Anno<String> anno2 = new Anno<>(AJuicer.PUBLISHER_LOGO, logo.value, logo.src);
-			item.put(anno2);
-		}
+		// a useful api to get the logo of websites
+		String logo = "https://logo.clearbit.com/"+item.getUrl();
+		item.put(anno(AJuicer.PUBLISHER_LOGO, logo, null));
 		
 		try {
 			// launch a headless browser using puppeteer
