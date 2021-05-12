@@ -58,9 +58,23 @@ public class JuiceForAnAdvert extends AJuicer {
 			item.put(anno2);
 		}
 		
-		// take a screenshot from the webpage and build a colour histogram
+		try {
+			// launch a headless browser using puppeteer
+			Browser b = Puppeteer.launch();
+			Page p = b.newPage();
+			p.goTo(item.getUrl());
+			// take a screenhot of the webpage
+			p.screenshot("test/screenshot.png");
+			//get the rendered css font family 
+			scrapeFont(item, p);
+			p.close();
+			b.close();
+		} catch(Exception ex) {
+			Log.d("Error while launching headless browser: " + ex);
+		} 
+		
+		// Build a colour histogram from the webpage screenshot
 		File png = new File("test/screenshot.png");
-		takeScreenshot(item.getUrl(), png);
 		try {
 			BufferedImage image = ImageIO.read(png);
 			// histogram with 16 bins at each channel - increase number of bins to increase colour accuracy
@@ -69,46 +83,7 @@ public class JuiceForAnAdvert extends AJuicer {
 			Log.d("Unable to locate screenshot...");
 		}
 		
-		// Use a chrome headless browser to get the rendered CSS font family
-		try {
-			scrapeFont(item);
-		} catch (Exception ex) {
-			Log.d("Error while using Puppeteer client");
-		}
-			
 		return false;
-	}
-	
-	private static void takeScreenshot(String url, File pngOut) {
-		File temp1 = null;
-		try {
-			temp1 = File.createTempFile("chart", ".pdf", new File("test/"));
-			Proc p1 = WebUtils.renderUrlToPdf_usingChrome(url, temp1, "--include-background");
-			p1.waitFor(TUnit.MINUTE.dt);
-			assert temp1.exists() && temp1.length() > 0;
-
-			// Render, trim and convert to PNG with convert
-			// Only get the first page
-			String cmd = "convert -trim -antialias -density 300 "
-					+ temp1.getAbsolutePath() + "[0] " + pngOut.getAbsolutePath();
-			Log.d(cmd);
-			try (Proc p2 = new Proc(cmd)) {
-				p2.start();
-				p2.waitFor(TUnit.MINUTE.getMillisecs());		
-			
-				if ( ! pngOut.exists()) {
-					throw new IOException("Failed to create " + pngOut + "\t"
-							+ p2.getError());
-				}
-			}		
-		} catch (Exception e) {
-			throw Utils.runtime(e);
-		} finally {
-			// clean up
-			if (temp1 != null) {
-				FileUtils.delete(temp1);
-			}
-		}
 	}
 	
 	private void scrapeColour(Item item, BufferedImage image, int bins) {
@@ -150,11 +125,7 @@ public class JuiceForAnAdvert extends AJuicer {
 		item.put(anno(WEBSITE_COLOUR, dominantColours, null));
 	}
 	
-	private void scrapeFont(Item item) throws Exception {
-		Browser b = Puppeteer.launch();
-		Page p = b.newPage();
-		p.goTo(item.getUrl());
-		
+	private void scrapeFont(Item item, Page p) {
 		// getting the rendered fonts through the chrome dev tools api
 		p.client().send("DOM.enable", null, true);
 		p.client().send("CSS.enable", null, true);
@@ -166,6 +137,10 @@ public class JuiceForAnAdvert extends AJuicer {
 		Map<String, Object> m2 = new HashMap<String,Object>();
 		m2.put("nodeId", jn2.get("nodeId"));
 		JsonNode jn3 = p.client().send("CSS.getPlatformFontsForNode", m2, true);
+		System.out.println("Start");
+		System.out.println(jn);
+		System.out.println(jn2);
+		System.out.println(jn3);
 		String font = jn3.get("fonts").get(0).get("familyName").asText();
 		
 		// annotate and save the font family, null is passed as the src as font is rendered dynamically
