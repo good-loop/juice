@@ -92,12 +92,17 @@ public class JuiceForAnAdvert extends AJuicer {
 	}
 	
 	private void scrapeTagline(JuiceMe doc, Item item) {
+		String[] tags = new String[] {"h1","h2","h3","p"};
 		// Normally, the tagline is the first header to appear on the webpage (or appear after the publisher name)
-		Elements es = doc.getDoc().getElementsByTag("h1");
-		if (es.isEmpty() || es.get(0).text().equalsIgnoreCase(item.get(AJuicer.PUBLISHER_NAME))) {
-			es = doc.getDoc().getElementsByTag("h2");
+		int i = 0; 
+		Elements es = doc.getDoc().getElementsByTag(tags[i]);
+		while (i<4) {
+			es = doc.getDoc().getElementsByTag(tags[i]);
 			if (es.isEmpty() || es.get(0).text().equalsIgnoreCase(item.get(AJuicer.PUBLISHER_NAME))) {
-				es = doc.getDoc().getElementsByTag("h3");
+				i++;
+				continue;
+			} else {
+				break;
 			}
 		}
 		if (!es.isEmpty()) {
@@ -152,7 +157,7 @@ public class JuiceForAnAdvert extends AJuicer {
 		JsonNode jn = p.client().send("DOM.getDocument", null, true);
 		Map<String, Object> m = new HashMap<String,Object>();
 		m.put("nodeId", jn.get("root").get("nodeId"));
-		m.put("selector", "html");
+		m.put("selector", "body");
 		JsonNode jn2 = p.client().send("DOM.querySelector", m, true);
 		Map<String, Object> m2 = new HashMap<String,Object>();
 		m2.put("nodeId", jn2.get("nodeId"));
