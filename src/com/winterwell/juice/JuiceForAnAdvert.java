@@ -184,13 +184,16 @@ public class JuiceForAnAdvert extends AJuicer {
 		HashMap<String, String> map = new HashMap<String, String>();
 		for (Element e: es) {
 			String action = e.text().toLowerCase();
-			if (action.contains("find") || action.contains("learn") ) {
-				// insert link of the webpage
-				map.put("information", e.attr("href"));
-			} else if (action.contains("contact") || action.contains("demo")) {
-				// insert link of the webpage
-				map.put("contact", e.attr("href"));
-			}
+			if (action.contains("contact") || action.contains("demo")) {
+				map.put("contact", e.absUrl("href"));
+			} else if (action.contains("buy") || action.contains("shop")) {
+				map.put("purchase", e.absUrl("href"));
+			} 
+			// NB: do we need "Find out More" to be a cta? Might not be very relevant in most cases
+			/*
+			else if (action.contains("find") || action.contains("learn") ) {
+				map.put("information", e.absUrl("href"));
+			} */
 		}
 		if (!map.isEmpty()) {
 			Anno<HashMap> ctaAnnotation = new Anno<>(AJuicer.CTA, map, null);
