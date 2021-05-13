@@ -143,7 +143,7 @@ public class SchemaOrgJuicer extends AJuicer {
 				String typ = element.attr("type");
 				if ( ! "application/ld+json".equals(typ)) continue;
 				String txt = Utils.or(element.text(), element.html());
-				Object json = JSON.parse(txt);
+				Object json = WebUtils2.parseJSON(txt);
 				if (json instanceof Map) {
 					((Map)json).put("_element", element); // hack - see getSrcElement()
 					jsons.add((Map)json);
