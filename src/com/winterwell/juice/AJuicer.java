@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -226,6 +227,13 @@ public abstract class AJuicer {
 	 * The colours are stored as Integer values, which are equivalent to the RGB values
 	 */
 	public static final Key<LinkedList> WEBSITE_COLOUR = new Key("colour");
+	
+	/**
+	 * Call-to-action - website prompt to direct users to another page/contact form
+	 * Store the ctas as key-value pairs
+	 * key: action, value: link 
+	 */
+	public static final Key<HashMap> CTA = new Key("cta");
 	
 	/**
 	 * 

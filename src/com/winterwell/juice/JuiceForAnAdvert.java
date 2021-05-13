@@ -88,12 +88,16 @@ public class JuiceForAnAdvert extends AJuicer {
 			Log.d("Unable to locate screenshot...");
 		}
 		
+		// get the call-to-actions
+		scrapeCTA(doc, item);
+		
 		return false;
 	}
 	
 	private void scrapeTagline(JuiceMe doc, Item item) {
 		String[] tags = new String[] {"h1","h2","h3","p"};
 		// Normally, the tagline is the first header to appear on the webpage (or appear after the publisher name)
+		// TODO: This might wrongly scrape some headers, how do we double check?
 		int i = 0; 
 		Elements es = doc.getDoc().getElementsByTag(tags[i]);
 		while (i<4) {
@@ -171,6 +175,26 @@ public class JuiceForAnAdvert extends AJuicer {
 				item.put(fontAnnotation);
 				break;
 			}
+		}
+	}
+	
+	private void scrapeCTA(JuiceMe doc, Item item) {
+		// TODO: Improvement to suit different website structures
+		Elements es = doc.getDoc().getElementsByTag("a");
+		HashMap<String, String> map = new HashMap<String, String>();
+		for (Element e: es) {
+			String action = e.text().toLowerCase();
+			if (action.contains("find") || action.contains("learn") ) {
+				// insert link of the webpage
+				map.put("information", e.attr("href"));
+			} else if (action.contains("contact") || action.contains("demo")) {
+				// insert link of the webpage
+				map.put("contact", e.attr("href"));
+			}
+		}
+		if (!map.isEmpty()) {
+			Anno<HashMap> ctaAnnotation = new Anno<>(AJuicer.CTA, map, null);
+			item.put(ctaAnnotation);
 		}
 	}
 

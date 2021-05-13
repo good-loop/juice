@@ -1,4 +1,4 @@
-URL,Publisher Name,Logo ,Fonts,Colours,Photos,Tagline,Note
+URL,Publisher Name,Logo ,Fonts,Colours,CTA,Tagline,Note
 https://invest-in-change.com/,yes,yes,yes,yes,,yes,
 https://good-loop.com/,yes,yes,yes,yes,,yes,
 https://www.verdantleisure.co.uk/,yes,yes,yes,yes,,yes,
@@ -10,3 +10,14 @@ https://www.ethicalfinancehub.org/,yes,yes,yes,yes,,yes,
 https://www.shopsocialscotland.com/,yes,yes,yes,yes,,yes,
 https://moneymatix.com/,yes,yes,yes,yes,,yes,
 https://topolytics.com/,yes,yes,yes,yes,,yes,
+https://www.brewdog.com/uk/,yes,no,yes,yes,,yes,
+https://gener8ads.com/,yes,no,yes,yes,,yes,
+https://www.neatebox.com/,yes,yes,yes,no,,no,doesn’t have a tagline
+https://main.symbasync.com/,yes,yes,yes,no,,no,
+https://originfitness.com/,no,yes,yes,yes,,no,"doesn’t have a tagline, publisher name slightly incorrect"
+https://ecometrica.com/,yes,yes,yes,yes,,yes,
+https://socialstoriesclub.com/,yes,yes,no,no,,no,desc is a better tagline
+https://www.bioliberty.co.uk/,yes,yes,yes,yes,,yes,
+https://www.chatterbox.io/,yes,yes,yes,yes,,yes,
+https://www.touchlab.io/,yes,yes,yes,yes,,yes,
+https://cocochocolatier.com/,yes,yes,yes,yes,,yes,
