@@ -1,12 +1,15 @@
 package com.winterwell.juice;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -18,7 +21,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.ruiyun.jvppeteer.core.Puppeteer;
 import com.ruiyun.jvppeteer.core.browser.Browser;
 import com.ruiyun.jvppeteer.core.page.Page;
+import com.winterwell.utils.Best;
+import com.winterwell.utils.Printer;
+import com.winterwell.utils.containers.TopNList;
 import com.winterwell.utils.log.Log;
+import com.winterwell.utils.web.WebUtils;
 
 /**
  * TODO patch the gaps left by other juicers for:
@@ -33,7 +40,7 @@ import com.winterwell.utils.log.Log;
  * CTA "action words"
  * 
  * @author daniel, kai
- *
+ * @testedby JuiceForAnAdvertTest
  */
 public class JuiceForAnAdvert extends AJuicer {
 
@@ -52,13 +59,13 @@ public class JuiceForAnAdvert extends AJuicer {
 		// a useful api to get the logo of websites
 		String logo = "https://logo.clearbit.com/"+item.getUrl();
 		item.put(anno(AJuicer.PUBLISHER_LOGO, logo, null));
-		// download the logo - do we need that? 
-		try {
-			BufferedImage websiteLogo = ImageIO.read(new URL(logo));
-			ImageIO.write(websiteLogo, "png", new File("test/logo.png"));
-		} catch (IOException ex) {
-			Log.d("Error downloading logo");
-		}
+//		// download the logo - do we need that? 
+//		try {
+//			BufferedImage websiteLogo = ImageIO.read(new URL(logo));
+//			ImageIO.write(websiteLogo, "png", new File("test/logo.png"));
+//		} catch (IOException ex) {
+//			Log.d(LOGTAG, "Error downloading logo");
+//		}
 		
 		// get the tagline/slogan of the website
 		scrapeTagline(doc, item);
@@ -68,26 +75,27 @@ public class JuiceForAnAdvert extends AJuicer {
 			Browser b = Puppeteer.launch();
 			Page p = b.newPage();
 			p.goTo(item.getUrl());
+
 			// take a screenhot of the webpage
-			p.screenshot("test/screenshot.png");
+			File png = File.createTempFile("screenshot", ".png");
+			p.screenshot(png.getAbsolutePath());
+			// Build a colour histogram from the webpage screenshot
+			try {				
+				// histogram with 16 bins at each channel - increase number of bins to increase colour accuracy
+				List<String> topColours = scrapeColours(png, 128);
+				item.put(anno(WEBSITE_COLOURS, topColours, null));
+			} catch (IOException ex) {
+				Log.e(LOGTAG, "Unable to locate screenshot..."+ex);
+			}
+
 			//get the rendered css font family 
 			scrapeFont(item, p);
 			p.close();
 			b.close();
 		} catch(Exception ex) {
-			Log.d("Error while launching headless browser: " + ex);
+			Log.e(LOGTAG, "Error launching headless browser: " + ex);
 		} 
-		
-		// Build a colour histogram from the webpage screenshot
-		File png = new File("test/screenshot.png");
-		try {
-			BufferedImage image = ImageIO.read(png);
-			// histogram with 16 bins at each channel - increase number of bins to increase colour accuracy
-			scrapeColour(item, image, 16);
-		} catch (IOException ex) {
-			Log.d("Unable to locate screenshot...");
-		}
-		
+				
 		// get the call-to-actions
 		scrapeCTA(doc, item);
 		
@@ -115,12 +123,20 @@ public class JuiceForAnAdvert extends AJuicer {
 		}
 	}
 	
-	private void scrapeColour(Item item, BufferedImage image, int bins) {
+	/**
+	 * 
+	 * @param pngFile
+	 * @param bins 256 for precise colours (uses 16mb of memory) Lower e.g. 16 for approx colours.
+	 * @return
+	 * @throws IOException
+	 */
+	List<String> scrapeColours(File pngFile, int bins) throws IOException {
+		BufferedImage png = ImageIO.read(pngFile);
 		int pixel = 256/bins;
 		int[][][] histogram = new int[bins][bins][bins];
-		for (int x=0; x<image.getWidth(); x++) {
-			for (int y=0; y<image.getHeight(); y++) {
-				int rgb = image.getRGB(x, y);
+		for (int x=0; x<png.getWidth(); x++) {
+			for (int y=0; y<png.getHeight(); y++) {
+				int rgb = png.getRGB(x, y);
 				int red = (rgb >> 16) & 0x000000FF;
 				int green = (rgb >> 8 ) & 0x000000FF;
 				int blue = (rgb) & 0x000000FF;
@@ -128,30 +144,43 @@ public class JuiceForAnAdvert extends AJuicer {
 			}
 		}
 		
-		// get the top 4 colours 
-		// the two linkedlist are always sorted
-		LinkedList<Integer> dominantColours = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
-		LinkedList<Integer> maxValues = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
+		// get the top 4 colours
+		TopNList<Integer> topColours = new TopNList(4);
+		// @Kai good code! - replacing only 'cos we already have a convenience class for this. ^Dan
+//		// the two linkedlist are always sorted
+//		LinkedList<Integer> dominantColours = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
+//		LinkedList<Integer> maxValues = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
 		for (int i=0; i<bins; i++) {
 			for (int j=0; j<bins; j++) {
-				for (int k=0; k<bins; k++) {
-					if (histogram[i][j][k] > maxValues.get(0)) {
-						// check which position it should enter
-						for (int l=3; l>=0; l--) {
-							if (histogram[i][j][k] >= maxValues.get(l)) {
-								maxValues.removeFirst();
-								dominantColours.removeFirst();									
-								maxValues.add(l,histogram[i][j][k]);
-								int colour = ((i*pixel)<<16)+((j*pixel)<<8)+(k*pixel);
-								dominantColours.add(l, colour);
-								break;
-							}
-						}
-					}
+				for (int k=0; k<bins; k++) {			
+					// new code using utility method
+					int score = histogram[i][j][k];
+					int colour = ((i*pixel)<<16)+((j*pixel)<<8)+(k*pixel);
+					topColours.maybeAdd(colour, score);
+//					// old code (which was nice, it's just cleaner to use the utility) 
+//					if (histogram[i][j][k] > maxValues.get(0)) {
+//						// check which position it should enter
+//						for (int l=3; l>=0; l--) {
+//							if (histogram[i][j][k] >= maxValues.get(l)) {
+//								maxValues.removeFirst();
+//								dominantColours.removeFirst();									
+//								maxValues.add(l,histogram[i][j][k]);								
+//								dominantColours.add(l, colour);
+//								break;
+//							}
+//						}
+//					}
 				}
 			}
+		}		
+		// convert to css codes
+		List<String> cols = new ArrayList();
+		for(Integer i : topColours) {
+			Color col = new Color(i);
+			String scol = WebUtils.color2html(col);
+			cols.add(scol);
 		}
-		item.put(anno(WEBSITE_COLOUR, dominantColours, null));
+		return cols;
 	}
 	
 	private void scrapeFont(Item item, Page p) {

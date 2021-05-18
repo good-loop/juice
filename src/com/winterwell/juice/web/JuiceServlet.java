@@ -5,7 +5,9 @@ import java.util.Map;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.Juice;
 import com.winterwell.juice.JuiceConfig;
+import com.winterwell.juice.JuiceForAnAdvert;
 import com.winterwell.juice.JuiceMe;
+import com.winterwell.juice.juicers.SocialMediaLinksJuicer;
 import com.winterwell.utils.containers.Containers;
 import com.winterwell.web.FakeBrowser;
 import com.winterwell.web.ajax.JSend;
@@ -19,6 +21,8 @@ public class JuiceServlet implements IServlet {
 	@Override
 	public void process(WebRequest state) throws Exception {
 		Juice juice = new Juice();
+		juice.addJuicer(new JuiceForAnAdvert(), false);
+		juice.addJuicer(new SocialMediaLinksJuicer(), false);
 		String url = state.get(new UrlField("url"));
 		String html = new FakeBrowser().getPage(url);
 		JuiceMe juiced = juice.juice(url, html);

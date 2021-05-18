@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import java.io.File;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,6 +15,16 @@ import com.winterwell.utils.io.FileUtils;
  *
  */
 public class JuiceForAnAdvertTest {
+	
+
+	@Test
+	public void testScrapeColour() throws Exception {
+		JuiceForAnAdvert ja = new JuiceForAnAdvert();		
+		File f = new File("test/cols-scheme-test.png");
+		List<String> cols = ja.scrapeColours(f, 128);
+		Printer.out(cols);
+		assert(cols.contains("#98c24c"));
+	}
 	
 	@Test
 	public void testInC() throws Exception {
