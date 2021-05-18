@@ -20,10 +20,15 @@ import org.jsoup.select.Elements;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ruiyun.jvppeteer.core.Puppeteer;
 import com.ruiyun.jvppeteer.core.browser.Browser;
+import com.ruiyun.jvppeteer.core.page.BoxModel;
+import com.ruiyun.jvppeteer.core.page.ElementHandle;
+import com.ruiyun.jvppeteer.core.page.JSHandle;
 import com.ruiyun.jvppeteer.core.page.Page;
+import com.ruiyun.jvppeteer.options.Clip;
 import com.winterwell.utils.Best;
 import com.winterwell.utils.Printer;
 import com.winterwell.utils.containers.TopNList;
+import com.winterwell.utils.io.FileUtils;
 import com.winterwell.utils.log.Log;
 import com.winterwell.utils.web.WebUtils;
 
@@ -52,12 +57,17 @@ public class JuiceForAnAdvert extends AJuicer {
 		if (item.get(AJuicer.PUBLISHER_NAME)==null && item.get(AJuicer.TITLE)!=null) {
 			// use the title instead
 			Anno<String> title = item.getAnnotation(AJuicer.TITLE);
-			Anno<String> anno1 = new Anno<>(AJuicer.PUBLISHER_NAME, title.value, title.src);
+			String pub = title.value;
+			// HACK
+			String[] bits = pub.split("\\|"); // e.g. "Publisher | Page"
+			pub = bits[0].trim();
+			// set
+			Anno<String> anno1 = new Anno<>(AJuicer.PUBLISHER_NAME, pub, title.src);
 			item.put(anno1);
 		}
 		
 		// a useful api to get the logo of websites
-		String logo = "https://logo.clearbit.com/"+item.getUrl();
+		String logo = "https://logo.clearbit.com/"+WebUtils.urlEncode(item.getUrl());
 		item.put(anno(AJuicer.PUBLISHER_LOGO, logo, null));
 //		// download the logo - do we need that? 
 //		try {
@@ -70,10 +80,12 @@ public class JuiceForAnAdvert extends AJuicer {
 		// get the tagline/slogan of the website
 		scrapeTagline(doc, item);
 		
+		Browser b = null;
+		Page p = null; 
 		try {
 			// launch a headless browser using puppeteer
-			Browser b = Puppeteer.launch();
-			Page p = b.newPage();
+			b = Puppeteer.launch();
+			p = b.newPage();
 			p.goTo(item.getUrl());
 
 			// take a screenhot of the webpage
@@ -90,11 +102,25 @@ public class JuiceForAnAdvert extends AJuicer {
 
 			//get the rendered css font family 
 			scrapeFont(item, p);
-			p.close();
-			b.close();
+			
+			// get images
+			List<String> imgs = scrapeImages(item, p, 5);
+			item.put(anno(IMAGE_URLS, imgs, null));			
+			
 		} catch(Exception ex) {
 			Log.e(LOGTAG, "Error launching headless browser: " + ex);
-		} 
+		} finally {
+			try {
+				if (p!=null && ! p.isClosed()) p.close();
+			} catch (Exception ignore) {
+				Log.i(LOGTAG, "Error closing page"+ignore);	
+			}
+			try {
+				if (b!=null) b.close();
+			} catch (Exception ignore) {
+				Log.i(LOGTAG, "Error closing browser "+ignore);	
+			}
+		}
 				
 		// get the call-to-actions
 		scrapeCTA(doc, item);
@@ -184,7 +210,7 @@ public class JuiceForAnAdvert extends AJuicer {
 	}
 	
 	private void scrapeFont(Item item, Page p) {
-		// getting the rendered fonts through the chrome dev tools api
+		// getting the rendered fonts through the chrome dev tools api		
 		p.client().send("DOM.enable", null, true);
 		p.client().send("CSS.enable", null, true);
 		JsonNode jn = p.client().send("DOM.getDocument", null, true);
@@ -205,6 +231,29 @@ public class JuiceForAnAdvert extends AJuicer {
 				break;
 			}
 		}
+	}
+	
+	
+	private List<String> scrapeImages(Item item, Page p, int n) {
+		// collect the largest images
+		TopNList<String> images = new TopNList(5);		
+		List<ElementHandle> sel = p.$$("img");
+		for (ElementHandle ehImg : sel) {
+			JSHandle jssrc = ehImg.getProperty("src");
+			if (jssrc == null) {
+				continue;
+			}
+			String src = (String) jssrc.jsonValue();
+			BoxModel bm = ehImg.boxModel();
+			int w = bm.getWidth();
+			int h = bm.getHeight();
+			if ( w < 64 || h < 64) {
+				continue;
+			}
+			images.maybeAdd(src, w*h);
+			// TODO maybe get any classes or surrounding text as extra info?
+		}
+		return images;
 	}
 	
 	private void scrapeCTA(JuiceMe doc, Item item) {

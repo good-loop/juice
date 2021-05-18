@@ -176,6 +176,8 @@ public abstract class AJuicer {
 	 */
 	public static final Key<String> IMAGE_URL = new Key("img");
 	
+	public static final Key<List<String>> IMAGE_URLS = new Key("imgs");
+	
 	/**
 	 * If this is a link somewhere, where does it go?
 	 */

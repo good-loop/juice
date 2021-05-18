@@ -11,7 +11,8 @@ import org.jsoup.nodes.Element;
 
 import com.winterwell.utils.IProperties;
 import com.winterwell.utils.Key;
-
+import com.winterwell.utils.Utils;
+import com.winterwell.utils.containers.Containers;
 import com.winterwell.utils.time.Time;
 import com.winterwell.utils.web.WebUtils2;
 
@@ -181,7 +182,7 @@ public class Item implements IProperties {
 	}
 
 	/**
-	 * Return list of annotaion with a specified key
+	 * Return annotation with a specified key
 	 * @param key
 	 * @return annotation with a specified key (if key was found) or,
 	 * null otherwise
@@ -297,6 +298,22 @@ public class Item implements IProperties {
 		String url = getUrl();
 		if (url==null) return null;
 		return WebUtils2.getDomain(url);
+	}
+
+	/** 
+	 * Unlike put(), this allows for multiple annotations with the same key.
+	 * Use with {@link #getAnnotations(Key)} 
+	 * HACK to support multiple annos, you currently have to use a nonce key
+	 * @param anno
+	 */
+	public void addAnnotation(Anno anno) {
+		Key nonce = new Key(anno.name+"-"+Utils.getNonce());
+		type2annotation.put(nonce, anno);
+	}
+	
+	public <T> List<Anno<T>> getAnnotations(Key<T> key) {
+		List<Anno> as = Containers.filter(getAnnotations(), a -> key.equals(a.getName()));
+		return (List) as;
 	}
 
 	

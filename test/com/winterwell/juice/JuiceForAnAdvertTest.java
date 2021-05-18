@@ -1,6 +1,7 @@
 package com.winterwell.juice;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -24,6 +25,21 @@ public class JuiceForAnAdvertTest {
 		List<String> cols = ja.scrapeColours(f, 128);
 		Printer.out(cols);
 		assert(cols.contains("#98c24c"));
+	}
+	
+
+
+	@Test
+	public void testScrapeImages() throws Exception {
+		String url = "http://www.narcissusflowers.co.uk/";
+		String html = FileUtils.read(TestUtils.getTestFile("company-website", url));
+		JuiceForAnAdvert ja = new JuiceForAnAdvert();		
+		Juice j = new Juice(Arrays.asList(ja));
+		JuiceMe doc = j.juice(url, html);		
+		Item item = doc.getMainItem();
+		List<Anno<String>> imgs = item.getAnnotations(AJuicer.IMAGE_URL);
+		System.out.println(imgs);
+		assert imgs != null && ! imgs.isEmpty();
 	}
 	
 	@Test
