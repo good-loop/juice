@@ -16,7 +16,7 @@ import com.winterwell.utils.containers.ListMap;
 
 public class SocialMediaLinksJuicer extends AJuicer {
 	
-	final static Pattern SOCIAL_LINK = Pattern.compile("https://(www.)?(twitter|facebook|instagram|pinterest).com/([a-zA-Z0-9_]+)"); 
+	final static Pattern SOCIAL_LINK = Pattern.compile("https://(www.)?(twitter|facebook|instagram|pinterest|youtube).com/([a-zA-Z0-9_]+)"); 
 	
 	@Override
 	protected boolean juice(JuiceMe doc) {
