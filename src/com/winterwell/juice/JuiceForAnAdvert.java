@@ -236,7 +236,7 @@ public class JuiceForAnAdvert extends AJuicer {
 	
 	private List<String> scrapeImages(Item item, Page p, int n) {
 		// collect the largest images
-		TopNList<String> images = new TopNList(5);		
+		TopNList<String> images = new TopNList(n);		
 		List<ElementHandle> sel = p.$$("img");
 		for (ElementHandle ehImg : sel) {
 			JSHandle jssrc = ehImg.getProperty("src");
@@ -244,7 +244,14 @@ public class JuiceForAnAdvert extends AJuicer {
 				continue;
 			}
 			String src = (String) jssrc.jsonValue();
-			BoxModel bm = ehImg.boxModel();
+			BoxModel bm = null;
+			try {
+				//Unable to compute box model for images which are rendered through user's interactions
+				bm = ehImg.boxModel();
+				if (bm == null) continue;
+			} catch (Exception ex) {
+				continue;
+			}
 			int w = bm.getWidth();
 			int h = bm.getHeight();
 			if ( w < 64 || h < 64) {

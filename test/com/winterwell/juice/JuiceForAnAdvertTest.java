@@ -37,7 +37,7 @@ public class JuiceForAnAdvertTest {
 		Juice j = new Juice(Arrays.asList(ja));
 		JuiceMe doc = j.juice(url, html);		
 		Item item = doc.getMainItem();
-		List<Anno<String>> imgs = item.getAnnotations(AJuicer.IMAGE_URL);
+		List<String> imgs = item.get(AJuicer.IMAGE_URLS);
 		System.out.println(imgs);
 		assert imgs != null && ! imgs.isEmpty();
 	}
