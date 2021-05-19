@@ -16,7 +16,6 @@ import com.winterwell.utils.io.FileUtils;
  *
  */
 public class JuiceForAnAdvertTest {
-	
 
 	@Test
 	public void testScrapeColour() throws Exception {
@@ -26,8 +25,6 @@ public class JuiceForAnAdvertTest {
 		Printer.out(cols);
 		assert(cols.contains("#98c24c"));
 	}
-	
-
 
 	@Test
 	public void testScrapeImages() throws Exception {
@@ -44,7 +41,7 @@ public class JuiceForAnAdvertTest {
 	
 	@Test
 	public void testInC() throws Exception {
-		String url = "https://good-loop.com/";
+		String url = "https://good-loop.com";
 		String html = FileUtils.read(TestUtils.getTestFile("company-website", url));
 		
 		Juice j = new Juice();
@@ -67,11 +64,14 @@ public class JuiceForAnAdvertTest {
 		// tagline
 		String tagline = item.get(AJuicer.TAGLINE);
 		assert tagline.equalsIgnoreCase("effective advertising that's a force for good in the world");
-		// TODO
 		// photos
+		List<String> photos = item.get(AJuicer.IMAGE_URLS);
+		assert !photos.isEmpty();
 		// fonts
 		String font = item.get(AJuicer.FONT_FAMILY);
-		assert font != null;
+		assert font.equals("Tajawal");
 		// colours
+		List<String> colours = item.get(AJuicer.WEBSITE_COLOURS);
+		assert !colours.isEmpty();
 	}
 }
