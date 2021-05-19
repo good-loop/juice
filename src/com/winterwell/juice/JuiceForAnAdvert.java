@@ -131,7 +131,7 @@ public class JuiceForAnAdvert extends AJuicer {
 	private void scrapeTagline(JuiceMe doc, Item item) {
 		String[] tags = new String[] {"h1","h2","h3","p"};
 		// Normally, the tagline is the first header to appear on the webpage (or appear after the publisher name)
-		// TODO: This might wrongly scrape some headers, how do we double check?
+		// TODO: This might wrongly scrape some headers, for example when there is no tagline available, how do we double check?
 		int i = 0; 
 		Elements es = doc.getDoc().getElementsByTag(tags[i]);
 		while (i<4) {
@@ -233,7 +233,6 @@ public class JuiceForAnAdvert extends AJuicer {
 		}
 	}
 	
-	
 	private List<String> scrapeImages(Item item, Page p, int n) {
 		// collect the largest images
 		TopNList<String> images = new TopNList(n);		
@@ -264,21 +263,22 @@ public class JuiceForAnAdvert extends AJuicer {
 	}
 	
 	private void scrapeCTA(JuiceMe doc, Item item) {
-		// TODO: Improvement to suit different website structures
+		// four main CTAs on websites: book a demo, purchase/explore products, contact us, booking and reservation
+		// each CTA is associated with a key (demo, products, contact, booking), with the value being the URL 
 		Elements es = doc.getDoc().getElementsByTag("a");
 		HashMap<String, String> map = new HashMap<String, String>();
 		for (Element e: es) {
 			String action = e.text().toLowerCase();
-			if (action.contains("contact") || action.contains("demo")) {
+			if (action.contains("demo")) {
+				map.put("demo", e.absUrl("href"));
+			} else if (action.contains("buy") || action.contains("shop") || action.contains("explore") || 
+					action.contains("get started") || action.contains("start")) {
+				map.put("products", e.absUrl("href"));
+			} else if (action.contains("contact") || action.contains("get in touch")) {
 				map.put("contact", e.absUrl("href"));
-			} else if (action.contains("buy") || action.contains("shop")) {
-				map.put("purchase", e.absUrl("href"));
-			} 
-			// NB: do we need "Find out More" to be a cta? Might not be very relevant in most cases
-			/*
-			else if (action.contains("find") || action.contains("learn") ) {
-				map.put("information", e.absUrl("href"));
-			} */
+			} else if (action.contains("book") || action.contains("reserve")) {
+				map.put("booking", e.absUrl("href"));
+			}
 		}
 		if (!map.isEmpty()) {
 			Anno<HashMap> ctaAnnotation = new Anno<>(AJuicer.CTA, map, null);

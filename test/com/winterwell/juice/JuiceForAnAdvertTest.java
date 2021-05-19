@@ -2,6 +2,7 @@ package com.winterwell.juice;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
@@ -16,6 +17,19 @@ import com.winterwell.utils.io.FileUtils;
  *
  */
 public class JuiceForAnAdvertTest {
+	
+	@Test
+	public void testScrapeCTA() {
+		String url = "https://www.edinburghcarrental.com/";
+		String html = FileUtils.read(TestUtils.getTestFile("company-website", url));
+		JuiceForAnAdvert ja = new JuiceForAnAdvert();	
+		Juice j = new Juice(Arrays.asList(ja));
+		JuiceMe doc = j.juice(url, html);		
+		Item item = doc.getMainItem();
+		HashMap ctas = item.get(AJuicer.CTA);
+		System.out.println(ctas);
+		
+	}
 
 	@Test
 	public void testScrapeColour() throws Exception {
