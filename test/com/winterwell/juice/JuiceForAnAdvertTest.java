@@ -19,6 +19,18 @@ import com.winterwell.utils.io.FileUtils;
 public class JuiceForAnAdvertTest {
 	
 	@Test
+	public void testScrapeTagline() {
+		String url = "https://www.neatebox.com/";
+		String html = FileUtils.read(TestUtils.getTestFile("company-website", url));
+		Juice j = new Juice();
+		j.addJuicer(new JuiceForAnAdvert(), false);
+		JuiceMe doc = j.juice(url, html);
+		Item item = doc.getMainItem();
+		String tagline = item.get(AJuicer.TAGLINE);
+		System.out.println(tagline);
+	}
+	
+	@Test
 	public void testScrapeCTA() {
 		String url = "https://www.edinburghcarrental.com/";
 		String html = FileUtils.read(TestUtils.getTestFile("company-website", url));
@@ -28,7 +40,6 @@ public class JuiceForAnAdvertTest {
 		Item item = doc.getMainItem();
 		HashMap ctas = item.get(AJuicer.CTA);
 		System.out.println(ctas);
-		
 	}
 
 	@Test

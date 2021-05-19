@@ -131,7 +131,7 @@ public class JuiceForAnAdvert extends AJuicer {
 	private void scrapeTagline(JuiceMe doc, Item item) {
 		String[] tags = new String[] {"h1","h2","h3","p"};
 		// Normally, the tagline is the first header to appear on the webpage (or appear after the publisher name)
-		// TODO: This might wrongly scrape some headers, for example when there is no tagline available, how do we double check?
+		// NB: When a website doesn't have a tagline, most likely it will scrape a wrong value
 		int i = 0; 
 		Elements es = doc.getDoc().getElementsByTag(tags[i]);
 		while (i<4) {
