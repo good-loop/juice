@@ -172,10 +172,6 @@ public class JuiceForAnAdvert extends AJuicer {
 		
 		// get the top 4 colours
 		TopNList<Integer> topColours = new TopNList(4);
-		// @Kai good code! - replacing only 'cos we already have a convenience class for this. ^Dan
-//		// the two linkedlist are always sorted
-//		LinkedList<Integer> dominantColours = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
-//		LinkedList<Integer> maxValues = new LinkedList<Integer>(Arrays.asList(0,0,0,0));
 		for (int i=0; i<bins; i++) {
 			for (int j=0; j<bins; j++) {
 				for (int k=0; k<bins; k++) {			
@@ -183,19 +179,6 @@ public class JuiceForAnAdvert extends AJuicer {
 					int score = histogram[i][j][k];
 					int colour = ((i*pixel)<<16)+((j*pixel)<<8)+(k*pixel);
 					topColours.maybeAdd(colour, score);
-//					// old code (which was nice, it's just cleaner to use the utility) 
-//					if (histogram[i][j][k] > maxValues.get(0)) {
-//						// check which position it should enter
-//						for (int l=3; l>=0; l--) {
-//							if (histogram[i][j][k] >= maxValues.get(l)) {
-//								maxValues.removeFirst();
-//								dominantColours.removeFirst();									
-//								maxValues.add(l,histogram[i][j][k]);								
-//								dominantColours.add(l, colour);
-//								break;
-//							}
-//						}
-//					}
 				}
 			}
 		}		
