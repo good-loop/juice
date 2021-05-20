@@ -21,7 +21,7 @@
 	<classpathentry kind="lib" path="dependencies/slf4j-api.jar"/>
 	<classpathentry kind="lib" path="dependencies/zip4j.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="dependencies/jvppeteer.jar"/>
+	<classpathentry kind="lib" path="dependencies/jvppeteer.jar" sourcepath="dependencies/jvppeteer-sources.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.webappbase"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.web"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.utils"/>
