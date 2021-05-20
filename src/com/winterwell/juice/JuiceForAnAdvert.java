@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -249,6 +250,7 @@ public class JuiceForAnAdvert extends AJuicer {
 		// four main CTAs on websites: book a demo, purchase/explore products, contact us, booking and reservation
 		// each CTA is associated with a key (demo, products, contact, booking), with the value being the URL 
 		Elements es = doc.getDoc().getElementsByTag("a");
+		Collections.reverse(es); //reverse the order as more important CTAs are usually put on top (prevent overwriting)
 		HashMap<String, String> map = new HashMap<String, String>();
 		for (Element e: es) {
 			String action = e.text().toLowerCase();
