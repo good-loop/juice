@@ -23,6 +23,9 @@ public class BuildJuice extends BuildWinterwellProject {
 		MavenDependencyTask mdt = new MavenDependencyTask();
 		mdt.setIncSrc(true);
 		mdt.addDependency("org.jsoup", "jsoup", "1.13.1");
+		mdt.addDependency("io.github.fanyong920", "jvppeteer", "1.1.3"); // java client for puppeteer
+//		mdt.addDependency("org.apache.commons:commons-compress:1.20"); // dependency of jvppeteer
+
 //		mdt.setSkipGap(null); // debug - force a rerun
 		deps.add(mdt);
 		

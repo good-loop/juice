@@ -1,5 +1,7 @@
 package com.winterwell.juice;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.jsoup.nodes.Element;
@@ -174,6 +176,8 @@ public abstract class AJuicer {
 	 */
 	public static final Key<String> IMAGE_URL = new Key("img");
 	
+	public static final Key<List<String>> IMAGE_URLS = new Key("imgs");
+	
 	/**
 	 * If this is a link somewhere, where does it go?
 	 */
@@ -209,6 +213,29 @@ public abstract class AJuicer {
 	 * This may or may not also be the XId of the root message (it depends on the site).
 	 */
 	public static final Key<XId> THREAD_XID = new Key("threadXId");
+	
+	/**
+	 * The tagline / slogan of a website
+	 */
+	public static final Key<String> TAGLINE = new Key("tagline");
+	
+	/**
+	 * The most used font family on the website.
+	 */
+	public static final Key<String> FONT_FAMILY = new Key("font");
+	
+	/**
+	 * The most dominant colours that are are used on the website.
+	 * The colours are stored as Integer values, which are equivalent to the RGB values
+	 */
+	public static final Key<List<String>> WEBSITE_COLOURS = new Key("colors");
+	
+	/**
+	 * Call-to-action - website prompt to direct users to another page/contact form
+	 * Store the ctas as key-value pairs
+	 * key: action, value: link 
+	 */
+	public static final Key<HashMap> CTA = new Key("cta");
 	
 	/**
 	 * 

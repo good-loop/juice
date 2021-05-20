@@ -38,6 +38,7 @@ public class MetaDataJuicer extends AJuicer {
 
 	// Map from name of property to 
 	private final Map<String, Key> propertyKeyMap = new HashMap<String, Key>() {{
+		put("og:site_name", AJuicer.PUBLISHER_NAME);
 		put("og:title", AJuicer.TITLE);
 		put("og:url", AJuicer.URL);
 		put("og:image", AJuicer.IMAGE_URL);
