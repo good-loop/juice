@@ -5,10 +5,6 @@
 	<classpathentry kind="src" output="bin.test" path="test"/>
 	<classpathentry kind="src" path="test.utils"/>
 	<classpathentry kind="src" path="builder"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.web"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.utils"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.maths"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.bob"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -17,7 +13,20 @@
 	<classpathentry kind="lib" path="dependencies/jsoup.jar"/>
 	<classpathentry kind="lib" path="dependencies/jackson-core.jar"/>
 	<classpathentry kind="lib" path="dependencies/jackson-databind.jar"/>
+	<classpathentry kind="lib" path="dependencies/commons-compress.jar"/>
+	<classpathentry kind="lib" path="dependencies/commons-net.jar"/>
+	<classpathentry kind="lib" path="dependencies/jackson-annotations.jar"/>
+	<classpathentry kind="lib" path="dependencies/Java-WebSocket.jar"/>
+	<classpathentry kind="lib" path="dependencies/jsch.jar"/>
+	<classpathentry kind="lib" path="dependencies/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="dependencies/zip4j.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="dependencies/jvppeteer.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.webappbase"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.web"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.utils"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.maths"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.bob"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/winterwell.datalog"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

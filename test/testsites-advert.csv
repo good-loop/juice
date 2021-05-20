@@ -1,23 +1,33 @@
-URL,Publisher Name,Logo ,Fonts,Colours,Tagline,CTA,Actual CTA,Note
-https://invest-in-change.com/,yes,yes,yes,yes,yes,,"sign up to mailing list, email us",
-https://good-loop.com/,yes,yes,yes,yes,yes,yes,contact,
-https://www.verdantleisure.co.uk/,yes,yes,yes,yes,yes,,,
-https://www.captifytechnologies.com/,yes,yes,yes,yes,yes,yes,"explore products, contact",
-https://www.checkout.com/,yes,yes,yes,yes,no,no,contact sales,webpage render dynamically using js
-https://www.thisiscodebase.com/,yes,yes,yes,yes,yes,,,
-https://bethnalgreenventures.com/,yes,yes,yes,yes,yes,no,what we’re about,
-https://www.ethicalfinancehub.org/,yes,yes,yes,yes,yes,no,none ,
-https://www.buysocialscotland.com/,yes,yes,yes,yes,yes,no,gift directory,
-https://moneymatix.com/,yes,yes,yes,yes,yes,,,
-https://topolytics.com/,yes,yes,yes,yes,yes,,,
-https://www.brewdog.com/uk/,yes,no,yes,yes,yes,,,
-https://gener8ads.com/,yes,no,yes,yes,yes,,,
-https://www.neatebox.com/,yes,yes,yes,no,no,,,doesn’t have a tagline
-https://main.symbasync.com/,yes,yes,yes,no,no,,,
-https://originfitness.com/,no,yes,yes,yes,no,yes,"contact, purchase products","doesn’t have a tagline, publisher name slightly incorrect"
-https://ecometrica.com/,yes,yes,yes,yes,yes,yes,request a demo,
-https://socialstoriesclub.com/,yes,yes,no,no,no,,,desc is a better tagline
-https://www.bioliberty.co.uk/,yes,yes,yes,yes,yes,yes,contact,
-https://www.chatterbox.io/,yes,yes,yes,yes,yes,yes,book a demo,
-https://www.touchlab.io/,yes,yes,yes,yes,yes,no,none ,
-https://cocochocolatier.com/,yes,yes,yes,yes,yes,yes,"contact, purchase",
+URL,Publisher Name,Logo ,Fonts,Colours,Tagline,Photos,CTA,Actual CTA,Note
+https://invest-in-change.com/,yes,yes,yes,yes,yes,yes,no,"sign up to mailing list, email us",
+https://good-loop.com/,yes,yes,yes,yes,yes,yes,yes,contact,
+https://www.verdantleisure.co.uk/,yes,yes,yes,yes,yes,yes,yes,"search for holidays, contact",
+https://www.captifytechnologies.com/,yes,yes,yes,yes,yes,yes,yes,"explore products, contact",
+https://www.checkout.com/,yes,yes,yes,yes,no,yes,no,contact sales,webpage render dynamically using js
+https://www.thisiscodebase.com/,yes,yes,yes,yes,yes,yes,yes,contact,
+https://bethnalgreenventures.com/,yes,yes,yes,yes,yes,yes,no,what we’re about,
+https://www.ethicalfinancehub.org/,yes,yes,yes,yes,yes,yes,no,none ,
+https://www.buysocialscotland.com/,yes,yes,yes,yes,yes,yes,no,gift directory,
+https://moneymatix.com/,yes,yes,yes,yes,yes,yes,no,none ,
+https://topolytics.com/,yes,yes,yes,yes,yes,yes,yes,get started (link to product webpage),
+https://www.brewdog.com/uk/,yes,no,yes,yes,yes,yes,yes,"shop products, book a table",
+https://gener8ads.com/,yes,no,yes,yes,yes,yes,no,download its product,
+https://www.neatebox.com/,yes,yes,yes,no,no,no,yes,"explore products, contact",doesn’t have a tagline
+https://main.symbasync.com/,yes,yes,yes,no,no,no,no,"explore products, contact",doesn’t have a tagline
+https://originfitness.com/,yes,yes,yes,yes,no,yes,yes,"contact, purchase products",doesn’t have a tagline
+https://ecometrica.com/,yes,yes,yes,yes,yes,yes,yes,request a demo,
+https://socialstoriesclub.com/,yes,yes,no,no,no,no,yes,"online store, booking","tagline is in an image, so unable to retrieve"
+https://www.bioliberty.co.uk/,yes,yes,yes,yes,yes,yes,yes,contact,
+https://www.chatterbox.io/,yes,yes,yes,yes,yes,yes,yes,book a demo,
+https://www.touchlab.io/,yes,yes,yes,yes,yes,yes,no,none ,
+https://cocochocolatier.com/,yes,yes,yes,yes,yes,yes,yes,"contact, purchase",
+https://www.usertesting.com/,yes,yes,no,no,yes,no,yes,"contact, see demo, request trial",puppeteer cannot reach the url
+https://incrementalgroup.co.uk/,yes,yes,yes,yes,yes,yes,yes,"contact, discover services",
+https://www.edinburghcarrental.com/,yes,yes,yes,yes,yes,yes,yes,"booking, contact",
+https://fiftysixnorth.co.uk/,yes,yes,yes,yes,yes,yes,yes,"booking, contact, discover product",
+https://monzo.com/,no,yes,yes,yes,no,yes,no,"open an account, explore products",
+https://www.pastashopfresh.com/,yes,yes,yes,yes,yes,yes,yes,view products,
+https://wayve.ai/,yes,yes,yes,yes,yes,yes,yes,explore products,
+https://www.benevolent.com/,yes,yes,yes,yes,yes,yes,yes,contact,
+,,,,,,,,,
+COVERAGE (%),97,93,93,87,80,87,67,,

@@ -176,6 +176,8 @@ public abstract class AJuicer {
 	 */
 	public static final Key<String> IMAGE_URL = new Key("img");
 	
+	public static final Key<List<String>> IMAGE_URLS = new Key("imgs");
+	
 	/**
 	 * If this is a link somewhere, where does it go?
 	 */
@@ -226,7 +228,7 @@ public abstract class AJuicer {
 	 * The most dominant colours that are are used on the website.
 	 * The colours are stored as Integer values, which are equivalent to the RGB values
 	 */
-	public static final Key<LinkedList> WEBSITE_COLOUR = new Key("colour");
+	public static final Key<List<String>> WEBSITE_COLOURS = new Key("colors");
 	
 	/**
 	 * Call-to-action - website prompt to direct users to another page/contact form
