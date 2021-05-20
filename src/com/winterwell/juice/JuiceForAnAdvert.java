@@ -102,7 +102,7 @@ public class JuiceForAnAdvert extends AJuicer {
 			item.put(anno(IMAGE_URLS, imgs, null));			
 			
 		} catch(Exception ex) {
-			Log.e(LOGTAG, "Error launching headless browser: " + ex);
+			Log.e(LOGTAG, "Error with headless browser: " + ex);
 		} finally {
 			try {
 				if (p!=null && ! p.isClosed()) p.close();
