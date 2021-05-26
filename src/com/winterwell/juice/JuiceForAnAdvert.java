@@ -55,6 +55,10 @@ public class JuiceForAnAdvert extends AJuicer {
 			// HACK
 			String[] bits = pub.split("\\|"); // e.g. "Publisher | Page"
 			pub = bits[0].trim();
+			bits = pub.split(" - "); // e.g. "Publisher - Page"
+			pub = bits[0].trim();
+			bits = pub.split(" – "); // e.g. "Publisher – Page"
+			pub = bits[0].trim();
 			// set
 			Anno<String> anno1 = new Anno<>(AJuicer.PUBLISHER_NAME, pub, title.src);
 			item.put(anno1);
@@ -126,20 +130,19 @@ public class JuiceForAnAdvert extends AJuicer {
 		String[] tags = new String[] {"h1","h2","h3","p"};
 		// Normally, the tagline is the first header to appear on the webpage (or appear after the publisher name)
 		// NB: When a website doesn't have a tagline, most likely it will scrape a wrong value
-		int i = 0; 
+		int i = 0; boolean done = false;
 		Elements es = doc.getDoc().getElementsByTag(tags[i]);
 		while (i<4) {
 			es = doc.getDoc().getElementsByTag(tags[i]);
-			if (es.isEmpty() || es.get(0).text().equalsIgnoreCase(item.get(AJuicer.PUBLISHER_NAME))) {
-				i++;
-				continue;
-			} else {
-				break;
+			for (Element e: es) {
+				if (!e.text().equalsIgnoreCase(item.get(AJuicer.PUBLISHER_NAME)) && !e.text().isEmpty()) {
+					item.put(anno(AJuicer.TAGLINE, e.text(), e));
+					done = true;
+					break;
+				}
 			}
-		}
-		if (!es.isEmpty()) {
-			Element e = es.get(0);
-			item.put(anno(AJuicer.TAGLINE, e.text(), e));
+			if (done) break;
+			i++;
 		}
 	}
 	
@@ -240,8 +243,8 @@ public class JuiceForAnAdvert extends AJuicer {
 	}
 	
 	private void scrapeCTA(JuiceMe doc, Item item) {
-		// four main CTAs on websites: book a demo, purchase/explore products, contact us, booking and reservation
-		// each CTA is associated with a key (demo, products, contact, booking), with the value being the URL 
+		// five main CTAs on websites: book a demo, purchase/explore products, contact us, booking and reservation, registration
+		// each CTA is associated with a key (demo, products, contact, booking, register), with the value being the URL 
 		Elements es = doc.getDoc().getElementsByTag("a");
 		Collections.reverse(es); //reverse the order as more important CTAs are usually put on top (prevent overwriting)
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -256,6 +259,8 @@ public class JuiceForAnAdvert extends AJuicer {
 				map.put("contact", e.absUrl("href"));
 			} else if (action.contains("book") || action.contains("reserve")) {
 				map.put("booking", e.absUrl("href"));
+			} else if (action.contains("sign up") || action.contains("register")) {
+				map.put("register", e.absUrl("href"));
 			}
 		}
 		if (!map.isEmpty()) {
