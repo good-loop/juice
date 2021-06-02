@@ -23,7 +23,7 @@ public class JuiceServlet implements IServlet {
 		Juice juice = new Juice();
 		juice.addJuicer(new JuiceForAnAdvert(), false);
 		juice.addJuicer(new SocialMediaLinksJuicer(), false);
-		String url = state.get(new UrlField("url"));
+		String url = state.get(CommonFields.URL);
 		String html = new FakeBrowser().getPage(url);
 		JuiceMe juiced = juice.juice(url, html);
 		Item item = juiced.getExtractedItems().get(0);
