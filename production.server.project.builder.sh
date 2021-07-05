@@ -36,7 +36,7 @@
 ## which uses very similar, if not, the exact same, functions as the teamcity builder template script.
 PROJECT_NAME='juice' #This is simply a human readable name
 GIT_REPO_URL='github.com:/good-loop/juice'
-PROJECT_USES_BOB='no'  #yes or no :: If 'yes', then you must also supply the name of the service which is used to start,stop,or restart the jvm
+PROJECT_USES_BOB='yes'  #yes or no :: If 'yes', then you must also supply the name of the service which is used to start,stop,or restart the jvm
 NAME_OF_SERVICE='juice' # This can be blank, but if your service uses a JVM, then you must put in the service name which is used to start,stop,or restart the JVM on the server.
 PROJECT_USES_NPM='no' # yes or no
 PROJECT_USES_WEBPACK='no' #yes or no
