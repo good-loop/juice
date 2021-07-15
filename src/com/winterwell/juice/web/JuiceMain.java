@@ -21,6 +21,7 @@ public class JuiceMain extends AMain<JuiceConfig> {
 		super.addJettyServlets(jetty);
 		MasterServlet ms = jetty.addMasterServlet();
 		ms.addServlet("juice", JuiceServlet.class);
+		ms.addServlet("modify", ModifyServlet.class);
 		ms.addServlet("xray", XrayServlet.class);
 	}
 }
