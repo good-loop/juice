@@ -13,6 +13,6 @@ public class JuiceConfig extends BasicSiteConfig {
 		port = 8343;
 	}
 	
-	public static String version = "0.3.0";
+	public static String version = "0.4.0";
 	
 }
