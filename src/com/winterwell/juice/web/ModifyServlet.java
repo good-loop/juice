@@ -7,6 +7,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.winterwell.juice.JuiceMe;
+import com.winterwell.utils.MathUtils;
+import com.winterwell.utils.StrUtils;
 import com.winterwell.utils.Utils;
 import com.winterwell.utils.web.WebUtils2;
 import com.winterwell.web.FakeBrowser;
@@ -43,7 +45,17 @@ public class ModifyServlet implements IServlet {
 		Element head = doc.getElementsByTag("head").first();		
 		if (head==null) {
 			head = doc.prepend("<head></head>");
-		}				
+		}		
+		
+		// fix width and height?
+		String width = state.get("width");
+		String height = state.get("height");
+		if (width!=null || height != null) {
+			String bstyle = body.attr("style");
+			if (width!=null) bstyle += " width:"+width+(StrUtils.isNumber(width)?"px":"")+";";
+			if (height!=null) bstyle += " height:"+height+(StrUtils.isNumber(height)?"px":"")+";";
+			body.attr("style", bstyle.trim());
+		}
 		
 		// transform the doc!
 		for(String key : pmap.keySet()) {
