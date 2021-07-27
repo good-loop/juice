@@ -52,7 +52,8 @@ public class XrayServlet implements IServlet {
 		JuiceMe doc = new JuiceMe(url, html);
 		List tags = new ArrayList();
 		Map analysis = new ArrayMap("tags", tags);
-		// TODO use puppeteer instead of jsoup for slower, less robust but TRUER analysis		
+		// TODO use puppeteer instead of jsoup for slower, less robust but TRUER analysis
+		// See JuiceForAnAdvert
 		// preferred size from viewport (really this is just for our own pages)
 		Elements metaTags = doc.getDoc().getElementsByTag("meta");
 		for (Element metaTag : metaTags) {
