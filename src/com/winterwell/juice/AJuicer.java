@@ -8,7 +8,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.winterwell.utils.time.Time;
-
 import com.winterwell.utils.Key;
 import com.winterwell.utils.NotUniqueException;
 import com.winterwell.web.data.XId;
@@ -309,7 +308,7 @@ public abstract class AJuicer {
 	 * @param commentElement
 	 * @return 1st paragraph, or null if not identified
 	 */
-	String setPostBodyPartFromFirstParagraph(Item comment, Element commentElement) {
+	protected String setPostBodyPartFromFirstParagraph(Item comment, Element commentElement) {
 		AJuicer juicer = this;
 		Elements ps = commentElement.getElementsByTag("p");
 		Element firstParagraphElement = juicer.one(ps, false);

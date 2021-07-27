@@ -1,4 +1,4 @@
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,6 +11,12 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.JuiceMe;
+import com.winterwell.juice.KMsgType;
+import com.winterwell.juice.TestUtils;
+import com.winterwell.juice.juicers.MetaDataJuicer;
 import com.winterwell.utils.Key;
 
 import com.winterwell.utils.io.FileUtils;

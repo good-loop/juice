@@ -4,10 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.winterwell.juice.juicers.CommonNamesJuicer;
 import com.winterwell.juice.juicers.ContactDetailsJuicer;
 import com.winterwell.juice.juicers.CyclingCCJuicer;
+import com.winterwell.juice.juicers.DateFinder;
 import com.winterwell.juice.juicers.LinkedInJuicer;
+import com.winterwell.juice.juicers.MetaDataJuicer;
+import com.winterwell.juice.juicers.MicroFormatJuicer;
 import com.winterwell.juice.juicers.PhpBBJuicer;
+import com.winterwell.juice.juicers.PinterestJuicer;
+import com.winterwell.juice.juicers.SchemaOrgJuicer;
+import com.winterwell.juice.juicers.WordPressJuicer;
 import com.winterwell.utils.log.Log;
 import com.winterwell.web.FakeBrowser;
 

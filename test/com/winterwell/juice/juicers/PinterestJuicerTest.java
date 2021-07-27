@@ -1,9 +1,16 @@
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import java.io.File;
 
 import org.junit.Test;
 
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Anno;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.Juice;
+import com.winterwell.juice.JuiceMe;
+import com.winterwell.juice.TestUtils;
+import com.winterwell.juice.juicers.PinterestJuicer;
 import com.winterwell.utils.io.FileUtils;
 
 public class PinterestJuicerTest {

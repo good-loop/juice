@@ -1,4 +1,7 @@
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
+
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.JuiceMe;
 
 public class IconJuicer extends AJuicer {
 

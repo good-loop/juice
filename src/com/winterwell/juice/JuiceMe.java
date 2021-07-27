@@ -34,7 +34,7 @@ public class JuiceMe
 	}
 	
 	String html;
-	String url;
+	public String url;
 	Element doc;
 	
 	private final List<Item> extractedItems = new ArrayList<Item>();
@@ -53,9 +53,9 @@ public class JuiceMe
 		this.doc = Jsoup.parse(html, url);
 	}
 	
-	// Protected constructor for Unit-testing where web-pages are read from
-	// a file, not from the Internet
-	JuiceMe(String html) {
+	/** @deprecated Protected constructor for Unit-testing where web-pages are read from
+	// a file, not from the Internet */
+	public JuiceMe(String html) {
 		this.html = html;
 		this.doc = Jsoup.parse(html);
 	}

@@ -19,7 +19,7 @@ public final class Anno<X> implements Serializable {
 	 * ?? Does this serialize OK?
 	 * Can be null
 	 */
-	Element src;
+	public Element src;
 	
 	/**
 	 * For debug
@@ -66,9 +66,9 @@ public final class Anno<X> implements Serializable {
 	/**
 	 * Note: This field is redundant
 	 */
-	final Key<X> name;
+	public final Key<X> name;
 	
-	final X value;
+	public final X value;
 
 	/**
 	 * Like src

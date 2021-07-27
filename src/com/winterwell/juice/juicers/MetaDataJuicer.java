@@ -1,4 +1,4 @@
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +15,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.winterwell.utils.time.Time;
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Anno;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.JuiceMe;
+import com.winterwell.juice.KMsgType;
 import com.winterwell.utils.Key;
 import com.winterwell.utils.Utils;
 import com.winterwell.utils.log.Log;
@@ -185,7 +190,7 @@ public class MetaDataJuicer extends AJuicer {
 				tags = anno(AJuicer.TAGS, new ArrayList<String>(), null);
 				item.type2annotation.put(AJuicer.TAGS, tags);
 			}
-			tags.value.add(contentStr);
+			tags.getValue().add(contentStr);
 			return;
 		}
 		

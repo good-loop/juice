@@ -1,4 +1,4 @@
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import java.io.File;
 import java.util.Arrays;
@@ -7,6 +7,13 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.Juice;
+import com.winterwell.juice.JuiceKeys;
+import com.winterwell.juice.JuiceMe;
+import com.winterwell.juice.TestUtils;
+import com.winterwell.juice.juicers.JuiceForAnAdvert;
 import com.winterwell.utils.Printer;
 import com.winterwell.utils.io.FileUtils;
 

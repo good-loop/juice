@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,10 @@ import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Element;
 
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Anno;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.JuiceMe;
 import com.winterwell.utils.log.Log;
 import com.winterwell.utils.time.TUnit;
 import com.winterwell.utils.time.Time;
@@ -39,7 +43,7 @@ public class DateFinder extends AJuicer {
 			Anno date = null;
 			for (int i=0; i<dates.size(); i++) {
 				date = dates.get(i);
-				Time t = (Time) date.value;
+				Time t = (Time) date.getValue();
 				if (t.isAfter(now)) continue;
 			}
 			if (date != null) item.put(date);			

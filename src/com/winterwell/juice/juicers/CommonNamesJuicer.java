@@ -1,11 +1,14 @@
 /**
  * 
  */
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.JuiceMe;
 import com.winterwell.utils.Utils;
 import com.winterwell.utils.log.Log;
 

@@ -1,5 +1,6 @@
 package com.winterwell.juice;
 
+import com.winterwell.juice.juicers.WordPressJuicer;
 import com.winterwell.web.FakeBrowser;
 
 public class WordPressJuicerDemo {

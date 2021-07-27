@@ -14,8 +14,8 @@ import org.w3c.dom.Node;
 
 import com.winterwell.juice.AJuicer;
 import com.winterwell.juice.Juice;
-import com.winterwell.juice.JuiceForAnAdvert;
 import com.winterwell.juice.JuiceMe;
+import com.winterwell.juice.juicers.JuiceForAnAdvert;
 import com.winterwell.juice.juicers.SocialMediaLinksJuicer;
 import com.winterwell.utils.MathUtils;
 import com.winterwell.utils.StrUtils;
@@ -52,7 +52,7 @@ public class XrayServlet implements IServlet {
 		JuiceMe doc = new JuiceMe(url, html);
 		List tags = new ArrayList();
 		Map analysis = new ArrayMap("tags", tags);
-		
+		// TODO use puppeteer instead of jsoup for slower, less robust but TRUER analysis		
 		// preferred size from viewport (really this is just for our own pages)
 		Elements metaTags = doc.getDoc().getElementsByTag("meta");
 		for (Element metaTag : metaTags) {

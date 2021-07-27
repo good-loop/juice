@@ -1,4 +1,4 @@
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -16,6 +16,13 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Anno;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.JuiceMe;
+import com.winterwell.juice.KMsgType;
+import com.winterwell.juice.TestUtils;
+import com.winterwell.juice.juicers.WordPressJuicer;
 import com.winterwell.utils.Key;
 import com.winterwell.utils.io.FileUtils;
 import com.winterwell.utils.time.TUnit;

@@ -14,7 +14,7 @@ import com.winterwell.web.FakeBrowser;
 
 public class TestUtils {
 	// Reading HTML markup from a file
-	static String readFile(String file) throws IOException {
+	public static String readFile(String file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
 		String line = null;

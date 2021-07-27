@@ -38,7 +38,7 @@ public class Item implements IProperties {
 	 */
 	public Boolean stable1ItemUrl;
 	
-	protected final Map<Key, Anno> type2annotation = new HashMap<Key, Anno>();
+	public final Map<Key, Anno> type2annotation = new HashMap<Key, Anno>();
 	/**
 	 * What is the url that this Item was fetched from?
 	 * This may not be permanent -- e.g. homepage contents change, as do "the comments on page 2"
@@ -88,7 +88,7 @@ public class Item implements IProperties {
 	/**
 	 * The element containing this item. COuld be the whole page, or just a section.
 	 */
-	Element doc;
+	public Element doc;
 	
 	/**
 	 * true => This item is created from a search or index listing -- not from the actual item.

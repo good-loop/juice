@@ -1,4 +1,4 @@
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -22,6 +22,10 @@ import com.ruiyun.jvppeteer.core.page.BoxModel;
 import com.ruiyun.jvppeteer.core.page.ElementHandle;
 import com.ruiyun.jvppeteer.core.page.JSHandle;
 import com.ruiyun.jvppeteer.core.page.Page;
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Anno;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.JuiceMe;
 import com.winterwell.utils.containers.TopNList;
 import com.winterwell.utils.log.Log;
 import com.winterwell.utils.web.WebUtils;
@@ -51,7 +55,7 @@ public class JuiceForAnAdvert extends AJuicer {
 		if (item.get(AJuicer.PUBLISHER_NAME)==null && item.get(AJuicer.TITLE)!=null) {
 			// use the title instead
 			Anno<String> title = item.getAnnotation(AJuicer.TITLE);
-			String pub = title.value;
+			String pub = title.getValue();
 			// HACK
 			String[] bits = pub.split("\\|"); // e.g. "Publisher | Page"
 			pub = bits[0].trim();

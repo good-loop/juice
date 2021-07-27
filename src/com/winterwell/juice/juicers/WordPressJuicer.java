@@ -1,4 +1,4 @@
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,6 +16,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
 
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.BlogSniffer;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.JuiceMe;
+import com.winterwell.juice.KMsgType;
 import com.winterwell.utils.StrUtils;
 import com.winterwell.utils.Utils;
 import com.winterwell.utils.containers.ArraySet;

@@ -1,4 +1,4 @@
-package com.winterwell.juice;
+package com.winterwell.juice.juicers;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -8,6 +8,10 @@ import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Element;
 
+import com.winterwell.juice.AJuicer;
+import com.winterwell.juice.Item;
+import com.winterwell.juice.JuiceMe;
+import com.winterwell.juice.KMsgType;
 import com.winterwell.utils.log.Log;
 import com.winterwell.utils.time.Time;
 
