@@ -27,7 +27,6 @@ public class JuiceServlet implements IServlet {
 		String html = new FakeBrowser().getPage(url);
 		JuiceMe juiced = juice.juice(url, html);
 		Item item = juiced.getExtractedItems().get(0);
-		System.out.println('"'+item.getTitle()+"\" by "+item.getAuthor()+" date:"+item.getPublishedTime());
 		Map<String, Object> imap = Containers.getMap(item);
 		JSend jsend =  new JSend();
 		jsend.setData(imap);
