@@ -7,14 +7,19 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.winterwell.juice.JuiceMe;
+import com.winterwell.utils.Dep;
 import com.winterwell.utils.MathUtils;
 import com.winterwell.utils.StrUtils;
 import com.winterwell.utils.Utils;
+import com.winterwell.utils.log.Log;
 import com.winterwell.utils.web.WebUtils2;
 import com.winterwell.web.FakeBrowser;
+import com.winterwell.web.WebEx;
 import com.winterwell.web.app.CommonFields;
 import com.winterwell.web.app.IServlet;
 import com.winterwell.web.app.WebRequest;
+import com.winterwell.youagain.client.AuthToken;
+import com.winterwell.youagain.client.YouAgainClient;
 
 /**
  * A crude url-based template engine:
@@ -30,8 +35,51 @@ import com.winterwell.web.app.WebRequest;
  */
 public class ModifyServlet implements IServlet {
 
+	/**
+	 * Copy-pasta from CrudServlet, as /modify could be used to request localhost urls
+	 * 
+	 * Crude security filter: reject non-Good-Loop users with an exception
+	 * @param state
+	 * @throws WebEx.E401
+	 */
+	void securityHack_teamGoodLoop(WebRequest state) throws WebEx.E401 {
+		YouAgainClient yac = Dep.get(YouAgainClient.class);
+		List<AuthToken> tokens = yac.getAuthTokens(state);
+		for (AuthToken authToken : tokens) {
+			String name = authToken.getXId().getName();
+			if ( ! WebUtils2.isValidEmail(name)) {
+				// app2app also, but nothing else (eg Twitter)
+				if (authToken.getXId().isService("app")) {
+					if (name.endsWith("good-loop.com")) {
+						return;
+					}
+				}
+				continue;
+			}
+			if (name.endsWith("@good-loop.com")) {
+				if ( ! authToken.isVerified()) {
+					// TODO verify
+					Log.w(LOGTAG(), "not verified "+authToken);
+				}
+				// That will do for us for now
+				return;
+			}
+			// hack: Alexander, Pete, Amanda, Emilia
+			if ("alexander.scurlock@gmail.com info@frankaccounting.co.uk amanda_shields@hotmail.co.uk em@kireli.studio".contains(name)) {
+				return;
+			}
+		}
+		// TODO use YA shares to allow other emails through
+		// No - sod off
+		throw new WebEx.E401("This is for Team Good-Loop - Please ask for access");
+	}
+
+	
 	@Override
 	public void process(WebRequest state) throws Exception {
+				
+		securityHack_teamGoodLoop(state);		
+		
 		String url = state.get(CommonFields.URL);
 		String html = new FakeBrowser().getPage(url);
 		Element doc = new JuiceMe(url, html).getDoc();
