@@ -1,6 +1,6 @@
 package com.winterwell.juice.juicers;
 
-import javax.mail.internet.InternetAddress;
+import jakarta.mail.internet.InternetAddress;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
