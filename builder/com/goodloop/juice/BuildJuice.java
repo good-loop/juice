@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.winterwell.bob.BuildTask;
 import com.winterwell.bob.tasks.MavenDependencyTask;
+import com.winterwell.bob.wwjobs.BuildHacks;
 import com.winterwell.bob.wwjobs.BuildWinterwellProject;
+import com.winterwell.web.app.KServerType;
 
 
 public class BuildJuice extends BuildWinterwellProject {
@@ -20,7 +22,7 @@ public class BuildJuice extends BuildWinterwellProject {
 		List<BuildTask> deps = super.getDependencies();
 		
 		MavenDependencyTask mdt = new MavenDependencyTask();
-		mdt.setIncSrc(true);
+		mdt.setIncSrc(BuildHacks.getServerType()==KServerType.LOCAL);
 		mdt.addDependency("org.jsoup", "jsoup", "1.14.1");
 		mdt.addDependency("io.github.fanyong920", "jvppeteer", "1.1.3"); // java client for puppeteer
 //		mdt.addDependency("org.apache.commons:commons-compress:1.20"); // dependency of jvppeteer
