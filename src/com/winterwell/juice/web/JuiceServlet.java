@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.winterwell.juice.Item;
 import com.winterwell.juice.Juice;
-import com.winterwell.juice.JuiceConfig;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.juice.juicers.JuiceForAnAdvert;
 import com.winterwell.juice.juicers.SocialMediaLinksJuicer;
@@ -14,7 +13,6 @@ import com.winterwell.web.ajax.JSend;
 import com.winterwell.web.app.CommonFields;
 import com.winterwell.web.app.IServlet;
 import com.winterwell.web.app.WebRequest;
-import com.winterwell.web.fields.UrlField;
 
 public class JuiceServlet implements IServlet {
 
