@@ -2,7 +2,6 @@ package com.winterwell.juice.juicers;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +10,6 @@ import com.winterwell.juice.Anno;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.JuiceMe;
 import com.winterwell.utils.Key;
-import com.winterwell.utils.containers.ArrayMap;
 import com.winterwell.utils.containers.ListMap;
 
 public class SocialMediaLinksJuicer extends AJuicer {

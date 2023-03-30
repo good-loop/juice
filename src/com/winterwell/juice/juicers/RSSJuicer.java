@@ -1,7 +1,5 @@
 package com.winterwell.juice.juicers;
 
-import jakarta.mail.internet.InternetAddress;
-
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -14,6 +12,8 @@ import com.winterwell.utils.web.WebUtils;
 import com.winterwell.utils.web.WebUtils2;
 import com.winterwell.web.data.XId;
 import com.winterwell.web.fields.DateField;
+
+import jakarta.mail.internet.InternetAddress;
 
 /**
  * TODO Juice RSS feeds -- really easy :)

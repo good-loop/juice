@@ -16,7 +16,6 @@ import com.winterwell.juice.juicers.PinterestJuicer;
 import com.winterwell.juice.juicers.SchemaOrgJuicer;
 import com.winterwell.juice.juicers.WordPressJuicer;
 import com.winterwell.utils.log.Log;
-import com.winterwell.web.FakeBrowser;
 
 /**
  * Extract stuff from web pages!
