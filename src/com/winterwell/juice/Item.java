@@ -46,7 +46,10 @@ public class Item implements IProperties {
 	 */
 	private String urlNow;
 
-	private Item() {}
+	@SuppressWarnings("unused") // for reflection
+	private Item() {
+		
+	}
 
 	/**
 	 * @param urlNow What is the url that this Item was fetched from?
@@ -135,7 +138,7 @@ public class Item implements IProperties {
 	
 	@Override
 	public String toString() {
-		return "Item["+type2annotation+"]";
+		return getClass().getSimpleName()+"["+urlNow+" "+type2annotation+"]";
 	}
 
 	public String getAuthor() {

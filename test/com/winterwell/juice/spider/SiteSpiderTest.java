@@ -2,6 +2,7 @@ package com.winterwell.juice.spider;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -10,6 +11,7 @@ import org.junit.Test;
 import com.winterwell.juice.Item;
 import com.winterwell.juice.TestUtils;
 import com.winterwell.maths.graph.DiGraph;
+import com.winterwell.maths.graph.DiNode;
 import com.winterwell.utils.io.FileUtils;
 
 public class SiteSpiderTest {
@@ -17,11 +19,15 @@ public class SiteSpiderTest {
 
 	@Test 
 	public void testSiteSpider() {
-		String domain = "bikerader.com";
+		String domain = "news.com.au";
 		SiteSpider ss = new SiteSpider("https://"+domain);
 		ss.setMaxDepth(1);
 		DiGraph<Item> graph = ss.run();
 		System.out.println(graph);
+		Collection<DiNode<Item>> nodes = graph.getNodes();
+		for (DiNode<Item> diNode : nodes) {
+			System.out.println(diNode.getValue().getUrl());
+		}
 	}
 	
 

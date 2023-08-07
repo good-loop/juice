@@ -133,7 +133,9 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 		if (n != null) return n;
 		n = _web.addNode(new DummyItem(xid));	
 		DiNode<Item> n2 = xid2node.putIfAbsent(xid, n);
-		if (n2==null) return n;
+		if (n2==null) {
+			return n;
+		}
 		// We lost a race
 		assert n2 != n : xid;
 		_web.removeNode(n);
