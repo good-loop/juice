@@ -24,7 +24,7 @@ import com.winterwell.web.data.XId;
  * Spider a single website. Holds everything in memory!
  * 
  * @author Daniel
- * @testedby  SiteSpiderTest}
+ * @testedby  SiteSpiderTest
  */
 public class SiteSpider extends ATask<DiGraph<Item>> {
 
@@ -48,6 +48,9 @@ public class SiteSpider extends ATask<DiGraph<Item>> {
 
 	private int maxPages = 1000;
 	
+	/**
+	 * if depth > maxDepth - stop. So e.g. maxDepth=1 means "starting page and one-deep from there"
+	 */
 	private int maxDepth = 5;
 
 	ConcurrentHashMap<XId,DiNode<Item>> xid2node = new ConcurrentHashMap();

@@ -7,10 +7,23 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 
+import com.winterwell.juice.Item;
 import com.winterwell.juice.TestUtils;
+import com.winterwell.maths.graph.DiGraph;
 import com.winterwell.utils.io.FileUtils;
 
 public class SiteSpiderTest {
+	
+
+	@Test 
+	public void testSiteSpider() {
+		String domain = "bikerader.com";
+		SiteSpider ss = new SiteSpider("https://"+domain);
+		ss.setMaxDepth(1);
+		DiGraph<Item> graph = ss.run();
+		System.out.println(graph);
+	}
+	
 
 	@Test 
 	public void testLinkExtract() {

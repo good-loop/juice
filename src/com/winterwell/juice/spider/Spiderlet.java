@@ -62,6 +62,9 @@ public class Spiderlet extends ATask<List<Item>> {
 		return true;
 	}
 
+	/**
+	 * starts at zero
+	 */
 	int depth; 	
 	String url;
 
