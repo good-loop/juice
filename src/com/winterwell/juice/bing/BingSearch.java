@@ -48,7 +48,6 @@ public class BingSearch {
 		fb.setDebug(debug);
 		fb.setRequestHeader("Ocp-Apim-Subscription-Key", config.subscriptionKey);
 		String results = fb.getPage(endpoint, new ArrayMap("q", q));
-		System.out.println(results);
 		Object jobj = WebUtils2.parseJSON(results);
 		List pages = SimpleJson.getList(jobj, "webPages", "value");
 		if (pages==null) {
