@@ -1,7 +1,5 @@
 package com.winterwell.juice.bing;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +7,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.winterwell.utils.Utils;
-import com.winterwell.utils.gui.GuiUtils;
 import com.winterwell.utils.io.CSVReader;
 import com.winterwell.utils.io.CSVWriter;
 import com.winterwell.utils.io.ConfigFactory;
