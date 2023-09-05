@@ -9,6 +9,7 @@ import com.winterwell.utils.containers.ArrayMap;
 import com.winterwell.utils.web.SimpleJson;
 import com.winterwell.utils.web.WebUtils2;
 import com.winterwell.web.FakeBrowser;
+import com.winterwell.web.WebEx;
 
 /**
  * 
@@ -29,6 +30,10 @@ public class BingSearch {
 	public void setDebug(boolean debug) {
 		this.debug = debug;
 	}
+	
+	public BingConfig getConfig() {
+		return config;
+	}
  
 	public BingSearch() {
 		this(Dep.get(BingConfig.class));
@@ -43,17 +48,25 @@ public class BingSearch {
 	 * @param q
 	 * @return {url, thumbnailUrl, snippet}
 	 */
-	public List<Map> search(String q) throws FailureException {
-		FakeBrowser fb = new FakeBrowser();
-		fb.setDebug(debug);
-		fb.setRequestHeader("Ocp-Apim-Subscription-Key", config.subscriptionKey);
-		String results = fb.getPage(endpoint, new ArrayMap("q", q));
-		Object jobj = WebUtils2.parseJSON(results);
-		List pages = SimpleJson.getList(jobj, "webPages", "value");
-		if (pages==null) {
-			throw new FailureException("No webPages?! "+results);
+	public List<Map> search(String q) throws FailureException, WebEx.RateLimitException {
+		try {
+			FakeBrowser fb = new FakeBrowser();
+			fb.setDebug(debug);
+			fb.setRequestHeader("Ocp-Apim-Subscription-Key", config.subscriptionKey);
+			String results = fb.getPage(endpoint, new ArrayMap("q", q));
+			Object jobj = WebUtils2.parseJSON(results);
+			List pages = SimpleJson.getList(jobj, "webPages", "value");
+			if (pages==null) {
+				throw new FailureException("No webPages?! "+results);
+			}
+			return pages;
+		} catch(WebEx.E40X e40x) {
+			// be more informative
+			if (e40x.getMessage()!=null && e40x.getMessage().contains("Quota Exceeded")) {
+				throw new WebEx.RateLimitException(e40x.getMessage());
+			}
+			throw e40x;
 		}
-		return pages;
 	}
 	
 }

@@ -18,12 +18,20 @@ public class BingSearchTest {
 
 	
 
+	private BingConfig bc;
+
+	@Test
+	public void testRateLimit() {
+		init();
+		BingSearch bs = new BingSearch();
+		bs.setDebug(true);
+		List<Map> dws = bs.search("daniel winterstein"); // ego check :)
+		System.out.println(dws);
+	}
+
 	@Test
 	public void testExpandCSV() {
-		ConfigFactory.get().setDebug(true);
-		ConfigFactory cf = ConfigFactory.get();
-		
-		BingConfig bc = cf.getConfig(BingConfig.class);
+		init();
 		assert bc.subscriptionKey != null;
 		BingSearch bs = new BingSearch();
 		File infile = new File("test/com/winterwell/juice/bing/Domains-Table.urls.csv");
@@ -56,23 +64,24 @@ public class BingSearchTest {
 	
 	@Test
 	public void testSearch() {
-		ConfigFactory.get().setDebug(true);
-		ConfigFactory cf = ConfigFactory.get();
-		
-		BingConfig bc = cf.getConfig(BingConfig.class);
-		assert bc.subscriptionKey != null;
+		init();
 		BingSearch bs = new BingSearch();
 		System.out.println(bs.search("Hello World"));
 	}
 
 
-	@Test
-	public void testSearchSite() {
+	public void init() {
+		if (bc!=null) return;
 		ConfigFactory.get().setDebug(true);
 		ConfigFactory cf = ConfigFactory.get();
 		
-		BingConfig bc = cf.getConfig(BingConfig.class);
-		assert bc.subscriptionKey != null;
+		bc = cf.getConfig(BingConfig.class);
+		assert bc.subscriptionKey != null;	
+	}
+
+	@Test
+	public void testSearchSite() {
+		init();
 		BingSearch bs = new BingSearch();
 		bs.setDebug(true);
 		List<Map> res = bs.search("site:dadsnews.com");
