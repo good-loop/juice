@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.14.1</version>
+			<version>1.15.3</version>
 		</dependency>
 		<!-- TODO If we retain juice can we migrate it to Playwright? -->
 		<!-- We use it everywhere else & its Java interface doesn't come from
