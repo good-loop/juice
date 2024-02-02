@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>good-loop.com</groupId>
+	<artifactId>juice</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>good-loop.com</groupId>
+			<artifactId>winterwell.bob</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>good-loop.com</groupId>
+			<artifactId>winterwell.datalog</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>good-loop.com</groupId>
+			<artifactId>winterwell.maths</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>good-loop.com</groupId>
+			<artifactId>winterwell.utils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>good-loop.com</groupId>
+			<artifactId>winterwell.web</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>good-loop.com</groupId>
+			<artifactId>winterwell.webappbase</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.14.1</version>
+		</dependency>
+		<!-- TODO If we retain juice can we migrate it to Playwright? -->
+		<!-- We use it everywhere else & its Java interface doesn't come from
+		some rando's github -->
+		<!-- https://mvnrepository.com/artifact/io.github.fanyong920/jvppeteer -->
+		<dependency>
+			<groupId>io.github.fanyong920</groupId>
+			<artifactId>jvppeteer</artifactId>
+			<version>1.1.3</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<release>17</release>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
